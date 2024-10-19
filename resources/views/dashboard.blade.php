@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="bg-white p-8 my-4 rounded-md shadow-sm flex justify-around items-center">
             <h1 class="text-2xl font-semibold font-sans">You <span class="text-red-500 text-4xl">DEFINE</span> your own life</h1>
-            <img src="{{ asset('img/imghome.jpeg') }}" alt="" class="w-28">
+            <img src="{{ asset('img/imghome.jpeg') }}" alt="" class="w-36">
     </div>
     <div class="w-full mx-auto bg-white shadow-md p-6 border-l-4 border-white">
         <!-- Search Bar -->
