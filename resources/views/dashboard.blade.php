@@ -1,4 +1,8 @@
 <x-app-layout>
+    <div class="bg-white p-8 my-4 rounded-md shadow-sm flex justify-around items-center">
+            <h1 class="text-2xl font-semibold font-sans">You <span>DEFINE</span> your own life</h1>
+            <img src="https://storage.googleapis.com/a1aa/image/LbB0vPIw2mYSFBg9lHPGwFoF3kxSceljysmCW1iLKUno8K0JA.jpg" alt="" class="w-28">
+    </div>
     <div class="w-full mx-auto bg-white shadow-md p-6 border-l-4 border-white">
         <!-- Search Bar -->
         <div class="flex justify-end mb-6 p-2 rounded-full">
@@ -17,7 +21,7 @@
         <div class="flex justify-center space-x-2 mb-6">
             <!-- Manga Button -->
             <button
-                class="px-6 py-2 rounded-full transition duration-300 bg-gray-200 text-gray-700 hover:bg-green-600 hover:text-white focus:bg-green-600 focus:text-white active:bg-sky-600">
+                class="px-6 py-2 rounded-full transition duration-300 bg-gray-200 text-gray-700 hover:bg-emerald-500 hover:text-white focus:bg-emerald-500 focus:text-white active:bg-sky-600">
                 Manga
             </button>
 
