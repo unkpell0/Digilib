@@ -1,16 +1,16 @@
 <x-app-layout>
     <div class="w-full mx-auto bg-white shadow-md p-6 border-l-4 border-white">
         <!-- Search Bar -->
-        <div class="flex items-center mb-6 bg-gray-200 p-2 rounded-full">
-            <div class="flex w-full items-center bg-gray-200 p-1 rounded-full">
+        <div class="flex justify-end mb-6 p-2 rounded-full">
+            <div class="flex items-center max-w-md space-x-2 bg-gray-200 py-2 px-3 rounded-full">
                 <input type="text" placeholder="Search"
                     class="flex-grow p-2 bg-white-200 focus:outline-none rounded-full focus:ring-0">
                 <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </div>
-
         </div>
+
 
         <!-- Tabs for Category -->
 
