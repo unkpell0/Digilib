@@ -24,7 +24,8 @@
                 {{-- letak di samping --}}
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link>
-                        <i class="fa-solid fa-cart-shopping" style="font-size: 23px;"></i>
+                        <a href="#">
+                        <i class="fa-solid fa-cart-shopping cursor-pointer text-xl hover:text-gray-600"></i></a>
                     </x-nav-link>
                 </div>
                 <!-- Teams Dropdown -->

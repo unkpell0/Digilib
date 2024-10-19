@@ -1,29 +1,33 @@
 <x-app-layout>
+    <div class="bg-white p-8 my-4 rounded-md shadow-sm flex justify-around items-center">
+            <h1 class="text-2xl font-semibold font-sans">You <span>DEFINE</span> your own life</h1>
+            <img src="{{ asset(img/) }}" alt="" class="w-28">
+    </div>
     <div class="w-full mx-auto bg-white shadow-md p-6 border-l-4 border-white">
         <!-- Search Bar -->
-        <div class="flex items-center mb-6 bg-gray-200 p-2 rounded-full">
-            <div class="flex w-full items-center bg-gray-200 p-1 rounded-full">
+        <div class="flex justify-end mb-6 p-2 rounded-full">
+            <div class="flex items-center max-w-md space-x-2 bg-gray-200 py-2 px-3 rounded-full">
                 <input type="text" placeholder="Search"
                     class="flex-grow p-2 bg-white-200 focus:outline-none rounded-full focus:ring-0">
                 <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </div>
-
         </div>
+
 
         <!-- Tabs for Category -->
 
         <div class="flex justify-center space-x-2 mb-6">
             <!-- Manga Button -->
             <button
-                class="px-6 py-2 rounded-full transition duration-300 bg-gray-200 text-gray-700 hover:bg-blue-500 hover:text-white focus:bg-blue-600 focus:text-white">
+                class="px-6 py-2 rounded-full transition duration-300 bg-gray-200 text-gray-700 hover:bg-emerald-500 hover:text-white focus:bg-emerald-500 focus:text-white active:bg-sky-600">
                 Manga
             </button>
 
             <!-- Novel Button -->
             <button
-                class="ml-2 px-6 py-2 rounded-full transition duration-300 bg-sky-400 text-white hover:bg-gray-400 hover:text-black">
+                class="ml-2 px-6 py-2 rounded-full transition duration-300 bg-gray-200 text-gray-700 hover:bg-sky-400 hover:text-white focus:bg-sky-600 focus:text-white active:bg-sky-600">
                 Novel
             </button>
 
