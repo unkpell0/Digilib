@@ -12,7 +12,7 @@
             </div>
 
             <!-- Navigation Links -->
-            <div class="hidden sm:flex justify-evenly space-x-8 items-center">
+            <div class="hidden ml-6 sm:flex justify-evenly space-x-5 items-center">
                 <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                     {{ __('Dashboard') }}
                 </x-nav-link>
@@ -103,16 +103,8 @@
                         </x-slot>
                     </x-dropdown>
                 </div>
-            </div>
-
-            <!-- Hamburger (for small screens) -->
-            <div class="sm:hidden flex items-center">
-                <button @click="open = !open" class="p-2 rounded-md focus:outline-none">
-                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'block': !open }" class="block" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                        <path :class="{'block': open, 'hidden': !open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                </button>
+                
+                <x-hamburger></x-hamburger>
             </div>
         </div>
     </div>
