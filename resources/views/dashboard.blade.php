@@ -21,13 +21,13 @@
         <div class="flex justify-center space-x-2 mb-6">
             <!-- Manga Button -->
             <button
-                class="px-6 py-2 rounded-full transition duration-300 bg-gray-200 text-gray-700 hover:bg-emerald-500 hover:text-white focus:bg-emerald-500 focus:text-white active:bg-sky-600">
+                class="px-6 py-2 rounded-full transition duration-300 bg-gray-200 text-gray-700 hover:bg-emerald-500 hover:text-white focus:bg-emerald-500 focus:text-white">
                 Manga
             </button>
 
             <!-- Novel Button -->
             <button
-                class="ml-2 px-6 py-2 rounded-full transition duration-300 bg-gray-200 text-gray-700 hover:bg-sky-400 hover:text-white focus:bg-sky-600 focus:text-white active:bg-sky-600">
+                class="ml-2 px-6 py-2 rounded-full transition duration-300 bg-gray-200 text-gray-700 hover:bg-sky-400 hover:text-white focus:bg-sky-400 focus:text-white">
                 Novel
             </button>
 
