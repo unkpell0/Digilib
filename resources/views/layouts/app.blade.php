@@ -38,6 +38,10 @@
             <main>
                 {{ $slot }}
             </main>
+
+            <footer class="text-center text-gray-600 text-sm">
+                <h2>copyright DIGILIB</h2>
+            </footer>
         </div>
 
         @stack('modals')
