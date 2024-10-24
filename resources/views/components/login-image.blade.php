@@ -1,0 +1,1 @@
+<img src="{{ asset('img/readbook.jpg') }}" alt="people reading a book"/>
