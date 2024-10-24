@@ -56,9 +56,9 @@
                     <h3>Belum punya akun?</h3>
                     <a href="{{ Route('register') }}">{{ __('Registrasi Disini') }}</a>
                 </div>
-                <div class="flex flex-col space-y-2">
-                    <button class="block px-2 py-2 ring-1 border w-full">Lanjutkan dengan Google</button>
-                    <button class="block px-2 py-2 ring-1 w-full">Lanjutkan dengan Google</button>
+                <div class="flex flex-col space-y-2 my-2 justify-center items-center">
+                    <a class="block px-2 py-2 ring-2 w-fit rounded-2xl border-black text-center" href="#">Lanjutkan dengan Google</a>
+                    <a class="block px-2 py-2 ring-2 w-fit rounded-2xl border-black text-center" href="#">Lanjutkan dengan Facebook</a>
                 </div>
             </form>
         </x-authentication-card>
