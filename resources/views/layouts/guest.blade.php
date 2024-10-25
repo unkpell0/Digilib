@@ -24,7 +24,7 @@
 </head>
 
 <body>
-    <div class="font-sans antialiased flex flex-row justify-between">
+    <div class="font-sans antialiased flex">
         {{ $slot }}
     </div>
 
