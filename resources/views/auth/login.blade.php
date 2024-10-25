@@ -44,14 +44,14 @@
 
                 <div class="flex items-center justify-center my-2">
                     @if (Route::has('password.request'))
-                        <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        <a class="underline underline-offset-4 text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             href="{{ route('password.request') }}">
-                            {{ __('Forgot your password?') }}
+                            {{ __('Lupa Password?') }}
                         </a>
                     @endif
 
                     <x-button class="ms-4" style="background-color: #377CC5; color:white;">
-                        {{ __('Log in') }}
+                        {{ __('Masuk') }}
                     </x-button>
                 </div>
                 <div
