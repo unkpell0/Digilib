@@ -65,8 +65,8 @@
             @endif
 
             <!-- Register and Login Links -->
-            <div class="flex items-center justify-center my-2">
-                <a class="underline underline-offset-4 text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
+            <div class="flex items-center justify-center my-3">
+                <a class="hover:underline hover:underline-offset-4 text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
                     {{ __('Sudah punya akun?') }}
                 </a>
                 <x-button class="ms-4 bg-sky-600 text-white hover:bg-sky-400 ">
