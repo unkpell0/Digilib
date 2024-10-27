@@ -13,11 +13,6 @@
             <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Horror</a>
             <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Romance</a>
             <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Drama</a>
-            <form method="POST" action="#">
-                <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                    Sign out
-                </button>
-            </form>
         </div>
     </div>
 </div>
