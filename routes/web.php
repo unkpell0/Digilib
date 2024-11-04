@@ -34,7 +34,7 @@ Route::get('/coba', function () {
 
 
 Route::prefix('/admin')->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'dashboard']);
+    Route::get('/', [AdminController::class, 'dashboard']);
     Route::get('/book', [AdminController::class, 'book']);
     Route::get('/transaction', [AdminController::class, 'transaction']);
     Route::get('/comment', [AdminController::class, 'comment']);
