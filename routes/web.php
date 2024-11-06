@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,4 +30,13 @@ Route::middleware([
 
 Route::get('/coba', function () {
     return view('cobahome');
+});
+
+
+Route::prefix('/admin')->group(function () {
+    Route::get('/', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/book', [AdminController::class, 'book'])->name('admin.book.index');
+    Route::get('/transaction', [AdminController::class, 'transaction'])->name('admin.transaction');
+    Route::get('/comment', [AdminController::class, 'comment'])->name('admin.comment');
+    Route::get('/settings', [AdminController::class, 'settings'])->name('admin.settings');
 });
