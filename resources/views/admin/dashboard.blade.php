@@ -1,84 +1,11 @@
 <x-admin-layout>
     {{-- container --}}
-    <div class="flex h-screen bg-gray-100">
+    <div class="flex min-h-dvh w-full bg-gray-100">
         <!-- Sidebar -->
-        <div class="w-52 bg-zinc-600 text-white flex flex-col items-center py-6">
-            <!-- Logo -->
-            <img src="{{ asset('logo/logo digilib 2.png') }}" alt="logo digilib" class="w-24 mb-6 rounded-full">
-
-            <!-- SideBar -->
-            <nav class="flex flex-col space-y-5 w-full mt-3">
-                {{-- Dashboard Link --}}
-                <a href="{{ route('admin.dashboard') }}"
-                    class="flex items-center justify-between px-4 py-2 hover:bg-gray-700 rounded-md">
-                    <div class="flex items-center space-x-3">
-                        <i class="fa-solid fa-house-chimney"></i>
-                        <span>Dashboard</span>
-                    </div>
-                </a>
-
-                {{-- Book --}}
-                <div class="group">
-                    <a href="#" id="bookMenuToggle"
-                        class="flex items-center justify-between px-4 py-2 hover:bg-gray-700 rounded-md">
-                        <div class="flex items-center space-x-3">
-                            <i class="fa-solid fa-book"></i>
-                            <span>Buku</span>
-                        </div>
-                        <i class="fa-solid fa-angle-down"></i>
-                    </a>
-
-                    {{-- Submenu for Buku --}}
-                    <div id="bookSubMenu" class="hidden pl-10 space-y-2 mt-1">
-                        <a href="#" class="block px-4 py-1 hover:bg-gray-600 rounded-md">CRUD Buku</a>
-                        <a href="#" class="block px-4 py-1 hover:bg-gray-600 rounded-md">GENRE</a>
-                        <a href="#" class="block px-4 py-1 hover:bg-gray-600 rounded-md">KATEGORI</a>
-                    </div>
-
-                </div>
-
-                <a href="#" class="flex items-center justify-between px-4 py-2 hover:bg-gray-700 rounded-md">
-                    <div class="flex items-center space-x-3">
-                        <i class="fa-solid fa-receipt"></i>
-                        <span>Transaksi</span>
-                    </div>
-                    <i class="fa-solid fa-angle-down"></i>
-                </a>
-
-                {{-- Link Comment --}}
-                <div class="group">
-                    <a href="#" class="flex items-center justify-between px-4 py-2 hover:bg-gray-700 rounded-md">
-                        <div class="flex items-center space-x-3">
-                            <i class="fa-regular fa-comment"></i>
-                            <span>Ulasan</span>
-                        </div>
-                        <i class="fa-solid fa-angle-down"></i>
-                    </a>
-                    <div class="hidden group-hover:block pl-10 space-y-2 mt-1">
-                        <a href="#" class="block px-4 py-1 hover:bg-gray-600 rounded-md">Daftar Ulasan</a>
-                        <a href="#" class="block px-4 py-1 hover:bg-gray-600 rounded-md">Filter Ulasan</a>
-                    </div>
-                </div>
-
-                {{-- Halaman setting --}}
-                <div class="group">
-                    <a href="#" class="flex items-center justify-between px-4 py-2 hover:bg-gray-700 rounded-md">
-                        <div class="flex items-center space-x-3">
-                            <i class="fa-solid fa-gear"></i>
-                            <span>Pengaturan</span>
-                        </div>
-                        <i class="fa-solid fa-angle-down"></i>
-                    </a>
-                    <div class="hidden group-hover:block pl-10 space-y-2 mt-1">
-                        <a href="#" class="block px-4 py-1 hover:bg-gray-600 rounded-md">Pengaturan Umum</a>
-                        <a href="#" class="block px-4 py-1 hover:bg-gray-600 rounded-md">Pengaturan Lanjutan</a>
-                    </div>
-                </div>
-            </nav>
-        </div>
+        {{-- <x-sidebar-admin></x-sidebar-admin> --}}
 
         <!-- Main Content -->
-        <div class="flex-1 p-10 space-y-8">
+        <div class="flex-auto p-10 space-y-8">
 
             <!-- Header -->
             <div class="flex justify-between items-center">
@@ -99,11 +26,14 @@
 
             <!-- Categories -->
             <div class="grid grid-cols-3 gap-4">
-                <div class="bg-green-300 p-3 h-24 rounded-lg inline-flex flex-row items-center justify-around space-y-2">
+                <div
+                    class="bg-green-300 p-3 h-24 rounded-lg inline-flex flex-row items-center justify-around space-y-2">
                     <i class="fa-solid fa-user text-4xl text-black"></i>
                     <div class="flex flex-col space-y-2 ml-2">
                         <h1 class="font-bold text-black lg:text-3xl md:text-lg sm:text-base">Total User</h1>
-                        <h1 class="font-bold text-2xl bg-gradient-to-tl from-red-600 to-yellow-500 bg-clip-text text-transparent">5000</h1>
+                        <h1
+                            class="font-bold text-2xl bg-gradient-to-tl from-red-600 to-yellow-500 bg-clip-text text-transparent">
+                            5000</h1>
                     </div>
                 </div>
                 <div class="bg-yellow-300 h-24 rounded-lg flex items-center justify-center font-semibold text-xl">Genre
@@ -161,6 +91,21 @@
         document.getElementById('bookMenuToggle').addEventListener('click', function(event) {
             event.preventDefault(); // Mencegah navigasi default dari <a>
             var subMenu = document.getElementById('bookSubMenu');
+            subMenu.classList.toggle('hidden'); // Menambah atau menghapus kelas "hidden"
+        });
+        document.getElementById('transactionToggle').addEventListener('click', function(event) {
+            event.preventDefault(); // Mencegah navigasi default dari <a>
+            var subMenu = document.getElementById('transactionSubMenu');
+            subMenu.classList.toggle('hidden'); // Menambah atau menghapus kelas "hidden"
+        });
+        document.getElementById('commentToggle').addEventListener('click', function(event) {
+            event.preventDefault(); // Mencegah navigasi default dari <a>
+            var subMenu = document.getElementById('commentSubMenu');
+            subMenu.classList.toggle('hidden'); // Menambah atau menghapus kelas "hidden"
+        });
+        document.getElementById('settingToggle').addEventListener('click', function(event) {
+            event.preventDefault(); // Mencegah navigasi default dari <a>
+            var subMenu = document.getElementById('settingSubMenu');
             subMenu.classList.toggle('hidden'); // Menambah atau menghapus kelas "hidden"
         });
         // document.getElementById('bookMenuToggle').addEventListener('click', function(event) {
