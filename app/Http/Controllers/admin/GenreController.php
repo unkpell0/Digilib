@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\admin;
 
-use App\Models\Genre;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class GenreController extends Controller
@@ -34,7 +34,7 @@ class GenreController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Genre $genre)
+    public function show(string $id)
     {
         //
     }
@@ -42,7 +42,7 @@ class GenreController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Genre $genre)
+    public function edit(string $id)
     {
         //
     }
@@ -50,7 +50,7 @@ class GenreController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Genre $genre)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -58,7 +58,7 @@ class GenreController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Genre $genre)
+    public function destroy(string $id)
     {
         //
     }

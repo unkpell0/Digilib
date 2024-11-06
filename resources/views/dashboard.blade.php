@@ -39,13 +39,15 @@
 
         <!-- Content Grid -->
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            <!-- Example Item with Image -->
-            <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                <img src="https://via.placeholder.com/150" alt="Roshidere" class="w-full h-48 object-cover">
-                <div class="p-2 bg-blue-500 text-black text-center">
-                    Roshidere
+            <!-- Di responsive -->
+            <a href="#"> 
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <img src="{{ asset('img/imghome.jpeg') }}" alt="Roshidere" class="w-full h-64 object-cover">
+                    <div class="p-2 bg-blue-500 text-white text-center">
+                        Roshidere
+                    </div>
                 </div>
-            </div>
+            </a>
 
             <!-- Empty Slots to be filled dynamically -->
             <div class="bg-gray-200 h-64 flex items-center justify-center rounded-lg">
