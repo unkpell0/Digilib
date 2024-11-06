@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\AdminController;
 
 /*
@@ -33,10 +34,22 @@ Route::get('/coba', function () {
 });
 
 
-Route::prefix('/admin')->group(function () {
-    Route::get('/', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+// Route::prefix('/admin')->group(function () {
+//     Route::get('/', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/book', [AdminController::class, 'book'])->name('admin.book.index');
-    Route::get('/transaction', [AdminController::class, 'transaction'])->name('admin.transaction');
-    Route::get('/comment', [AdminController::class, 'comment'])->name('admin.comment');
-    Route::get('/settings', [AdminController::class, 'settings'])->name('admin.settings');
-});
+//     Route::get('/transaction', [AdminController::class, 'transaction'])->name('admin.transaction');
+//     Route::get('/comment', [AdminController::class, 'comment'])->name('admin.comment');
+//     Route::get('/settings', [AdminController::class, 'settings'])->name('admin.settings');
+// });
+
+Route::get('/admin', function(){
+    return view('admin.dashboard');
+})->name('admin.dashboard');
+
+
+// Route::prefix('admin')->name('admin.')->group(function () {
+//     Route::resource('books', BookController::class);
+// });
+
+
+Route::get('/admin/book/add', [BookController::class, 'create'])->name('admin.book.add');
