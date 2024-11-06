@@ -23,12 +23,12 @@
         <!-- Styles -->
         @livewireStyles
     </head>
-    <body class="font-sans antialiased bg-gray-100 p-1">
+    <body class="font-sans antialiased bg-gray-100">
         <div class="min-h-screen bg-gray-100 flex flex-row">
             @livewire('sidebar-admin')
 
             <!-- Page Content -->
-            <main class="w-full ">
+            <main class="w-full">
                 {{ $slot }}
             </main>
 

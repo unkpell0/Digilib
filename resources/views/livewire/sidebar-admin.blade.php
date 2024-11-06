@@ -25,7 +25,7 @@
 
             {{-- Submenu for Buku --}}
             <div id="bookSubMenu" class="hidden pl-10 space-y-2 mt-1">
-                <a href="{{ route('admin.book.index') }}" class="block px-3 py-1 hover:bg-gray-600 rounded-md">CRUD Buku</a>
+                <a href="{{ route('admin.book.add') }}" class="block px-3 py-1 hover:bg-gray-600 rounded-md">CRUD Buku</a>
                 <a href="#" class="block px-3 py-1 hover:bg-gray-600 rounded-md">GENRE</a>
                 <a href="#" class="block px-3 py-1 hover:bg-gray-600 rounded-md">KATEGORI</a>
             </div>
