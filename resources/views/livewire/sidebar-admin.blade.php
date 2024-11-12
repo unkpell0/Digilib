@@ -88,3 +88,29 @@
         </div>
     </nav>
 </div>
+
+@push('scripts')
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Toggle Book Submenu
+        document.getElementById('bookMenuToggle').addEventListener('click', function () {
+            document.getElementById('bookSubMenu').classList.toggle('hidden');
+        });
+
+        // Toggle Transaction Submenu
+        document.getElementById('transactionToggle').addEventListener('click', function () {
+            document.getElementById('transactionSubMenu').classList.toggle('hidden');
+        });
+
+        // Toggle Comment Submenu
+        document.getElementById('commentToggle').addEventListener('click', function () {
+            document.getElementById('commentSubMenu').classList.toggle('hidden');
+        });
+
+        // Toggle Setting Submenu
+        document.getElementById('settingToggle').addEventListener('click', function () {
+            document.getElementById('settingSubMenu').classList.toggle('hidden');
+        });
+    });
+</script>
+@endpush

@@ -35,7 +35,7 @@
         </div>
 
         @stack('modals')
-
+        @stack('scripts') <!-- This will gather all pushed scripts here -->
         @livewireScripts
     </body>
 </html>

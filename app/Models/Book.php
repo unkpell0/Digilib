@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Book extends Model
 {
     use HasFactory;
-
     protected $table = 'buku';
 
     protected $fillable = [
@@ -31,4 +30,5 @@ class Book extends Model
 {
     return $this->belongsTo(Kategori::class, 'kategori_id');
 }
+
 }

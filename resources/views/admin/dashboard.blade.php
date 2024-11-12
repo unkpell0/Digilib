@@ -89,41 +89,29 @@
         </div>
     </div>
 
-    <script>
+    {{-- <script>
         document.getElementById('bookMenuToggle').addEventListener('click', function(event) {
-            event.preventDefault(); // Mencegah navigasi default dari <a>
+            event.preventDefault();
             var subMenu = document.getElementById('bookSubMenu');
-            subMenu.classList.toggle('hidden'); // Menambah atau menghapus kelas "hidden"
+            subMenu.classList.toggle('hidden');
         });
+
         document.getElementById('transactionToggle').addEventListener('click', function(event) {
-            event.preventDefault(); // Mencegah navigasi default dari <a>
+            event.preventDefault();
             var subMenu = document.getElementById('transactionSubMenu');
-            subMenu.classList.toggle('hidden'); // Menambah atau menghapus kelas "hidden"
+            subMenu.classList.toggle('hidden');
         });
+
         document.getElementById('commentToggle').addEventListener('click', function(event) {
-            event.preventDefault(); // Mencegah navigasi default dari <a>
+            event.preventDefault();
             var subMenu = document.getElementById('commentSubMenu');
-            subMenu.classList.toggle('hidden'); // Menambah atau menghapus kelas "hidden"
+            subMenu.classList.toggle('hidden');
         });
+
         document.getElementById('settingToggle').addEventListener('click', function(event) {
-            event.preventDefault(); // Mencegah navigasi default dari <a>
+            event.preventDefault();
             var subMenu = document.getElementById('settingSubMenu');
-            subMenu.classList.toggle('hidden'); // Menambah atau menghapus kelas "hidden"
+            subMenu.classList.toggle('hidden');
         });
-        // document.getElementById('bookMenuToggle').addEventListener('click', function(event) {
-        //     event.preventDefault(); // Mencegah navigasi default dari <a>
-        //     var subMenu = document.getElementById('bookSubMenu');
-
-        //     // Toggling hidden class and applying animations
-        //     if (subMenu.classList.contains('hidden')){
-        //         subMenu.classList.remove('hidden');
-        //         subMenu.classList.remove('scale-95', 'opacity-0');
-        //         subMenu.classList.add('scale-100', 'opacity-100');
-        //     } else{
-        //         subMenu.classList.add('scale-95', 'opacity-0');
-        //         setTimeout(() => subMenu.classList.add('hidden'), 200);
-        //     }
-        // });
-    </script>
-
+    </script> --}}
 </x-admin-layout>

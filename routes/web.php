@@ -52,11 +52,15 @@ Route::get('/auth/google/callback', [GoogleAuthController::class,'callback']);
 
 
 
-
 // Route::prefix('admin')->name('admin.')->group(function () {
-//     Route::resource('books', BookController::class);
+//     Route::resource('book', BookController::class);
 // });
 
+// Admin Routes
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', function () {
+        return view('admin.dashboard');
+    })->name('dashboard');
 
 Route::middleware(['role:1'])->group(function () {
     Route::get('/admin', [AdminController::class,'dashboard']);
