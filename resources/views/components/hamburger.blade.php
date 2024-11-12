@@ -9,7 +9,7 @@
 <!-- Responsive Navigation Menu -->
 <div :class="{ 'block': open, 'hidden': !open }" class="">
     <div class="pb-3 space-y-1">
-        <x-responsive-nav-link href="{{ route('dashboard') }}">
+        <x-responsive-nav-link href="{{ route('dashboard.index') }}">
             {{ __('Dashboard') }}
         </x-responsive-nav-link>
         <x-responsive-nav-link href="#">

@@ -18,7 +18,9 @@ return new class extends Migration
             $table->text('deskripsi');
             $table->integer('rating');
             $table->string('harga');
-            $table->timestamps();
+            $table->string('image_cover');
+            $table->string('file_buku');
+            $table->foreignId('kategori_id')->constrained('kategori')->onDelete('cascade');            $table->timestamps();
         });
     }
 

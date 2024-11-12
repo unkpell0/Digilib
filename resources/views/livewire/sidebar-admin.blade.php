@@ -4,7 +4,7 @@
 
     <nav class="flex flex-col space-y-5 w-full mt-3">
         {{-- Dashboard Link --}}
-        <a href="{{ route('admin.dashboard') }}"
+        <a href="/admin"
             class="flex items-center justify-between px-4 py-2 hover:bg-gray-700 rounded-md">
             <div class="flex items-center space-x-3">
                 <i class="fa-solid fa-house-chimney"></i>
@@ -25,9 +25,9 @@
 
             {{-- Submenu for Buku --}}
             <div id="bookSubMenu" class="hidden pl-10 space-y-2 mt-1">
-                <a href="{{ route('admin.book.index') }}" class="block px-3 py-1 hover:bg-gray-600 rounded-md">CRUD Buku</a>
-                <a href="#" class="block px-3 py-1 hover:bg-gray-600 rounded-md">GENRE</a>
-                <a href="#" class="block px-3 py-1 hover:bg-gray-600 rounded-md">KATEGORI</a>
+                <a href="{{ route('buku.index') }}" class="block px-3 py-1 hover:bg-gray-600 rounded-md">CRUD Buku</a>
+                <a href="{{ route('genre.index') }}" class="block px-3 py-1 hover:bg-gray-600 rounded-md">GENRE</a>
+                <a href="{{ route('kategori.index') }}" class="block px-3 py-1 hover:bg-gray-600 rounded-md">KATEGORI</a>
             </div>
 
         </div>
@@ -73,6 +73,17 @@
             <div id="settingSubMenu" class="hidden pl-10 space-y-2 mt-1">
                 <a href="#" class="block px-3 py-1 hover:bg-gray-600 rounded-md">Pengaturan Umum</a>
                 <a href="#" class="block px-3 py-1 hover:bg-gray-600 rounded-md">Pengaturan Lanjut</a>
+            </div>
+            <div class="group mt-auto">
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="flex items-center justify-between px-4 py-2 hover:bg-gray-700 rounded-md w-full">
+                        <div class="flex items-center space-x-3">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                            <span>Logout</span>
+                        </div>
+                    </button>
+                </form>
             </div>
         </div>
     </nav>

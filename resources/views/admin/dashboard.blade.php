@@ -31,9 +31,11 @@
                     <i class="fa-solid fa-user text-4xl text-black"></i>
                     <div class="flex flex-col space-y-2 ml-2">
                         <h1 class="font-bold text-black lg:text-3xl md:text-lg sm:text-base">Total User</h1>
+                       
                         <h1
-                            class="font-bold text-2xl bg-gradient-to-tl from-red-600 to-yellow-500 bg-clip-text text-transparent">
-                            5000</h1>
+                        class="font-bold text-2xl bg-gradient-to-tl from-red-600 to-yellow-500 bg-clip-text text-transparent">
+                        5000</h1>
+                        
                     </div>
                 </div>
                 <div class="bg-yellow-300 h-24 rounded-lg flex items-center justify-center font-semibold text-xl">Genre
