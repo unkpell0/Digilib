@@ -45,7 +45,7 @@ class KategoriController extends Controller
     public function show(Kategori $kategori)
     {
         $kategoris = Kategori::all();
-        $kategoris->incrementVisitCount();
+        
 
         return view('admin.kategori.show', compact('kategori'));
     }

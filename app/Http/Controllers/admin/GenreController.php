@@ -70,6 +70,6 @@ class GenreController extends Controller
         $genre = Genre::findOrFail($id);
         $genre->delete();
 
-        return redirect()->route('genres.index')->with('success', 'Genre berhasil dihapus.');
+        return redirect()->route('genre.index')->with('success', 'Genre berhasil dihapus.');
     }
 }

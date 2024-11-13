@@ -78,13 +78,15 @@ class BukuUserController extends Controller
         //
     }
     public function search(Request $request)
-    {
-        if($request->has('search')) {
-            $books = Book::where('nama_buku', 'LIKE', '%'.$request->search.'%')->get();
-        } else {
-            $books = Book::all();
-        }
+{
+    // Ambil term pencarian dari query string
+    $searchTerm = $request->input('search');
+    
+    // Filter buku berdasarkan nama buku yang sesuai dengan search term
+    $books = Book::where('nama_buku', 'LIKE', '%' . $searchTerm . '%')->get();
 
-        return view('dashboard',['books' => $books]);
-    }
+    return view('result', compact('books', 'searchTerm'));
+}
+
+
 }

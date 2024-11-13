@@ -2,7 +2,8 @@
     <div class="bg-white p-8 my-4 rounded-md shadow-sm flex justify-around items-center">
         <h1 class="text-2xl font-semibold font-sans">You <span class="text-red-500 text-4xl">DEFINE</span> your own life</h1>
         <img src="{{ asset('img/imghome.jpeg') }}" alt="" class="w-36">
-    </div> 
+    </div>
+
     <div class="w-full mx-auto bg-white shadow-md p-6 border-l-4 border-white">
         <!-- Form Pencarian -->
         <form action="{{ route('search') }}" method="GET" enctype="multipart/form-data">
@@ -34,12 +35,10 @@
                     Novel
                 </button>
             </a>
-    
-    
         </div>
-        
+
         <!-- Daftar Buku -->
-        <h2 class="text-xl font-bold mb-6 text-center">Mass Released !!</h2>
+        <h2 class="text-xl font-bold mb-6 text-center">Search Results</h2>
 
         <div class="grid grid-cols-4 gap-4 mx-auto w-full max-w-screen-lg">
             @foreach($books as $book)

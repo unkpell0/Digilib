@@ -42,6 +42,8 @@ Route::get('/coba', function () {
 Route::get('/auth/redirect',[GoogleAuthController::class, 'redirect']);
 Route::get('/auth/google/callback', [GoogleAuthController::class,'callback']);
 
+Route::get('/auth/redirect',[GoogleAuthController::class, 'redirect']);
+Route::get('/auth/facebook/callback', [GoogleAuthController::class,'callback']);
 
 // Route::prefix('/admin')->group(function () {
 //     Route::get('/', [AdminController::class, 'dashboard'])->name('admin.dashboard');
@@ -75,5 +77,5 @@ Route::middleware(['role:1'])->group(function () {
 
 Route::middleware(['role:3'])->group(function () {
     Route::resource('dashboard', BukuUserController::class);
-    Route::get('/dashboard/search', [BukuUserController::class,'search']);
+    Route::get('/search', [BukuUserController::class, 'search'])->name('search');
 });

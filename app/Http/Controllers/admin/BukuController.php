@@ -94,7 +94,7 @@ class BukuController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Book $book)
+    public function update(Request $request, $id)
     {
         // Validasi input
         $request->validate([
@@ -110,6 +110,7 @@ class BukuController extends Controller
             'genres.*' => 'exists:genre,id',
         ]);
 
+        $book = Book::findOrFail($id);
         // Jika ada file image_cover yang diupload, simpan file baru
         if ($request->hasFile('image_cover')) {
             if ($book->image_cover && Storage::disk('public')->exists($book->image_cover)) {
@@ -145,7 +146,7 @@ class BukuController extends Controller
         $book->kategori_id = $request->input('kategori_id');
 
         // Simpan perubahan ke database
-        $book->save();
+        $book->update();
 
         // Sinkronisasi genres
         $book->genres()->sync($request->input('genres'));

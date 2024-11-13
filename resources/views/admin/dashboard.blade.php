@@ -34,7 +34,7 @@
                        
                         <h1
                         class="font-bold text-2xl bg-gradient-to-tl from-red-600 to-yellow-500 bg-clip-text text-transparent">
-                        5000</h1>
+                        {{ $total_user }}</h1>
                         
                     </div>
                 </div>
