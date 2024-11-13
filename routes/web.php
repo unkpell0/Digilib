@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 use Laravel\Socialite\Facades\Socialite;
 use App\Http\Controllers\BukuUserController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\admin\BukuController;
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\GenreController;
@@ -21,9 +22,7 @@ use App\Http\Controllers\Auth\GoogleAuthController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [DashboardController::class,'index']);
 
 // Route::middleware([
 //     'auth:sanctum',

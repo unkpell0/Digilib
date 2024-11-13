@@ -1,4 +1,4 @@
-<x-guest-layout class="flex flex-row-reverse ">
+<x-guest-layout class="flex flex-row-reverse overflow-hidden">
     <div class="flex h-screen w-full">
         <!-- Bagian Login -->
         <x-authentication-card>
@@ -31,7 +31,7 @@
                         class="after:content-['*'] after:ml-0.5 after:text-pink-500 after:text-base" />
                     <div class="relative mt-1">
                         <x-input id="password" class="block w-full" type="password" name="password" required
-                            minlength="5" placeholder="Masukkan password anda" oninput="validatePassword()" />
+                            minlength="4" placeholder="Masukkan password anda" oninput="validatePassword()" />
                         <div onclick="togglePassword()"
                             class="absolute inset-y-0 right-3 flex items-center cursor-pointer">
                             <i id="eyeIcon" class="fas fa-eye-slash text-gray-500"></i>

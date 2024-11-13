@@ -31,4 +31,7 @@
             </div>
         </form>
     </x-authentication-card>
+    <!-- Background Image -->
+    <div class="flex-grow bg-slate-400 bg-[position:25%_95%] bg-cover hidden lg:flex "
+        style="background-image: url('{{ asset('img/forgotpass.jpeg') }}')"></div>
 </x-guest-layout>
