@@ -42,8 +42,7 @@ Route::get('/coba', function () {
 Route::get('/auth/redirect',[GoogleAuthController::class, 'redirect']);
 Route::get('/auth/google/callback', [GoogleAuthController::class,'callback']);
 
-Route::get('/auth/redirect',[GoogleAuthController::class, 'redirect']);
-Route::get('/auth/facebook/callback', [GoogleAuthController::class,'callback']);
+
 
 // Route::prefix('/admin')->group(function () {
 //     Route::get('/', [AdminController::class, 'dashboard'])->name('admin.dashboard');
