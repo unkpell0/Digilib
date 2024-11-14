@@ -1,15 +1,9 @@
 <x-app-layout>
-    <div class="bg-white p-8 my-1 shadow-sm flex justify-around items-center">
-        <h1 class="text-2xl font-semibold font-sans">You <span class="text-red-500 text-4xl">DEFINE</span> your own life
-        </h1>
-        <div class="group hover:scale-95 transition-transform duration-500 rounded-lg">
-            <!-- Div luar akan mengecil (scale-95) saat di-hover -->
-            <div style="background-image: url('{{ asset('img/imghome.jpeg') }}');" class="w-36 h-36 rounded-lg bg-cover bg-center transform transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6">
-                <!-- Div dalam akan membesar (scale-110) dan sedikit berputar saat di-hover -->
-            </div>
-        </div>
-        
+    <div class="bg-white p-8 my-4 rounded-md shadow-sm flex justify-around items-center">
+        <h1 class="text-2xl font-semibold font-sans">You <span class="text-red-500 text-4xl">DEFINE</span> your own life</h1>
+        <img src="{{ asset('img/imghome.jpeg') }}" alt="" class="w-36">
     </div>
+
     <div class="w-full mx-auto bg-white shadow-md p-6 border-l-4 border-white">
         <!-- Form Pencarian -->
         <form action="{{ route('search') }}" method="GET" enctype="multipart/form-data">
@@ -41,18 +35,16 @@
                     Novel
                 </button>
             </a>
-    
-    
         </div>
-        <!-- Title -->
-        <h2 class="text-xl font-bold mb-6 text-center">Baru Rilis !!</h2>
+
+        <!-- Daftar Buku -->
+        <h2 class="text-xl font-bold mb-6 text-center">Search Results</h2>
 
         <div class="grid grid-cols-4 gap-4 mx-auto w-full max-w-screen-lg">
             @foreach($books as $book)
-                <a href="{{ route('buku.show', $books->id ) }}" class="block w-full">
+                <a href="#" class="block w-full">
                     <div class="bg-white rounded-lg shadow-md overflow-hidden w-full">
-                        <img src="{{ $book->image_cover ? asset('storage/' . $book->image_cover) : asset('img/default-book.jpg') }}"
-                            alt="{{ $book->nama_buku }}" class="w-full h-64 object-cover">
+                        <img src="{{ $book->image_cover ? asset('storage/' . $book->image_cover) : asset('img/default-book.jpg') }}" alt="{{ $book->nama_buku }}" class="w-full h-64 object-cover">
                         <div class="p-2 bg-blue-500 text-white text-center">
                             {{ $book->nama_buku }}
                         </div>
