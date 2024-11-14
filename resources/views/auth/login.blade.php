@@ -21,7 +21,8 @@
                     <x-label for="email" value="{{ __('Email') }}"
                         class="after:content-['*'] after:ml-0.5 after:text-pink-500 after:text-base" />
                     <x-input id="email" class="peer block mt-1 w-full" type="email" name="email"
-                        :value="old('email')" required autofocus autocomplete="email" placeholder="Masukkan email anda" oninput="validateEmail()"/>
+                        :value="old('email')" required autofocus autocomplete="email" placeholder="Masukkan email anda"
+                        oninput="validateEmail()" />
                     <p id="emailError" class="text-sm font-sans text-pink-400 mt-1 hidden ">Email anda tidak valid</p>
                 </div>
 
@@ -47,7 +48,8 @@
                 <div class="block mt-4">
                     <label for="remember_me" class="flex items-center">
                         <x-checkbox class="hover:bg-slate-200" id="remember_me" name="remember" />
-                        <span for="remember_me" class="ms-2 text-sm text-gray-600 cursor-pointer">{{ __('Remember me') }}</span>
+                        <span for="remember_me"
+                            class="ms-2 text-sm text-gray-600 cursor-pointer">{{ __('Remember me') }}</span>
                     </label>
                 </div>
 
@@ -66,7 +68,8 @@
                 <div
                     class="flex items-center justify-center my-3 space-x-1.5 text-sm text-gray-500 antialiased font-sans">
                     <h3 class="text-md cursor-default">Belum punya akun?</h3>
-                    <a class="hover:underline hover:underline-offset-4 hover:text-gray-900" href="{{ Route('register') }}">{{ __('Registrasi Disini') }}</a>
+                    <a class="hover:underline hover:underline-offset-4 hover:text-gray-900"
+                        href="{{ Route('register') }}">{{ __('Registrasi Disini') }}</a>
                 </div>
                 <div class="flex flex-col space-y-2 my-2 justify-center items-center">
                     <a href="auth/redirect"
@@ -106,38 +109,38 @@
 
     // Validate Password Length
     function validatePassword() {
-            const passwordInput = document.getElementById('password');
-            const passwordError = document.getElementById('passwordError');
-            if (passwordInput.value === "") {
-                passwordInput.classList.remove('invalid');
-                passwordError.classList.add('hidden');
-                return;
-            }
-
-            if (passwordInput.value.length < 4) {
-                passwordError.classList.remove('hidden');
-                passwordInput.classList.add('invalid');
-            } else {
-                passwordError.classList.add('hidden');
-                passwordInput.classList.remove('invalid');
-            }
+        const passwordInput = document.getElementById('password');
+        const passwordError = document.getElementById('passwordError');
+        if (passwordInput.value === "") {
+            passwordInput.classList.remove('invalid');
+            passwordError.classList.add('hidden');
+            return;
         }
 
+        if (passwordInput.value.length < 4) {
+            passwordError.classList.remove('hidden');
+            passwordInput.classList.add('invalid');
+        } else {
+            passwordError.classList.add('hidden');
+            passwordInput.classList.remove('invalid');
+        }
+    }
+
     // Validate Email
-    function validateEmail(){
+    function validateEmail() {
         const email = document.getElementById('email');
         const emailError = document.getElementById('emailError');
         const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
-        if (email.value === ""){
+        if (email.value === "") {
             email.classList.remove('invalid');
             emailError.classList.add('hidden');
             return;
         }
 
-        if (!emailPattern.test(email.value)){
+        if (!emailPattern.test(email.value)) {
             emailError.classList.remove('hidden');
-            email.classList.add('invalid');        
+            email.classList.add('invalid');
         } else {
             emailError.classList.add('hidden');
             email.classList.remove('invalid');
