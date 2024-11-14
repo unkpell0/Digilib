@@ -13,14 +13,52 @@
                 <div class="flex items-center space-x-4">
                     <input type="text" placeholder="Search..."
                         class="px-4 py-2 rounded-xl border focus:ring-2 focus:ring-blue-500">
-                    <div
-                        class="bg-red-500 hover:bg-red-700 text-white rounded-full w-10 h-10 flex items-center justify-center cursor-pointer">
-                        <i class="fa-solid fa-user"></i>
+
+                    <!-- Notification Icon -->
+                    <div x-data="{ open: false }" @click.away="open = false" class="relative">
+                        <button @click="open = !open"
+                            class="bg-blue-500 hover:bg-blue-700 text-white rounded-full w-10 h-10 flex items-center justify-center">
+                            <i class="fa-regular fa-bell"></i>
+                        </button>
+                        <!-- Notification Dropdown -->
+                        <div x-show="open" x-transition:enter="transition ease-out duration-200"
+                            x-transition:enter-start="transform opacity-0 scale-95"
+                            x-transition:enter-end="transform opacity-100 scale-100"
+                            x-transition:leave="transition ease-in duration-75"
+                            x-transition:leave-start="transform opacity-100 scale-100"
+                            x-transition:leave-end="transform opacity-0 scale-95"
+                            class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50"
+                            style="display: none;">
+                            <div class="py-1">
+                                <p class="block px-4 py-2 text-sm text-gray-700">No new notifications</p>
+                                <!-- Add more notification items here if needed -->
+                            </div>
+                        </div>
                     </div>
-                    <div
-                        class="bg-blue-500 hover:bg-blue-700 text-white rounded-full w-10 h-10 flex items-center justify-center cursor-pointer">
-                        <i class="fa-regular fa-bell"></i>
-                    </div>
+
+                    <!-- Profile Dropdown -->
+                    <x-dropdown align="right" width="48">
+                        <x-slot name="trigger">
+                            <button
+                                class="flex items-center text-sm border-2 border-transparent rounded-full focus:outline-none">
+                                <img class="h-8 w-8 rounded-full" src="{{ Auth::user()->profile_photo_url }}"
+                                    alt="{{ Auth::user()->name }}" />
+                            </button>
+                        </x-slot>
+
+                        <x-slot name="content">
+                            <x-dropdown-link href="{{ route('profile.show') }}">
+                                {{ __('Profile') }}
+                            </x-dropdown-link>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit"
+                                    class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    {{ __('Log Out') }}
+                                </button>
+                            </form>
+                        </x-slot>
+                    </x-dropdown>
                 </div>
             </div>
 
@@ -31,16 +69,17 @@
                     <i class="fa-solid fa-user text-4xl text-black"></i>
                     <div class="flex flex-col space-y-2 ml-2">
                         <h1 class="font-bold text-black lg:text-3xl md:text-lg sm:text-base">Total User</h1>
-                       
+
                         <h1
-                        class="font-bold text-2xl bg-gradient-to-tl from-red-600 to-yellow-500 bg-clip-text text-transparent">
-                        5000</h1>
-                        
+                            class="font-bold text-2xl bg-gradient-to-tl from-red-600 to-yellow-500 bg-clip-text text-transparent">
+                            5000</h1>
+
                     </div>
                 </div>
-                <div class="bg-yellow-300 h-24 rounded-lg flex items-center justify-center font-semibold text-xl">Genre
-                    2</div>
-                <div class="bg-red-300 h-24 rounded-lg flex items-center justify-center font-semibold text-xl">Genre 3
+                <div class="bg-yellow-300 h-24 rounded-lg flex items-center justify-center font-semibold text-xl">Total
+                    Buku</div>
+                <div class="bg-red-300 h-24 rounded-lg flex items-center justify-center font-semibold text-xl">Total
+                    Buku yang terjual
                 </div>
             </div>
 

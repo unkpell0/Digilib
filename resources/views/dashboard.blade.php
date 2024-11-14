@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="bg-white p-8 my-2 shadow-sm flex justify-around items-center">
+    <div class="bg-white p-8 my-1 shadow-sm flex justify-around items-center">
         <h1 class="text-2xl font-semibold font-sans">You <span class="text-red-500 text-4xl">DEFINE</span> your own life
         </h1>
         <div class="group hover:scale-95 transition-transform duration-500 rounded-lg">
@@ -48,7 +48,7 @@
         </div>
 
         <!-- Title -->
-        <h2 class="text-xl font-bold mb-6 text-center">Mass Released !!</h2>
+        <h2 class="text-xl font-bold mb-6 text-center">Baru Rilis !!</h2>
 
 
         <!-- Content Grid -->

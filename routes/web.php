@@ -22,7 +22,7 @@ use App\Http\Controllers\Auth\GoogleAuthController;
 |
 */
 
-Route::get('/', [DashboardController::class,'index']);
+Route::get('/', [DashboardController::class,'index'])->name('home');
 
 // Route::middleware([
 //     'auth:sanctum',
