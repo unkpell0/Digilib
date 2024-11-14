@@ -77,4 +77,5 @@ Route::middleware(['role:1'])->group(function () {
 Route::middleware(['role:3'])->group(function () {
     Route::resource('dashboard', BukuUserController::class);
     Route::get('/search', [BukuUserController::class, 'search'])->name('search');
+    Route::get('/buku/show',[BukuUserController::class,'show'])->name('buku.show');
 });
