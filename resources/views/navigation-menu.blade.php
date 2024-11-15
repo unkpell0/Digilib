@@ -1,6 +1,6 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-sky-400 text-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-screen mx-auto px-8 sm:px-6 lg:px-8">
+    <div class="max-w-screen mx-auto px-4 sm:px-3 lg:px-8">
         <div class="flex justify-between items-center h-16">
             <div class="flex-none">
                 <!-- Logo -->
@@ -13,8 +13,8 @@
 
             <!-- Navigation Links -->
             <div class="flex flex-1 justify-center space-x-4">
-                <x-nav-link href="{{ route('dashboard.index') }}" :active="request()->routeIs('dashboard')">
-                    {{ __('Dashboard') }}
+                <x-nav-link href="{{ route('home') }}" :active="request()->routeIs('dashboard')">
+                    {{ __('Home') }}
                 </x-nav-link>
 
                 <x-nav-dropdown>{{ __('Genre') }}</x-nav-dropdown>
@@ -95,11 +95,10 @@
                     </x-dropdown>
                 @else
                     <a href="{{ route('login') }}"
-                        class="font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log
-                        in</a>
+                        class="hover:bg-red-500 login">Login</a>
                     @if (Route::has('register'))
                         <a href="{{ route('register') }}"
-                            class="ml-4 font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
+                            class="hover:bg-cyan-400 -mr-2 ml-4 login">Register</a>
                     @endif
                 @endauth
 
