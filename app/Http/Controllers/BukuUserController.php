@@ -11,6 +11,10 @@ class BukuUserController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function __construct()
+    {
+        $this->middleware('auth'); // Ensure only authenticated users can access admin routes
+    }
     public function index(Request $request)
     {
         // Cek apakah ada parameter kategori yang dikirim
