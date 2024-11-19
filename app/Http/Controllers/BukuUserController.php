@@ -55,8 +55,8 @@ class BukuUserController extends Controller
      */
     public function show(string $id)
     {
-        $books = Book::findOrFail($id);
-        return view('show-book', compact('books'));
+        $book = Book::with(['genres', 'kategori'])->findOrFail($id);
+        return view('user.showbook', compact('book'));
     }
 
     /**
