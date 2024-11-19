@@ -24,37 +24,41 @@ class TransaksiController extends Controller
      */
     public function create($id)
     {
-        $buku = Book::findOrFail($id);
-        $biaya_admin = 2000; // Biaya admin tetap
-        $total_harga = $buku->harga + $biaya_admin;
-
-        return view('user.transaksicreate', compact('buku', 'biaya_admin', 'total_harga'));
+        $book = Book::findOrFail($id);
+        return view('user.transaksi', compact('book'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Menyimpan transaksi dan pembayaran.
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
 {
-    $validated = $request->validate([
-        'buku_id' => 'required|exists:buku,id',
-    ]);
+    $book = Book::findOrFail($id);
+    $biayaAdmin = 2000; // Biaya admin tetap
+    $totalHarga = $book->harga + $biayaAdmin;
 
-    $buku = Book::findOrFail($validated['buku_id']);
-    $biayaAdmin = 2000;
-    $totalHarga = $buku->harga + $biayaAdmin;
-
+    // Membuat transaksi dengan status 'pending' terlebih dahulu
     $transaksi = Transaksi::create([
         'user_id' => Auth::id(),
-        'buku_id' => $buku->id,
+        'buku_id' => $book->id,
         'total_harga' => $totalHarga,
-        'status' => 'pending',
-        'tanggal_transaksi' => null,
-        'access_granted' => false,
+        'status' => 'pending',  // Status awal transaksi adalah pending
+        'metode_pembayaran' => $request->metode_pembayaran,  // Pastikan data pembayaran ada di form
     ]);
 
-    return redirect()->route('transaksi.index', $buku->id)
-        ->with('success', 'Transaksi berhasil dibuat!');
+    // Simulasi proses pembayaran, jika pembayaran berhasil
+    if ($request->has('payment_success') && $request->payment_success) {
+        // Mengubah status transaksi menjadi 'success' jika pembayaran berhasil
+        $transaksi->update(['status' => 'success']);
+
+        // Arahkan ke halaman detail buku
+        return redirect()->route('books.show', $book->id)
+            ->with('success', 'Transaksi berhasil dan pembayaran diterima!');
+    }
+
+    // Jika transaksi masih dalam status 'pending', arahkan ke halaman transaksi
+    return redirect()->route('user.transaksishow', $transaksi->id)
+        ->with('success', 'Transaksi berhasil dibuat! Silakan lakukan pembayaran.');
 }
     /**
      * Display the specified resource.

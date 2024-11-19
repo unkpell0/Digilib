@@ -84,8 +84,8 @@ Route::middleware(['role:3'])->group(function () {
     Route::resource('dashboard', BukuUserController::class);
     Route::get('/search',[BukuUserController::class,'search'])->name('search');
     Route::get('/bukushow/{id}', [BukuUserController::class, 'show'])->name('buku.show');
-    Route::get('/transaksi/{id}', [TransaksiController::class, 'index'])->name('transaksi.index');
-    Route::get('/transaksi/create/{id}', [TransaksiController::class, 'create'])->name('transaksi.create');
-    Route::post('/transaksi', [TransaksiController::class, 'store'])->name('transaksi.store');
+    Route::get('/transaksi/{id}/create', [TransaksiController::class, 'create'])->name('transaksi.create');
+Route::post('/transaksi/{id}', [TransaksiController::class, 'store'])->name('transaksi.store');
+    Route::post('/transaksi/{id}', [TransaksiController::class, 'store'])->name('transaksi.store');
     
 });

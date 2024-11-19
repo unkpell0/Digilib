@@ -11,7 +11,8 @@
             <section class="bg-gray-100 p-6 rounded-lg shadow-md">
                 {{-- Cover Buku --}}
                 <div class="flex justify-center">
-                    <img src="{{ asset('storage/' . $book->image_cover) }}" alt="{{ $book->nama_buku }}">
+                    <img src="{{ asset('storage/' . $book->image_cover) }}" alt="{{ $book->nama_buku }}"
+                         class="w-40 h-auto rounded-lg border border-gray-300 shadow">
                 </div>
                 {{-- Judul Buku --}}
                 <h2 class="mt-4 text-lg font-semibold text-gray-800">{{ $book->nama_buku }}</h2>
@@ -53,21 +54,27 @@
                         <strong>Total Tagihan:</strong> Rp{{ number_format($book->harga, 0, ',', '.') }}
                     </p>
                 </div>
-                {{-- Tombol Lihat Buku --}}
-                @if ($book->status_pembelian === 'selesai')
-                    <a href="/books/{{ $book->id }}"
-                        class="mt-6 inline-block px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-                        See Book
-                    </a>
-                @else
-                    <button disabled
-                        class="mt-6 inline-block px-4 py-2 bg-gray-400 text-white rounded cursor-not-allowed">
-                        See Book
-                    </button>
-                @endif
-                <button class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
-                    Check Out
-                </button>
+                {{-- Form untuk Checkout --}}
+                <form action="{{ route('transaksi.store', $book->id) }}" method="POST">
+                    @csrf
+                    <div class="flex flex-col space-y-4 mt-6">
+                        {{-- Pilih metode pembayaran --}}
+                        <div>
+                            <label class="text-gray-700" for="metode_pembayaran">Metode Pembayaran</label>
+                            <select id="metode_pembayaran" name="metode_pembayaran" class="block w-full mt-2 border-gray-300 rounded">
+                                <option value="Gopay">Gopay</option>
+                                <option value="BCA">BCA</option>
+                                <option value="BNI">BNI</option>
+                                <option value="Maestro">Maestro</option>
+                            </select>
+                        </div>
+
+                        {{-- Tombol Checkout --}}
+                        <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+                            Check Out
+                        </button>
+                    </div>
+                </form>
             </section>
         </div>
     </main>
