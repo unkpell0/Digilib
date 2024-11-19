@@ -75,7 +75,7 @@
                     <a href="auth/redirect"
                         class="inline-flex justify-center px-2 py-2 text-lg text-gray-700 hover:text-gray-900 hover:bg-slate-200 ring-2 w-full rounded-2xl border-slate-950 text-center shadow-sm transition duration-200"><i
                             class="fa-brands fa-google mt-1 mx-2.5 fa-lg"></i> Masuk dengan Google</a>
-                    <a href="#"
+                    <a href="auth/facebook"
                         class="inline-flex justify-center px-2 py-2 text-lg text-gray-700 hover:text-gray-900 hover:bg-slate-200 ring-2 w-full rounded-2xl border-slate-950 text-center shadow-sm transition duration-200"><i
                             class="fa-brands fa-facebook mt-1 mx-2.5 fa-lg"></i> Masuk dengan Facebook</a>
                 </div>

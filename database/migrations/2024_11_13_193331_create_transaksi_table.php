@@ -15,6 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('buku_id')->constrained('buku')->onDelete('cascade');
+            $table->decimal('total_harga',10,2);
+            $table->string('status')->default('pending');
+            $table->boolean('access_granted')->default(false);
+            $table->timestamp('tanggal_transaksi')->nullable();
             $table->timestamps();
         });
     }

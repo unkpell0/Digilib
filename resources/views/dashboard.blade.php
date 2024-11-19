@@ -49,7 +49,7 @@
 
         <div class="grid grid-cols-4 gap-4 mx-auto w-full max-w-screen-lg">
             @foreach($books as $book)
-                <a href="#" class="block w-full">
+                <a href="{{ route('buku.show', $book->id) }}" class="block w-full">
                     <div class="bg-white rounded-lg shadow-md overflow-hidden w-full">
                         <img src="{{ $book->image_cover ? asset('storage/' . $book->image_cover) : asset('img/default-book.jpg') }}"
                             alt="{{ $book->nama_buku }}" class="w-full h-64 object-cover">

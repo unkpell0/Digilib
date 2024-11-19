@@ -24,11 +24,14 @@ class Book extends Model
     public function genres()
     {
         return $this->belongsToMany(Genre::class, 'bukugenre', 'buku_id', 'genre_id')
-                    ->withTimestamps();
+            ->withTimestamps();
     }
     public function kategori()
-{
-    return $this->belongsTo(Kategori::class, 'kategori_id');
-}
-
+    {
+        return $this->belongsTo(Kategori::class, 'kategori_id');
+    }
+    public function transaksi()
+    {
+        return $this->hasMany(Transaksi::class, 'buku_id');
+    }
 }
