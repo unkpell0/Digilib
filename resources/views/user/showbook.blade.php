@@ -18,11 +18,11 @@
                     <span class="text-yellow-500">{{ str_repeat('★', $book->rating) }}</span>
                 </p>
                 <p class="text-gray-700 mt-1">
-                    <strong>Author:</strong> 
+                    <strong>Author:</strong>
                     {{ $book->penulis }}
                 </p>
                 <p class="text-gray-700 mt-1">
-                    <strong>Genre:</strong> 
+                    <strong>Genre:</strong>
                     {{ $book->genres->pluck('nama_genre')->join(', ') }}
                 </p>
                 <p class="text-gray-700 mt-1">
@@ -47,44 +47,34 @@
 
         {{-- Metode Pembayaran, disini user bisa input method pembayaran --}}
         <div x-data="{ metodePembayaran: '' }" class="flex flex-col space-y-6 mt-6 pr-8">
-            <aside class="bg-white p-4 h-fit rounded shadow">
-                <h2 class="text-lg font-bold mb-4">Metode Pembayaran</h2>
-                <div class="grid grid-cols-3 justify-items-center gap-4">
-                    <a href="#" @click.prevent="metodePembayaran = 'Gopay'" class="cursor-pointer">
-                        <img src="{{ asset('img/gopay.png') }}" alt="Gopay" 
-                             class="w-17 h-14 border-2 rounded"
-                             :class="{ 'border-blue-500': metodePembayaran === 'Gopay', 'border-gray-200': metodePembayaran !== 'Gopay' }">
-                    </a>
-                    <a href="#" @click.prevent="metodePembayaran = 'BCA'" class="cursor-pointer">
-                        <img src="{{ asset('img/bca.png') }}" alt="BCA" 
-                             class="w-24 h-13 border-2 rounded"
-                             :class="{ 'border-blue-500': metodePembayaran === 'BCA', 'border-gray-200': metodePembayaran !== 'BCA' }">
-                    </a>
-                    <a href="#" @click.prevent="metodePembayaran = 'BNI'" class="cursor-pointer">
-                        <img src="{{ asset('img/bni.png') }}" alt="BNI" 
-                             class="w-24 h-13 border-2 rounded"
-                             :class="{ 'border-blue-500': metodePembayaran === 'BNI', 'border-gray-200': metodePembayaran !== 'BNI' }">
-                    </a>
-                    <a href="#" @click.prevent="metodePembayaran = 'Maestro'" class="cursor-pointer">
-                        <img src="{{ asset('img/maestro.png') }}" alt="Maestro" 
-                             class="w-11 h-10 mt-2 border-2 rounded"
-                             :class="{ 'border-blue-500': metodePembayaran === 'Maestro', 'border-gray-200': metodePembayaran !== 'Maestro' }">
-                    </a>
-                </div>
-            </aside>
+
 
             {{-- Detail Transaksi --}}
             <aside class="bg-white p-6 rounded shadow">
                 <div class="mt-6 flex flex-col space-y-2">
                     {{-- Button Checkout --}}
-                    <a href="{{ route('transaksi.create', $book->id) }}" 
-                        class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 flex items-center justify-center"
-                        :class="{ 'opacity-50 cursor-not-allowed': !metodePembayaran }"
-                        :disabled="!metodePembayaran">
-                         Check Out!
-                     </a>
+                    <a href="{{ route('transaksi.create', $book->id) }}"
+                        class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 flex items-center justify-center">
+                        Check Out!
+                    </a>
+
+                    {{-- atur disable nya --}}
                     {{-- Button Wishlist --}}
                     <button class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">Wishlist</button>
+                    @if ($hasPurchased)
+                        @if ($book->file_buku)
+                        <a href="{{ asset('storage/' . $book->file_buku) }}"
+                            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 flex items-center justify-center text-center"
+                            download="{{ $book->nama_buku }}">
+                            Unduh Buku
+                        </a>
+                        
+                        @else
+                            <span class="px-4 py-2 bg-gray-400 text-white rounded">
+                                File tidak tersedia
+                            </span>
+                        @endif
+                    @endif
                 </div>
             </aside>
         </div>

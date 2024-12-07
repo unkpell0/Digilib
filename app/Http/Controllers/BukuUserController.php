@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use App\Models\Kategori;
+use App\Models\Transaksi;
 use Illuminate\Http\Request;
 
 class BukuUserController extends Controller
@@ -55,8 +56,18 @@ class BukuUserController extends Controller
      */
     public function show(string $id)
     {
-        $book = Book::with(['genres', 'kategori'])->findOrFail($id);
-        return view('user.showbook', compact('book'));
+        $book = Book::findOrFail($id);
+
+    // Cek apakah user sudah membeli buku dengan transaksi sukses
+    $hasPurchased = false;
+    if (auth()->check()) {
+        $hasPurchased = Transaksi::where('user_id', auth()->id())
+            ->where('buku_id', $id)
+            ->where('status', 'success') // Sesuaikan dengan nama kolom di database
+            ->exists();
+    }
+
+    return view('user.showbook', compact('book', 'hasPurchased'));
     }
 
     /**
