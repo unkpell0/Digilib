@@ -1,82 +1,92 @@
 <x-app-layout>
-    <main class="max-w-5xl mx-auto mt-6 grid grid-cols-3 gap-6">
+    <main class="max-w-6xl mx-auto mt-6 grid grid-cols-3 gap-8">
         {{-- Info Buku --}}
-        <section class="bg-gray-100 ml-3 p-7 max-w-xs mx-auto rounded-lg shadow-md">
+        <section class="bg-white p-6 rounded-lg shadow-md">
             {{-- Gambar Cover Buku --}}
-            <div class="relative">
+            <div class="text-center">
                 <img src="{{ asset('storage/' . $book->image_cover) }}" alt="{{ $book->nama_buku }}"
-                    class="w-2/3 h-auto mx-0 rounded-lg border-2 border-[#377CC7] shadow-lg">
+                    class="w-3/4 h-auto mx-auto rounded-lg border-2 border-[#377CC7] shadow-lg">
             </div>
+
             {{-- Judul Buku --}}
-            <div class="ml-12 mt-4">
-                <h2 class="text-lg font-semibold text-gray-800">{{ $book->nama_buku }}</h2>
+            <div class="mt-4 text-left">
+                <h1 class="text-xl font-semibold text-gray-800">{{ $book->nama_buku }}</h1>
             </div>
+
             {{-- Informasi Buku --}}
-            <div class="mt-4 text-left pl-2">
+            <div class="mt-4 text-left">
                 <p class="text-gray-700">
-                    <strong>Rating:</strong>
-                    <span class="text-yellow-500">{{ str_repeat('★', $book->rating) }}</span>
+                    <strong>Author:</strong> {{ $book->penulis }}
                 </p>
                 <p class="text-gray-700 mt-1">
-                    <strong>Author:</strong>
-                    {{ $book->penulis }}
-                </p>
-                <p class="text-gray-700 mt-1">
-                    <strong>Genre:</strong>
-                    {{ $book->genres->pluck('nama_genre')->join(', ') }}
+                    <strong>Genre:</strong> {{ $book->genres->pluck('nama_genre')->join(', ') }}
                 </p>
                 <p class="text-gray-700 mt-1">
                     <strong>Harga:</strong> Rp{{ number_format($book->harga, 0, ',', '.') }}
                 </p>
-                {{-- Tombol Reviews --}}
-                <button class="mt-4 px-4 py-2 bg-[#377CC7] text-white rounded hover:bg-[#2d68a2]">
+            </div>
+
+            {{-- Tombol Reviews --}}
+            <div class="mt-4">
+                <button class="px-4 py-2 bg-[#377CC7] text-white rounded-lg hover:bg-[#2d68a2] transition duration-300">
                     Reviews (200)
                 </button>
-                {{-- Tombol Kembali --}}
-                <br>
-                <a href="/dashboard" class="mt-4 inline-block text-[#377CC7] hover:underline">&larr; Kembali</a>
+            </div>
+
+            {{-- Tombol Kembali --}}
+            <div class="mt-4">
+                <a href="/dashboard" class="text-[#377CC7] hover:underline">&larr; Kembali</a>
             </div>
         </section>
-        <section class="bg-white p-4 mt-6 rounded shadow col-span-1 h-[32rem] mr-2">
+
+        {{-- Deskripsi Buku --}}
+        <section class="bg-white p-6 rounded-lg shadow-md col-span-2 h-auto">
             <h2 class="text-lg font-bold mb-4">Deskripsi Buku</h2>
-            <p class="text-gray-700">
+            <p class="text-gray-700 leading-relaxed">
                 {{ $book->deskripsi }}
             </p>
         </section>
 
+        {{-- Metode Pembayaran dan Transaksi --}}
+        <section class="bg-white p-6 rounded-lg shadow-md col-span-3">
+            <div class="flex flex-col space-y-4">
+                {{-- Button Checkout --}}
+                <a href="{{ route('transaksi.create', $book->id) }}"
+                    class="px-4 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 flex items-center justify-center transition duration-300">
+                    Check Out!
+                </a>
+                <form action="{{ route('cart.store') }}" method="POST" class="inline-block">
+                    @csrf
+                    <input type="hidden" name="book_id" value="{{ $book->id }}">
+                    <input type="hidden" name="quantity" value="1" min="1" class="border p-2">
+                    <button type="submit"
+                        class="px-4 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 flex items-center justify-center transition duration-300">
+                        Cart
+                    </button>
+                </form>
+                
+                
+                {{-- Button Wishlist --}}
+                <a href="#"
+                    class="px-4 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 flex items-center justify-center transition duration-300">
+                    Wishlist
+                </a>
 
-        {{-- Metode Pembayaran, disini user bisa input method pembayaran --}}
-        <div x-data="{ metodePembayaran: '' }" class="flex flex-col space-y-6 mt-6 pr-8">
-
-
-            {{-- Detail Transaksi --}}
-            <aside class="bg-white p-6 rounded shadow">
-                <div class="mt-6 flex flex-col space-y-2">
-                    {{-- Button Checkout --}}
-                    <a href="{{ route('transaksi.create', $book->id) }}"
-                        class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 flex items-center justify-center">
-                        Check Out!
-                    </a>
-
-                    {{-- atur disable nya --}}
-                    {{-- Button Wishlist --}}
-                    <button class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">Wishlist</button>
-                    @if ($hasPurchased)
-                        @if ($book->file_buku)
+                {{-- Button Unduh Buku --}}
+                @if ($hasPurchased)
+                    @if ($book->file_buku)
                         <a href="{{ asset('storage/' . $book->file_buku) }}"
-                            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 flex items-center justify-center text-center"
+                            class="px-4 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 flex items-center justify-center transition duration-300"
                             download="{{ $book->nama_buku }}">
                             Unduh Buku
                         </a>
-                        
-                        @else
-                            <span class="px-4 py-2 bg-gray-400 text-white rounded">
-                                File tidak tersedia
-                            </span>
-                        @endif
+                    @else
+                        <span class="px-4 py-3 bg-gray-400 text-white rounded-lg flex items-center justify-center">
+                            File tidak tersedia
+                        </span>
                     @endif
-                </div>
-            </aside>
-        </div>
+                @endif
+            </div>
+        </section>
     </main>
 </x-app-layout>

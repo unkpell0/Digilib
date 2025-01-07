@@ -16,11 +16,11 @@ return new class extends Migration
             $table->string('nama_buku');
             $table->string('penulis');
             $table->text('deskripsi');
-            $table->integer('rating');
             $table->string('harga');
             $table->string('image_cover');
             $table->string('file_buku');
-            $table->foreignId('kategori_id')->constrained('kategori')->onDelete('cascade');            $table->timestamps();
+            $table->foreignId('kategori_id')->constrained('kategori')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 

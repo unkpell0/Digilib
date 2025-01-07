@@ -20,7 +20,7 @@ class Book extends Model
         'file_buku',
         'kategori_id',
     ];
-
+    
     public function genres()
     {
         return $this->belongsToMany(Genre::class, 'bukugenre', 'buku_id', 'genre_id')

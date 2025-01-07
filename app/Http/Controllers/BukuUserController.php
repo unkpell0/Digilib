@@ -22,6 +22,10 @@ class BukuUserController extends Controller
         $kategori = $request->query('kategori');
 
         if ($kategori) {
+            $jumlah_kunjungan = Kategori::where('nama_kategori', $kategori)->first();
+            if ($jumlah_kunjungan) {
+                $jumlah_kunjungan->increment('jumlah_kunjungan');
+            }
             // Filter berdasarkan kategori jika parameter kategori ada
             $books = Book::whereHas('kategori', function ($query) use ($kategori) {
                 $query->where('nama_kategori', $kategori);
@@ -29,9 +33,10 @@ class BukuUserController extends Controller
         } else {
             // Tampilkan semua buku jika parameter kategori tidak ada
             $books = Book::all();
+            $jumlah_kunjungan = null;
         }
 
-        return view('dashboard', compact('books'));
+        return view('dashboard', compact('books', 'jumlah_kunjungan'));
     }
 
     /**
@@ -58,16 +63,16 @@ class BukuUserController extends Controller
     {
         $book = Book::findOrFail($id);
 
-    // Cek apakah user sudah membeli buku dengan transaksi sukses
-    $hasPurchased = false;
-    if (auth()->check()) {
-        $hasPurchased = Transaksi::where('user_id', auth()->id())
-            ->where('buku_id', $id)
-            ->where('status', 'success') // Sesuaikan dengan nama kolom di database
-            ->exists();
-    }
+        // Cek apakah user sudah membeli buku dengan transaksi sukses
+        $hasPurchased = false;
+        if (auth()->check()) {
+            $hasPurchased = Transaksi::where('user_id', auth()->id())
+                ->where('buku_id', $id)
+                ->where('status', 'success') // Sesuaikan dengan nama kolom di database
+                ->exists();
+        }
 
-    return view('user.showbook', compact('book', 'hasPurchased'));
+        return view('user.showbook', compact('book','hasPurchased'));
     }
 
     /**
@@ -94,15 +99,13 @@ class BukuUserController extends Controller
         //
     }
     public function search(Request $request)
-{
-    // Ambil term pencarian dari query string
-    $searchTerm = $request->input('search');
-    
-    // Filter buku berdasarkan nama buku yang sesuai dengan search term
-    $books = Book::where('nama_buku', 'LIKE', '%' . $searchTerm . '%')->get();
+    {
+        // Ambil term pencarian dari query string
+        $searchTerm = $request->input('search');
 
-    return view('result', compact('books', 'searchTerm'));
-}
+        // Filter buku berdasarkan nama buku yang sesuai dengan search term
+        $books = Book::where('nama_buku', 'LIKE', '%' . $searchTerm . '%')->get();
 
-
+        return view('result', compact('books', 'searchTerm'));
+    }
 }

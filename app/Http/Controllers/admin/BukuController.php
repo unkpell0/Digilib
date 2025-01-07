@@ -42,7 +42,6 @@ class BukuController extends Controller
             'nama_buku' => 'required|string|max:255',
             'penulis' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
-            'rating' => 'required|integer|min:1|max:5',
             'harga' => 'required|string',
             'genres' => 'required|array',
             'genres.*' => 'exists:genre,id',
@@ -65,7 +64,6 @@ class BukuController extends Controller
             'nama_buku' => $request['nama_buku'],
             'penulis' => $request['penulis'],
             'deskripsi' => $request['deskripsi'],
-            'rating' => $request['rating'],
             'harga' => $request['harga'],
             'kategori_id' => $request['kategori_id'],
             'image_cover' => $imageCoverPath,
@@ -101,7 +99,6 @@ class BukuController extends Controller
             'nama_buku' => 'required|string|max:255',
             'penulis' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
-            'rating' => 'required|integer|min:1|max:5',
             'harga' => 'required|string',
             'kategori_id' => 'required|exists:kategori,id',
             'image_cover' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
@@ -141,7 +138,6 @@ class BukuController extends Controller
         $book->nama_buku = $request->input('nama_buku');
         $book->penulis = $request->input('penulis');
         $book->deskripsi = $request->input('deskripsi');
-        $book->rating = $request->input('rating');
         $book->harga = $request->input('harga');
         $book->kategori_id = $request->input('kategori_id');
 

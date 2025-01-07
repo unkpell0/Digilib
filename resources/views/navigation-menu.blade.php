@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-sky-400 text-white border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-sky-400 text-white shadow-md ">
     <!-- Primary Navigation Menu -->
     <div class="max-w-screen mx-auto px-4 sm:px-3 lg:px-8">
         <div class="flex justify-between items-center h-16">
@@ -68,10 +68,10 @@
                 {{-- di sebelah kanan --}}
                 @auth
                     <x-nav-link>
-                        <a href="#">
+                        <a href="/cart"
                             <i class="fa-solid fa-cart-shopping cursor-pointer text-xl hover:text-gray-600"></i></a>
                     </x-nav-link>
-                    <x-dropdown align="right" width="48">
+                    <x-dropdown align="right" width="w-80">
                         <x-slot name="trigger">
                             <button
                                 class="flex items-center text-sm border-2 border-transparent rounded-full focus:outline-none">
@@ -81,25 +81,33 @@
                         </x-slot>
 
                         <x-slot name="content">
-                            <x-dropdown-link href="{{ route('profile.show') }}">
-                                {{ __('Profile') }}
+                            <div class="p-4 flex items-center space-x-4 border-b">
+                                <img src="{{ Auth::user()->profile_photo_url }}" alt="Profile Photo" class="h-12 w-12 rounded-full">
+                                <div>
+                                    <h2 class="text-lg text-gray-950 font-semibold">{{ Auth::user()->name }}</h2>
+                                    <p class="text-sm text-gray-500">{{ Auth::user()->email }}</p>
+                                </div>
+                            </div>
+                            <x-dropdown-link href="{{ route('profile.show') }}" class="flex items-center space-x-2 px-4 py-2 hover:bg-gray-100">
+                                <i class="fa-solid fa-user text-gray-600"></i>
+                                <span>Profile</span>
                             </x-dropdown-link>
+                            
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit"
-                                    class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                    {{ __('Log Out') }}
+                                    class="w-full text-left flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    <i class="fa-solid fa-arrow-right-from-bracket text-gray-600"></i>
+                                    <span>Log Out</span>
                                 </button>
                             </form>
                         </x-slot>
+                        
                     </x-dropdown>
                 @else
-                    <a href="{{ route('login') }}"
-                        class="hover:bg-red-500 login">Login</a>
-                    @if (Route::has('register'))
-                        <a href="{{ route('register') }}"
-                            class="hover:bg-cyan-400 -mr-2 ml-4 login">Register</a>
-                    @endif
+                <button onclick="window.location='{{ route('login') }}'" class="flex items-center text-sm border-2 border-transparent rounded-full focus:outline-none">
+                    <img class="h-8 w-8 rounded-full" src="{{ asset('logo/guest.jpg') }}" alt="Guest Profile" />
+                </button>
                 @endauth
 
             </div>

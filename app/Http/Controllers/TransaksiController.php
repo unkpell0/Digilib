@@ -35,57 +35,60 @@ class TransaksiController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request, $id)
-{
-    $request->validate([
-        'metode_pembayaran' => 'required|in:Gopay,BCA,BNI,Maestro',
-    ]);
+    {
+        $request->validate([
+            'metode_pembayaran' => 'required|in:Gopay,BCA,BNI,Maestro',
+        ]);
 
-    $book = Book::findOrFail($id);
-    $biayaAdmin = 2000; // Biaya admin tetap
-    $totalHarga = $book->harga + $biayaAdmin;
+        $book = Book::findOrFail($id);
+        $biayaAdmin = 2000; // Biaya admin tetap
+        $totalHarga = $book->harga + $biayaAdmin;
 
-    $transaksi = Transaksi::create([
-        'user_id' => Auth::id(),
-        'buku_id' => $book->id,
-        'total_harga' => $totalHarga,
-        'status' => 'pending',
-        'metode_pembayaran' => $request->metode_pembayaran,
-    ]);
+        $transaksi = Transaksi::create([
+            'user_id' => Auth::id(),
+            'buku_id' => $book->id,
+            'total_harga' => $totalHarga,
+            'status' => 'pending',
+            'metode_pembayaran' => $request->metode_pembayaran,
+        ]);
 
-    return redirect()->route('transaksi.show', $transaksi->id)
-        ->with('success', 'Transaksi berhasil dibuat! Silakan lakukan pembayaran.');
-}
+        return redirect()->route('transaksi.show', $transaksi->id)
+            ->with('success', 'Transaksi berhasil dibuat! Silakan lakukan pembayaran.');
+    }
 
     /**
      * Display the specified resource.
      */
     public function show($id)
-{
-    $transaksi = Transaksi::where('user_id', Auth::id())
-        ->where('id', $id)
-        ->firstOrFail();
+    {
+        $transaksi = Transaksi::where('user_id', Auth::id())
+            ->where('id', $id)
+            ->firstOrFail();
 
-    $book = $transaksi->buku; // Relasi 'buku' harus ada di model Transaksi.
+        $book = $transaksi->buku; // Relasi 'buku' harus ada di model Transaksi.
 
-    return view('user.transaksishow', compact('transaksi', 'book'));
-}
-    public function checkout(Request $request, $id)
-{
-    // Ambil transaksi berdasarkan ID
-    $transaksi = Transaksi::findOrFail($id);
-
-    // Validasi bahwa transaksi milik user yang sedang login
-    if ($transaksi->user_id !== Auth::id()) {
-        abort(403, 'Unauthorized action.');
+        return view('user.transaksishow', compact('transaksi', 'book'));
     }
+    public function checkout(Request $request, $id)
+    {
+        // Ambil transaksi berdasarkan ID
+        $transaksi = Transaksi::findOrFail($id);
 
-    // Ubah status transaksi menjadi 'success'
-    $transaksi->update(['status' => 'success']);
+        // Validasi bahwa transaksi milik user yang sedang login
+        if ($transaksi->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
 
-    // Redirect kembali ke halaman transaksi
-    return redirect()->route('transaksi.show', $id)
-        ->with('success', 'Transaksi berhasil! Buku dapat dilihat sekarang.');
-}
+        // Ubah status transaksi menjadi 'success'
+        $transaksi->update([
+            'status' => 'success',
+            'tanggal_transaksi' => now()
+        ]);
+
+        // Redirect kembali ke halaman transaksi
+        return redirect()->route('transaksi.show', $id)
+            ->with('success', 'Transaksi berhasil! Buku dapat dilihat sekarang.');
+    }
 
     /**
      * Show the form for editing the specified resource.
