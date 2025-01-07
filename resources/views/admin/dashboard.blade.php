@@ -9,7 +9,8 @@
 
             <!-- Header -->
             <div class="flex justify-between items-center">
-                <h1 class="text-4xl font-bold">Welcome, <span class="text-4xl text-purple-700">Admin!</span></h1>
+                <h1 class="text-4xl font-bold">Welcome, <span
+                        class="text-4xl text-red-700">{{ Auth::user()->name }}!</span></h1>
                 <div class="flex items-center space-x-4">
                     <input type="text" placeholder="Search..."
                         class="px-4 py-2 rounded-xl border focus:ring-2 focus:ring-blue-500">
@@ -41,13 +42,12 @@
                         <x-slot name="trigger">
                             <button
                                 class="flex items-center text-sm border-2 border-transparent rounded-full focus:outline-none">
-                                <img class="h-8 w-8 rounded-full" src="{{ Auth::user()->profile_photo_url }}"
-                                    alt="{{ Auth::user()->name }}" />
+                                <img class="h-9 w-9 rounded-full bg-red-500"/>
                             </button>
                         </x-slot>
 
                         <x-slot name="content">
-                            <x-dropdown-link href="{{ route('profile.show') }}">
+                            <x-dropdown-link href="{{ route('admin.profile') }}">
                                 {{ __('Profile') }}
                             </x-dropdown-link>
                             <form method="POST" action="{{ route('logout') }}">
@@ -60,41 +60,66 @@
                         </x-slot>
                     </x-dropdown>
                 </div>
-            </div>
+            </div>  
 
             <!-- Categories -->
             <div class="grid grid-cols-3 gap-4">
-                <div
-                    class="bg-green-300 p-3 h-24 rounded-lg inline-flex flex-row items-center justify-around space-y-2">
+                <a href="#" class="bg-green-300 p-3 h-24 rounded-lg inline-flex flex-row items-center justify-around space-y-2 hover:bg-green-400 transition duration-300">
                     <i class="fa-solid fa-user text-4xl text-black"></i>
                     <div class="flex flex-col space-y-2 ml-2">
                         <h1 class="font-bold text-black lg:text-3xl md:text-lg sm:text-base">Total User</h1>
-                        <h1 class="font-bold text-2xl bg-gradient-to-tl from-red-600 to-yellow-500 bg-clip-text text-transparent">
-                        {{ $total_user }}</h1>
+                        <h1
+                            class="font-bold text-2xl bg-gradient-to-tl from-red-600 to-yellow-500 bg-clip-text text-transparent">
+                            {{ $total_user }}
+                        </h1>
                     </div>
-                </div>
-                <div class="bg-yellow-300 h-24 rounded-lg flex items-center justify-center font-semibold text-xl">Total
-                    Buku</div>
-                <div class="bg-red-300 h-24 rounded-lg flex items-center justify-center font-semibold text-xl">Total
-                    Buku yang terjual
-                </div>
+                </a>
+
+
+                <a href="#"
+                    class="bg-yellow-300 p-3 h-24 rounded-lg inline-flex flex-row items-center justify-around space-y-2 hover:bg-yellow-400 transition duration-300">
+                    <i class="fa-solid fa-book text-4xl text-black"></i>
+                    <div class="flex flex-col space-y-2 ml-2">
+                        <h1 class="font-bold text-black lg:text-3xl md:text-lg sm:text-base">Total Buku</h1>
+                        <h1
+                            class="font-bold text-2xl bg-gradient-to-tl from-red-600 to-yellow-500 bg-clip-text text-transparent">
+                            {{ $total_buku }}
+                        </h1>
+                    </div>
+                </a>
+
+                <a href="#" class="bg-red-300 p-3 h-24 rounded-lg inline-flex flex-row items-center justify-around space-y-2 hover:bg-red-400 transition duration-300">
+                    <i class="fa-solid fa-bookmark text-4xl text-black"></i>
+                    <div class="flex flex-col space-y-2 ml-2">
+                        <h1 class="font-bold text-black lg:text-3xl md:text-lg sm:text-base">Total Penjualan</h1>
+                        <h1
+                            class="font-bold text-2xl bg-gradient-to-tl from-red-600 to-yellow-500 bg-clip-text text-transparent">
+                            {{ $total_penjualan }}
+                        </h1>
+                    </div>
+                </a>
+
             </div>
 
             <!-- Popular Genre & Rating -->
             <div class="flex space-x-6">
                 <!-- Genre Terlaris -->
                 <div class="bg-gray-200 p-4 rounded-md w-1/2">
-                    <h2 class="font-bold mb-4">Genre Terlaris</h2>
+                    <h1 class="font-bold mb-4">Genre Terlaris</h1>
                     <ul class="list-decimal pl-5 space-y-2">
-                        <li>Romance</li>
-                        <li>Fiction</li>
-                        <li>Action</li>
-                        <li>Horror</li>
-                        <li>Slice of Life</li>
-                        <!-- etc... -->
+                        @foreach ($topgenre as $genre)
+                        <li>{{ $genre->nama_genre }} ({{ $genre->views }} Kunjungan)</li>
+                        @endforeach
                     </ul>
                 </div>
-
+                <div class="bg-gray-200 p-4 rounded-md w-1/2">
+                    <h1 class="font-bold mb-4">Kategori Terlaris</h1>
+                    <ul class="list-decimal pl-5 space-y-2">
+                        @foreach ($topkategori as $kategori)
+                        <li>{{ $kategori->nama_kategori }} ({{ $kategori->jumlah_kunjungan }} Kunjungan)</li>
+                        @endforeach
+                    </ul>
+                </div>
                 <!-- Rating -->
                 <div class="bg-gray-200 p-4 rounded-md w-1/2">
                     <h2 class="font-bold mb-4">Rating</h2>

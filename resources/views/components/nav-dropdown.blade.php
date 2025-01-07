@@ -10,9 +10,11 @@
     
     <div x-show="genreOpen" @click.away="genreOpen = false" class="absolute z-10 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
         <div class="py-1 flex flex-col">
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Horror</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Romance</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Drama</a>
+            @foreach ($genres as $genre)
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    {{ $genre->nama_genre }}
+                </a>
+            @endforeach
         </div>
     </div>
 </div>

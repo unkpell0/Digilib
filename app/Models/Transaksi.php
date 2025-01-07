@@ -24,7 +24,7 @@ class Transaksi extends Model
     }
 
     public function buku()
-    {
-        return $this->belongsTo(Book::class);
-    }
+{
+    return $this->belongsTo(Book::class, 'buku_id');
+}
 }
