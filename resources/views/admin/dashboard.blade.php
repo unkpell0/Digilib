@@ -73,11 +73,25 @@
                         {{ $total_user }}</h1>
                     </div>
                 </div>
-                <div class="bg-yellow-300 h-24 rounded-lg flex items-center justify-center font-semibold text-xl">Total
-                    Buku</div>
-                <div class="bg-red-300 h-24 rounded-lg flex items-center justify-center font-semibold text-xl">Total
-                    Buku yang terjual
+                <div
+                    class="bg-sky-300 p-3 h-24 rounded-lg inline-flex flex-row items-center justify-around space-y-2">
+                    <i class="fa-solid fa-book text-4xl text-black"></i>
+                    <div class="flex flex-col space-y-2 ml-2">
+                        <h1 class="font-bold text-black lg:text-3xl md:text-lg sm:text-base">Total Buku</h1>
+                        <h1 class="font-bold text-2xl bg-gradient-to-tl from-red-600 to-yellow-500 bg-clip-text text-transparent">
+                        {{ $book_count }}</h1>
+                    </div>
                 </div>
+                <div
+                    class="bg-red-300 p-3 h-24 rounded-lg inline-flex flex-row items-center justify-around space-y-2">
+                    <i class="fa-solid fa-file-invoice text-4xl text-black"></i>
+                    <div class="flex flex-col space-y-2 ml-2">
+                        <h1 class="font-bold text-black lg:text-3xl md:text-lg sm:text-base">Total buku terjual</h1>
+                        <h1 class="font-bold text-2xl bg-gradient-to-tl from-red-600 to-yellow-500 bg-clip-text text-transparent">
+                        {{ $book_count }}</h1>
+                    </div>
+                </div>
+                
             </div>
 
             <!-- Popular Genre & Rating -->

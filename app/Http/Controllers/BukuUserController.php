@@ -11,10 +11,10 @@ class BukuUserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function __construct()
-    {
-        $this->middleware('auth'); // Ensure only authenticated users can access admin routes
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth'); // Ensure only authenticated users can access admin routes
+    // }
     public function index(Request $request)
     {
         // Cek apakah ada parameter kategori yang dikirim
@@ -56,7 +56,8 @@ class BukuUserController extends Controller
     public function show(string $id)
     {
         $book = Book::with(['genres', 'kategori'])->findOrFail($id);
-        return view('user.showbook', compact('book'));
+        
+        return view('book.choose', compact('book'));
     }
 
     /**

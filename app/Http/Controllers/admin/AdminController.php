@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\admin;
 
-use App\Http\Controllers\Controller;
+use App\Models\Book;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class AdminController extends Controller
 {
@@ -12,7 +13,8 @@ class AdminController extends Controller
     {
         $users = User::all();
         $total_user = User::count();
-        return view('admin.dashboard',compact('users','total_user'));
+        $book_count = Book::count();
+        return view('admin.dashboard',compact('users','total_user', 'book_count'));
     }
     public function book()
     {

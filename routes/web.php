@@ -40,6 +40,7 @@ Route::get('/', [DashboardController::class,'index'])->name('home');
 Route::get('/coba', function () {
     return view('cobahome');
 });
+Route::get('/book/{id}', [BukuUserController::class, 'show'])->name('book.show');
 
 Route::get('/auth/redirect',[GoogleAuthController::class, 'redirect']);
 Route::get('/auth/google/callback', [GoogleAuthController::class,'callback']);
@@ -83,7 +84,7 @@ Route::middleware(['role:1'])->group(function () {
 Route::middleware(['role:3'])->group(function () {
     Route::resource('dashboard', BukuUserController::class);
     Route::get('/search',[BukuUserController::class,'search'])->name('search');
-    Route::get('/bukushow/{id}', [BukuUserController::class, 'show'])->name('buku.show');
+    
     Route::get('/transaksi/{id}', [TransaksiController::class, 'index'])->name('transaksi.index');
     Route::get('/transaksi/create/{id}', [TransaksiController::class, 'create'])->name('transaksi.create');
     Route::post('/transaksi', [TransaksiController::class, 'store'])->name('transaksi.store');

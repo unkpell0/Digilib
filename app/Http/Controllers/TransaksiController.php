@@ -16,7 +16,7 @@ class TransaksiController extends Controller
     {
         $book = Book::findOrFail($id);
         $transaksi = Transaksi::where('user_id', Auth::id())->get();
-        return view('user.transaksi', compact('transaksi','book'));
+        return view('book.transaction', compact('transaksi','book'));
     }
 
     /**
