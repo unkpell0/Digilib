@@ -74,17 +74,17 @@
                 <a href="#" class="block px-3 py-1 hover:bg-gray-600 rounded-md">Pengaturan Umum</a>
                 <a href="#" class="block px-3 py-1 hover:bg-gray-600 rounded-md">Pengaturan Lanjut</a>
             </div>
-            <div class="group mt-auto">
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="flex items-center justify-between px-4 py-2 hover:bg-gray-700 rounded-md w-full">
-                        <div class="flex items-center space-x-3">
-                            <i class="fa-solid fa-right-from-bracket"></i>
-                            <span>Logout</span>
-                        </div>
-                    </button>
-                </form>
-            </div>
+        </div>
+        <div class="group">
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="flex items-center justify-between px-4 py-2 hover:bg-gray-700 rounded-md w-full">
+                    <div class="flex items-center space-x-3">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <span>Logout</span>
+                    </div>
+                </button>
+            </form>
         </div>
     </nav>
 </div>

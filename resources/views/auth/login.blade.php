@@ -1,3 +1,4 @@
+@section('title', 'LOGIN')
 <x-guest-layout class="flex flex-row-reverse overflow-hidden">
     <div class="flex h-screen w-full">
         <!-- Bagian Login -->
@@ -21,9 +22,9 @@
                     <x-label for="email" value="{{ __('Email') }}"
                         class="after:content-['*'] after:ml-0.5 after:text-pink-500 after:text-base" />
                     <x-input id="email" class="peer block mt-1 w-full" type="email" name="email"
-                        :value="old('email')" required autofocus autocomplete="email" placeholder="Masukkan email anda"
-                        oninput="validateEmail()" />
-                    <p id="emailError" class="text-sm font-sans text-pink-400 mt-1 hidden ">Email anda tidak valid</p>
+                        :value="old('email')" required autofocus autocomplete="email"
+                        placeholder="Masukkan email anda" oninput="validateEmail()" />
+                    <p id="emailError" class="text-sm font-sans text-pink-400 mt-1 hidden">Email anda tidak valid</p>
                 </div>
 
                 <!-- Input Password dengan Ikon Mata -->
@@ -32,7 +33,8 @@
                         class="after:content-['*'] after:ml-0.5 after:text-pink-500 after:text-base" />
                     <div class="relative mt-1">
                         <x-input id="password" class="block w-full" type="password" name="password" required
-                            minlength="4" placeholder="Masukkan password anda" oninput="validatePassword()" />
+                            minlength="4" autocomplete="current-password" placeholder="Masukkan password anda"
+                            oninput="validatePassword()" />
                         <div onclick="togglePassword()"
                             class="absolute inset-y-0 right-3 flex items-center cursor-pointer">
                             <i id="eyeIcon" class="fas fa-eye-slash text-gray-500"></i>
@@ -42,8 +44,6 @@
                         Masukkan password minimal 4 karakter
                     </p>
                 </div>
-
-
 
                 <div class="block mt-4">
                     <label for="remember_me" class="flex items-center">
@@ -60,7 +60,7 @@
                             {{ __('Lupa Password?') }}
                         </a>
                     @endif
-
+            
                     <x-button class="ms-4 bg-sky-600 text-white hover:bg-sky-500">
                         {{ __('Masuk') }}
                     </x-button>
@@ -117,7 +117,7 @@
             return;
         }
 
-        if (passwordInput.value.length < 4) {
+        if (passwordInput.value.length <= 4) {
             passwordError.classList.remove('hidden');
             passwordInput.classList.add('invalid');
         } else {

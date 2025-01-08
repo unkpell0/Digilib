@@ -1,3 +1,4 @@
+@section('title', 'REGISTER')
 <x-guest-layout class="overflow-y-scroll">
     <x-authentication-card>
         <x-slot name="logo">
@@ -34,7 +35,7 @@
                 <x-label for="password" value="{{ __('Password') }}" />
                 <div class="relative mt-1">
                     <x-input id="password" class="block w-full placeholder:italic placeholder:text-slate-400"
-                        type="password" name="password" required autocomplete="new-password" minlength="5"
+                        type="password" name="password" required autocomplete="new-password" minlength="4"
                         placeholder="Masukkan password anda" oninput="validatePassword()" />
                     <div onclick="togglePassword('password', 'eyeIcon')"
                         class="absolute inset-y-0 right-3 flex items-center cursor-pointer">
@@ -187,7 +188,7 @@
                 return;
             }
 
-            if (passwordInput.value.length < 4) {
+            if (passwordInput.value.length <= 4) {
                 passwordError.classList.remove('hidden');
                 passwordInput.classList.add('invalid');
             } else {
