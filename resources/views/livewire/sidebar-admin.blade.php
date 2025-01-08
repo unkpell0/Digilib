@@ -1,6 +1,6 @@
-<div class="w-52 bg-zinc-600 text-white flex flex-col items-center py-6">
+<div class="w-52 bg-gray-900 text-white flex flex-col items-center py-6">
     <!-- Logo -->
-    <img src="{{ asset('logo/logo digilib 2.png') }}" alt="logo digilib" class="w-24 mb-6 rounded-full">
+    <img src="{{ asset('logo/logo digilib.png') }}" alt="logo digilib" class="w-32 mb-6 rounded-full">
 
     <nav class="flex flex-col space-y-5 w-full mt-3">
         {{-- Dashboard Link --}}
@@ -14,14 +14,14 @@
 
         {{-- Book --}}
         <div class="group">
-            <a href="#" id="bookMenuToggle"
-                class="flex items-center justify-between px-4 py-2 hover:bg-gray-700 rounded-md">
+            <button id="bookMenuToggle"
+                class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-700 rounded-md">
                 <div class="flex items-center space-x-3">
                     <i class="fa-solid fa-book"></i>
-                    <span>Buku</span>
+                    <h1>Buku</h1>
                 </div>
                 <i class="fa-solid fa-angle-down"></i>
-            </a>
+            </button>
 
             {{-- Submenu for Buku --}}
             <div id="bookSubMenu" class="hidden pl-10 space-y-2 mt-1">
@@ -33,16 +33,16 @@
         </div>
 
         <div class="group">
-            <a href="#" id="transactionToggle" class="flex items-center justify-between px-4 py-2 hover:bg-gray-700 rounded-md">
+            <button id="transactionToggle" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-700 rounded-md">
                 <div class="flex items-center space-x-3">
                     <i class="fa-solid fa-receipt"></i>
                     <span>Transaksi</span>
                 </div>
                 <i class="fa-solid fa-angle-down"></i>
-            </a>
+            </button>
             {{-- Submenu for Buku --}}
             <div id="transactionSubMenu" class="hidden pl-10 space-y-2 mt-1">
-                <a href="#" class="block px-4 py-1 hover:bg-gray-600 rounded-md">Detail Transaksi</a>
+                <a href="{{ route('transaksi.index') }}" class="block w-full px-4 py-1 hover:bg-gray-600 rounded-md">Rekap Transaksi</a>
             </div>
         </div>
 

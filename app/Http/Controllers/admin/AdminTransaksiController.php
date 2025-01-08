@@ -55,16 +55,7 @@ class AdminTransaksiController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $request->validate([
-            'status' => 'required|string',
-        ]);
-
-        $transaksi = Transaksi::findOrFail($id);
-        $transaksi->update([
-            'status' => $request->status,
-        ]);
-
-        return redirect()->route('admin.transaksi.index')->with('success', 'Status transaksi berhasil diperbarui.');
+        //
     }
 
     /**
@@ -72,6 +63,8 @@ class AdminTransaksiController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $transaksi = Transaksi::findOrFail($id);
+        $transaksi->delete();
+        return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil dihapus!');
     }
 }

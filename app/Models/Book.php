@@ -20,7 +20,7 @@ class Book extends Model
         'file_buku',
         'kategori_id',
     ];
-
+    
     public function genres()
     {
         return $this->belongsToMany(Genre::class, 'bukugenre', 'buku_id', 'genre_id')
@@ -31,7 +31,7 @@ class Book extends Model
         return $this->belongsTo(Kategori::class, 'kategori_id');
     }
     public function transaksi()
-    {
-        return $this->hasMany(Transaksi::class, 'buku_id');
-    }
+{
+    return $this->hasMany(Transaksi::class, 'buku_id');
+}
 }

@@ -42,7 +42,7 @@
             </main>
 
             <footer class="text-center text-gray-600 text-sm my-2">
-                <h2>copyright DIGILIB</h2>
+                <h2>© {{ date('Y') }} Taca Team</h2>
             </footer>
         </div>
 
