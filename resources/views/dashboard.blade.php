@@ -7,54 +7,71 @@
     </div>
 
     <div class="w-full mx-auto bg-white shadow-md p-6 border-l-4 border-white">
-        <!-- Form Pencarian -->
-        <form action="{{ route('search') }}" method="GET" enctype="multipart/form-data">
-            <div class="flex justify-end mb-6">
-                <div class="flex items-center max-w-lg space-x-3 bg-gray-100 py-2 px-4 rounded-full shadow-md">
-                    <input type="search" name="search" placeholder="Cari buku, genre, atau penulis..." class="flex-grow bg-transparent focus:outline-none text-gray-800 text-sm placeholder-gray-400 rounded-full pr-4" value="{{ request('search') }}">
-                    <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full shadow-md focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 transition-all duration-200">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
-                </div>
+    <!-- Form Pencarian -->
+    <form action="{{ route('search') }}" method="GET" enctype="multipart/form-data">
+        <div class="flex justify-end mb-6">
+            <div class="flex items-center max-w-lg space-x-3 bg-gray-100 py-2 px-4 rounded-full shadow-md">
+                <input type="search" name="search" placeholder="Cari buku, genre, atau penulis..." class="flex-grow bg-transparent focus:outline-none text-gray-800 text-sm placeholder-gray-400 rounded-full pr-4" value="{{ request('search') }}">
+                <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full shadow-md focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 transition-all duration-200">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
             </div>
-        </form>
-
-        <div class="flex justify-center space-x-2 mb-6">
-            <!-- Manga Button -->
-            <a href="{{ route('dashboard.index', ['kategori' => 'manga']) }}">
-                <button class="px-6 py-2 rounded-full transition duration-300 bg-gray-200 text-gray-700 hover:bg-emerald-500 hover:text-white focus:bg-emerald-500 focus:text-white">
-                    Manga
-                </button>
-            </a>
-
-            <!-- Novel Button -->
-            <a href="{{ route('dashboard.index', ['kategori' => 'novel']) }}">
-                <button class="ml-2 px-6 py-2 rounded-full transition duration-300 bg-gray-200 text-gray-700 hover:bg-sky-400 hover:text-white focus:bg-sky-400 focus:text-white">
-                    Novel
-                </button>
-            </a>
-
-            <a href="{{ route('dashboard.index', ['kategori' => 'manhwa']) }}">
-                <button class="ml-2 px-6 py-2 rounded-full transition duration-300 bg-gray-200 text-gray-700 hover:bg-red-700 hover:text-white focus:bg-red-700 focus:text-white">
-                    Manhwa
-                </button>
-            </a>
         </div>
+    </form>
 
-        <!-- Title -->
-        <h2 class="text-xl font-bold mb-6 text-center">Baru Rilis !!</h2>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mx-auto w-full max-w-screen-lg">
-            @foreach($books as $book)
-                <a href="{{ route('book.show', $book->id) }}" class="block w-full">
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden w-full">
-                        <img src="{{ $book->image_cover ? asset('storage/' . $book->image_cover) : asset('img/default-book.jpg') }}" alt="{{ $book->nama_buku }}" class="w-full h-64 object-cover">
-                        <div class="p-2 bg-blue-500 text-white text-center">
-                            {{ $book->nama_buku }}
-                        </div>
-                    </div>
-                </a>
-            @endforeach
-        </div>
+    <!-- Buttons -->
+    <div class="flex justify-center space-x-2 mb-6">
+        <a href="{{ route('home', ['kategori' => 'manga']) }}">
+            <button class="px-6 py-2 rounded-full transition duration-300 bg-gray-200 text-gray-700 hover:bg-emerald-500 hover:text-white focus:bg-emerald-500 focus:text-white">
+                Manga
+            </button>
+        </a>
+        <a href="{{ route('home', ['kategori' => 'novel']) }}">
+            <button class="ml-2 px-6 py-2 rounded-full transition duration-300 bg-gray-200 text-gray-700 hover:bg-sky-400 hover:text-white focus:bg-sky-400 focus:text-white">
+                Novel
+            </button>
+        </a>
+        <a href="{{ route('home', ['kategori' => 'manhwa']) }}">
+            <button class="ml-2 px-6 py-2 rounded-full transition duration-300 bg-gray-200 text-gray-700 hover:bg-red-700 hover:text-white focus:bg-red-700 focus:text-white">
+                Manhwa
+            </button>
+        </a>
     </div>
+
+    <!-- Title -->
+    <h2 class="text-xl font-bold mb-6 text-center">Baru Rilis !!</h2>
+
+    <!-- Carousel -->
+    <div x-data="{ currentIndex: 0 }" class="relative w-full max-w-screen-lg mx-auto">
+        <!-- Navigation -->
+        <button @click="currentIndex = Math.max(currentIndex - 1, 0)" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white p-2 rounded-full shadow hover:bg-gray-600 z-10">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button @click="currentIndex = Math.min(currentIndex + 1, Math.ceil({{ $books->count() }} / 5) - 1)" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white p-2 rounded-full shadow hover:bg-gray-600 z-10">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+
+        <!-- Items -->
+        <div class="overflow-hidden">
+            <div class="flex transition-transform duration-500" :style="'transform: translateX(-' + (currentIndex * 100) + '%)'">
+                @foreach($books->chunk(5) as $chunk)
+                    <div class="flex space-x-4 min-w-full">
+                        @foreach($chunk as $book)
+                            <a href="{{ route('buku.show', $book->id) }}" class="block w-1/5">
+                                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                                    <img src="{{ $book->image_cover ? asset('storage/' . $book->image_cover) : asset('img/default-book.jpg') }}" alt="{{ $book->nama_buku }}" class="w-full h-64 object-cover">
+                                    <div class="p-2 bg-blue-500 text-white text-center">
+                                        {{ $book->nama_buku }}
+                                    </div>
+                                </div>
+                            </a>
+                        @endforeach
+                    </div>
+                @endforeach
+            </div>
+        </div>
+        
+    </div>
+</div>
+
 </x-app-layout>

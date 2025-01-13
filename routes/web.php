@@ -29,7 +29,7 @@ use App\Http\Controllers\admin\AdminTransaksiController;
 |
 */
 
-Route::get('/', [DashboardController::class, 'index'])->name('home');
+Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
 // Route::middleware([
 //     'auth:sanctum',
@@ -88,7 +88,8 @@ Route::middleware(['role:1'])->group(function () {
 // });
 
 Route::middleware(['role:3'])->group(function () {
-    Route::resource('dashboard', BukuUserController::class);
+    Route::get('/home', [BukuUserController::class, 'index'])->name('home');
+    Route::get('/explore', [BukuUserController::class, 'explore'])->name('explore');
     Route::get('/search', [BukuUserController::class, 'search'])->name('search');
     Route::get('/bukushow/{id}', [BukuUserController::class, 'show'])->name('buku.show');
     Route::get('/transaksi/{id}/create', [TransaksiController::class, 'create'])->name('transaksi.create');

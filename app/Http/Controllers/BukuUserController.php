@@ -108,4 +108,53 @@ class BukuUserController extends Controller
 
         return view('result', compact('books', 'searchTerm'));
     }
+
+    /**
+ * Explore books with filters.
+ */
+public function explore(Request $request)
+{
+    $query = Book::query(); // Mulai query buku
+
+    // Filter berdasarkan genre (jika tersedia)
+    if ($request->has('genre') && $request->genre !== null) {
+        $query->where('genre', $request->genre);
+    }
+
+    // Filter berdasarkan status (jika tersedia)
+    if ($request->has('status') && $request->status !== null) {
+        $query->where('status', $request->status); // Pastikan kolom 'status' ada di tabel
+    }
+
+    // Filter berdasarkan tipe (jika tersedia)
+    if ($request->has('type') && $request->type !== null) {
+        $query->where('type', $request->type); // Pastikan kolom 'type' ada di tabel
+    }
+
+    // Sort by berdasarkan parameter
+    if ($request->has('sort_by') && $request->sort_by !== null) {
+        $sortBy = $request->sort_by;
+        switch ($sortBy) {
+            case 'rating':
+                $query->orderBy('rating', 'desc'); // Urutkan berdasarkan rating
+                break;
+            case 'newest':
+                $query->orderBy('created_at', 'desc'); // Urutkan berdasarkan yang terbaru
+                break;
+            case 'popular':
+                $query->orderBy('popularity', 'desc'); // Urutkan berdasarkan popularitas
+                break;
+            default:
+                $query->orderBy('nama_buku', 'asc'); // Default: urutkan berdasarkan nama
+                break;
+        }
+    }
+
+    // Dapatkan hasil setelah semua filter
+    $books = $query->get();
+
+    // Kirimkan hasil ke view explore
+    return view('explore', compact('books'));
+}
+
 }
