@@ -19,8 +19,9 @@ class Book extends Model
         'image_cover',
         'file_buku',
         'kategori_id',
+        'views'
     ];
-    
+
     public function genres()
     {
         return $this->belongsToMany(Genre::class, 'bukugenre', 'buku_id', 'genre_id')
@@ -31,7 +32,11 @@ class Book extends Model
         return $this->belongsTo(Kategori::class, 'kategori_id');
     }
     public function transaksi()
-{
-    return $this->hasMany(Transaksi::class, 'buku_id');
-}
+    {
+        return $this->hasMany(Transaksi::class, 'buku_id');
+    }
+    public function viewAdd()
+    {
+        $this->increment('views');
+    }
 }
