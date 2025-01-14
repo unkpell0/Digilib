@@ -17,9 +17,10 @@ class CartController extends Controller
 {
     $cart = Cart::with('details.book')->where('user_id', auth()->id())->first();
 
+    // dd($cart, $cart?->details);
     return view('user.cart', [
         'cart' => $cart,
-        'details' => $cart->details ?? [],
+        'details' => $cart?->details ?? collect([]),
     ]);
 }
 

@@ -45,11 +45,18 @@ Route::get('/coba', function () {
     return view('cobahome');
 }); 
 
-Route::get('/auth/redirect', [GoogleAuthController::class, 'redirect']);
-Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback']);
+Route::prefix('auth')->group(function () {
+    Route::get('/google/redirect', [GoogleAuthController::class, 'redirect']);
+    Route::get('/google/callback', [GoogleAuthController::class, 'callback']);
+    Route::get('/facebook', [FacebookAuthController::class, 'facebookpage']);
+    Route::get('/facebook/callback', [FacebookAuthController::class, 'callback']);
+});
 
-Route::get('/auth/facebook', [FacebookAuthController::class, 'facebookpage']);
-Route::get('/auth/facebook/callback', [FacebookAuthController::class, 'callback']);
+// Route::get('/auth/redirect', [GoogleAuthController::class, 'redirect']);
+// Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback']);
+
+// Route::get('/auth/facebook', [FacebookAuthController::class, 'facebookpage']);
+// Route::get('/auth/facebook/callback', [FacebookAuthController::class, 'callback']);
 
 
 // Route::prefix('/admin')->group(function () {

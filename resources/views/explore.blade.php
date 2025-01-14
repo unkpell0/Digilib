@@ -1,83 +1,75 @@
 <x-app-layout>
-    <div class="min-w-full overflow-x-hidden mx-auto">
+    <div class="min-w-full overflow-x-hidden mx-auto px-4">
         <div
-            class="container bg-gradient-to-br from-sky-500 to-transparent border-2 rounded-xl px-4 py-3 mx-2 w-auto p-4">
-            <div class="flex justify-between items-center mb-4">
-                <h1 class="text-3xl font-bold">
+            class="container bg-gradient-to-tl from-sky-500 to-transparent border-2 rounded-xl px-4 py-3 mx-2 w-auto">
+            <div class="flex flex-col sm:flex-row justify-between items-center mb-4">
+                <h1 class="text-3xl font-bold text-center sm:text-left mb-2 sm:mb-0">
                     Daftar Buku
                 </h1>
             </div>
             {{-- tombol --}}
-            <div class="flex justify-between items-center mb-4">
-                <div class="flex space-x-2">
+            <div class="flex flex-col sm:flex-row justify-between items-center mb-4 space-y-4 sm:space-y-0">
+                <div class="flex flex-wrap justify-center sm:justify-start space-x-2 space-y-2 sm:space-y-0">
                     {{-- genre --}}
-                    <button class="bg-slate-300 text-slate-700 font-bold text-base px-4 py-2 rounded">
+                    <button class="bg-slate-300 text-slate-700 font-bold text-sm sm:text-base px-4 py-2 rounded">
                         Genre
-                        <i class="fas fa-caret-down">
-                        </i>
+                        <i class="fas fa-caret-down"></i>
                     </button>
                     {{-- status --}}
-                    <button class="bg-slate-300 text-slate-700 font-bold text-base px-4 py-2 rounded">
+                    <button class="bg-slate-300 text-slate-700 font-bold text-sm sm:text-base px-4 py-2 rounded">
                         Status
-                        <i class="fas fa-caret-down">
-                        </i>
+                        <i class="fas fa-caret-down"></i>
                     </button>
                     {{-- type --}}
-                    <button class="bg-slate-300 text-slate-700 font-bold text-base px-3 py-2 rounded">
+                    <button class="bg-slate-300 text-slate-700 font-bold text-sm sm:text-base px-3 py-2 rounded">
                         Type
-                        <i class="fas fa-caret-down">
-                        </i>
+                        <i class="fas fa-caret-down"></i>
                     </button>
                     {{-- sort by --}}
-                    <button class="bg-slate-300 text-slate-700 font-bold text-base px-3 py-1 rounded">
+                    <button class="bg-slate-300 text-slate-700 font-bold text-sm sm:text-base px-3 py-2 rounded">
                         Sort By
-                        <i class="fas fa-caret-down">
-                        </i>
+                        <i class="fas fa-caret-down"></i>
                     </button>
                     {{-- filter --}}
-                    <button class="bg-slate-300 text-slate-700 font-bold text-lg px-4 py-2 rounded">
-                        <i class="fa-solid fa-filter"></i>
+                    <button class="bg-slate-300 text-slate-700 font-bold text-sm sm:text-base px-4 py-2 rounded flex items-center">
+                        <i class="fa-solid fa-filter mr-1"></i>
                         Filter
                     </button>
                 </div>
-                <div>
-                    <input class="bg-slate-300 text-slate-700 font-bold text-lg px-4 py-2 rounded" placeholder="Cari"
-                        type="text" />
+                <div class="w-full sm:w-auto">
+                    <input class="bg-slate-300 text-slate-700 font-bold text-sm sm:text-base px-4 py-2 rounded w-full"
+                        placeholder="Cari" type="text" />
                 </div>
             </div>
+            {{-- grid buku --}}
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                 @foreach ($books as $book)
-                    <!-- Manga Item -->
-                    <div class="bg-slate-300 p-2 rounded">
-                        <!-- Book Cover -->
-                        <img alt="{{ $book->nama_buku }}" class="w-full h-48 object-cover rounded border-2 border-slate-900" height="300"
-                            src="{{ $book->image_cover ? asset('storage/' . $book->image_cover) : asset('img/default-book.jpg') }}"
-                            width="200" />
+                    <!-- Buku Item -->
+                    <a href="{{ route('buku.show', $book->id) }}" class="block w-52">
+                    <div class="bg-slate-300 p-2 rounded shadow-md hover:shadow-lg">
+                        <!-- Sampul Buku -->
+                        <img alt="{{ $book->nama_buku }}" class="w-full h-48 object-cover rounded border-2 border-slate-900"
+                            src="{{ $book->image_cover ? asset('storage/' . $book->image_cover) : asset('img/default-book.jpg') }}" />
 
-                        <!-- Genre and Flag -->
+                        <!-- Genre dan Penulis -->
                         <div class="flex justify-between items-center mt-2">
-                            <span class="bg-red-600 text-slate-700 font-bold px-2 py-1 text-xs rounded">
-                                {{ strtoupper($book->penulis) }}
+                            <span class="bg-red-600 text-white font-bold px-2 py-1 text-xs rounded">
+                                {{ strtoupper($book->genre) }}
                             </span>
-                            {{-- <img alt="Flag" class="w-5 h-5" height="20"
-                                src="{{ $book->flag_url ? $book->flag_url : asset('img/default-flag.png') }}"
-                                width="20" /> --}}
                         </div>
 
-                        {{-- <!-- nama_buku -->
-                        <h2 class="mt-2 text-sm">
-                            {{ Str::limit($book->nama_buku, 20, '...') }}
-                        </h2> --}}
-
-                        <!-- Chapter -->
-                        <p class="text-xs mt-2 text-gray-400">
+                        <!-- Deskripsi Buku -->
+                        <h2 class="mt-2 text-sm font-semibold truncate">
+                            {{ $book->nama_buku }}
+                        </h2>
+                        <p class="text-xs mt-2 text-gray-400 line-clamp-2">
                             {{ $book->deskripsi }}
                         </p>
 
                         <!-- Rating -->
                         <div class="flex items-center mt-2">
                             @php
-                                // Calculate star ratings
+                                // Perhitungan bintang rating
                                 $fullStars = floor($book->rating);
                                 $halfStar = $book->rating - $fullStars >= 0.5;
                             @endphp
@@ -95,14 +87,14 @@
                             </span>
                         </div>
 
-                        {{-- harga --}}
-                        <p class="text-xs mt-2 text-gray-400">
-                          {{ $book->harga }}
-                      </p>
+                        <!-- Harga -->
+                        <p class="text-xs mt-2 text-gray-400 font-semibold">
+                            Rp{{ number_format($book->harga, 0, ',', '.') }}
+                        </p>
                     </div>
+                    </a>
                 @endforeach
             </div>
-
         </div>
     </div>
 </x-app-layout>

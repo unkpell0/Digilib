@@ -14,10 +14,10 @@ class LoginResponse implements LoginResponseContract
         if ($user->role == 1) {
             return redirect('/admin'); // Admin ke halaman /admin
         } elseif ($user->role == 3) {
-            return redirect('/dashboard'); // User ke halaman /dashboard
+            return redirect('/home'); // User ke halaman /dashboard
         }
 
         // Default redirect
-        return redirect('/');
+        return redirect('/home');
     }
 }
