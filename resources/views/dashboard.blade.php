@@ -46,9 +46,26 @@
                 </button>
             </a>
         </div>
+    </form>
 
-        <!-- Title -->
-        <h2 class="text-xl font-bold mb-6 text-center">Baru Rilis !!</h2>
+    <!-- Buttons -->
+    <div class="flex justify-center space-x-2 mb-6">
+        <a href="{{ route('dashboard.index', ['kategori' => 'manga']) }}">
+            <button class="px-6 py-2 rounded-full transition duration-300 bg-gray-200 text-gray-700 hover:bg-emerald-500 hover:text-white focus:bg-emerald-500 focus:text-white">
+                Manga
+            </button>
+        </a>
+        <a href="{{ route('dashboard.index', ['kategori' => 'novel']) }}">
+            <button class="ml-2 px-6 py-2 rounded-full transition duration-300 bg-gray-200 text-gray-700 hover:bg-sky-400 hover:text-white focus:bg-sky-400 focus:text-white">
+                Novel
+            </button>
+        </a>
+        <a href="{{ route('dashboard.index', ['kategori' => 'manhwa']) }}">
+            <button class="ml-2 px-6 py-2 rounded-full transition duration-300 bg-gray-200 text-gray-700 hover:bg-red-700 hover:text-white focus:bg-red-700 focus:text-white">
+                Manhwa
+            </button>
+        </a>
+    </div>
 
         <!-- Carousel -->
         <div x-data="{ currentIndex: 0 }" class="relative w-full max-w-screen-lg mx-auto">
