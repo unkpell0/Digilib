@@ -29,7 +29,7 @@ use App\Http\Controllers\admin\AdminTransaksiController;
 |
 */
 
-Route::get('/', [DashboardController::class, 'index'])->name('home');
+Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
 // Route::middleware([
 //     'auth:sanctum',
@@ -45,11 +45,18 @@ Route::get('/coba', function () {
     return view('cobahome');
 }); 
 
-Route::get('/auth/redirect', [GoogleAuthController::class, 'redirect']);
-Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback']);
+Route::prefix('auth')->group(function () {
+    Route::get('/google/redirect', [GoogleAuthController::class, 'redirect']);
+    Route::get('/google/callback', [GoogleAuthController::class, 'callback']);
+    Route::get('/facebook', [FacebookAuthController::class, 'facebookpage']);
+    Route::get('/facebook/callback', [FacebookAuthController::class, 'callback']);
+});
 
-Route::get('/auth/facebook', [FacebookAuthController::class, 'facebookpage']);
-Route::get('/auth/facebook/callback', [FacebookAuthController::class, 'callback']);
+// Route::get('/auth/redirect', [GoogleAuthController::class, 'redirect']);
+// Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback']);
+
+// Route::get('/auth/facebook', [FacebookAuthController::class, 'facebookpage']);
+// Route::get('/auth/facebook/callback', [FacebookAuthController::class, 'callback']);
 
 
 // Route::prefix('/admin')->group(function () {
@@ -88,7 +95,8 @@ Route::middleware(['role:1'])->group(function () {
 // });
 
 Route::middleware(['role:3'])->group(function () {
-    Route::resource('dashboard', BukuUserController::class);
+    Route::get('/home', [BukuUserController::class, 'index'])->name('home');
+    Route::get('/explore', [BukuUserController::class, 'explore'])->name('explore');
     Route::get('/search', [BukuUserController::class, 'search'])->name('search');
     Route::get('/bukushow/{id}', [BukuUserController::class, 'show'])->name('buku.show');
     Route::get('/transaksi/{id}/create', [TransaksiController::class, 'create'])->name('transaksi.create');

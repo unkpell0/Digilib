@@ -21,7 +21,7 @@
 
         <div class="flex justify-center space-x-2 mb-6">
             <!-- Manga Button -->
-            <a href="{{ route('dashboard.index', ['kategori' => 'manga']) }}">
+            <a href="{{ route('home', ['kategori' => 'manga']) }}">
                 <button
                     class="px-6 py-2 rounded-full transition duration-300 bg-gray-200 text-gray-700 hover:bg-emerald-500 hover:text-white focus:bg-emerald-500 focus:text-white">
                     Manga
@@ -29,14 +29,14 @@
             </a>
     
             <!-- Novel Button -->
-            <a href="{{ route('dashboard.index', ['kategori' => 'novel']) }}">
+            <a href="{{ route('home', ['kategori' => 'novel']) }}">
                 <button
                     class="ml-2 px-6 py-2 rounded-full transition duration-300 bg-gray-200 text-gray-700 hover:bg-sky-400 hover:text-white focus:bg-sky-400 focus:text-white">
                     Novel
                 </button>
             </a>
 
-            <a href="{{ route('dashboard.index', ['kategori' => 'manhwa']) }}">
+            <a href="{{ route('home', ['kategori' => 'manhwa']) }}">
                 <button
                     class="ml-2 px-6 py-2 rounded-full transition duration-300 bg-gray-200 text-gray-700 hover:bg-red-700 hover:text-white focus:bg-red-700 focus:text-white">
                     Manhwa

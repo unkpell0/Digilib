@@ -15,7 +15,7 @@ class Authenticate extends Middleware
     if ($user->role == 1) {
         return redirect()->route('/admin');
     }  else {
-        return redirect()->route('user.dashboard');
+        return redirect()->route('home'); //dashboard
     }
 }
 }
