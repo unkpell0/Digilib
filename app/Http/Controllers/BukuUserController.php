@@ -61,7 +61,11 @@ class BukuUserController extends Controller
      */
     public function show(string $id)
     {
+        // Ambil buku berdasarkan ID
         $book = Book::findOrFail($id);
+
+        // Increment jumlah views
+        $book->increment('views');
 
         // Cek apakah user sudah membeli buku dengan transaksi sukses
         $hasPurchased = false;
@@ -72,8 +76,10 @@ class BukuUserController extends Controller
                 ->exists();
         }
 
-        return view('user.showbook', compact('book','hasPurchased'));
+        // Return ke view detail buku
+        return view('user.showbook', compact('book', 'hasPurchased'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
