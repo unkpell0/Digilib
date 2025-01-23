@@ -70,7 +70,7 @@
                         <div class="flex space-x-4 min-w-full">
                             @foreach ($chunk as $book)
                                 <a href="{{ route('buku.show', $book->id) }}" class="block w-1/5">
-                                    <div class="bg-slate-300 p-2 rounded shadow-md hover:shadow-lg">
+                                    <div class="bg-gray-100 p-2 rounded shadow-md hover:shadow-lg">
                                         <img src="{{ $book->image_cover ? asset('storage/' . $book->image_cover) : asset('img/default-book.jpg') }}"
                                             alt="{{ $book->nama_buku }}"
                                             class="w-full h-48 object-cover rounded border border-black">
@@ -80,8 +80,9 @@
                                             </span>
                                         </div>
                                         <div class="p-2 font-bold text-xl text-slate-900 text-center">
-                                            {{ $book->nama_buku }}
+                                            {{ Str::limit($book->nama_buku, 15, '...') }}
                                         </div>
+                                        
                                         <p class="text-xs mt-1 font-medium text-black line-clamp-2">
                                             {{ $book->deskripsi }}
                                         </p>

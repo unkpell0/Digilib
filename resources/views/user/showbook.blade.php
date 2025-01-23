@@ -35,7 +35,7 @@
 
             {{-- Tombol Kembali --}}
             <div class="mt-4">
-                <a href="/dashboard" class="text-[#377CC7] hover:underline">&larr; Kembali</a>
+                <a href="/home" class="text-[#377CC7] hover:underline">&larr; Kembali</a>
             </div>
         </section>
 
@@ -51,28 +51,6 @@
         <section class="bg-white p-6 rounded-lg shadow-md col-span-3">
             <div class="flex flex-col space-y-4">
                 {{-- Button Checkout --}}
-                <a href="{{ route('transaksi.create', $book->id) }}"
-                    class="px-4 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 flex items-center justify-center transition duration-300">
-                    Check Out!
-                </a>
-                <form action="{{ route('cart.store') }}" method="POST" class="inline-block">
-                    @csrf
-                    <input type="hidden" name="book_id" value="{{ $book->id }}">
-                    <input type="hidden" name="quantity" value="1" min="1" class="border p-2">
-                    <button type="submit"
-                        class="px-4 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 flex items-center justify-center transition duration-300">
-                        Cart
-                    </button>
-                </form>
-                
-                
-                {{-- Button Wishlist --}}
-                <a href="#"
-                    class="px-4 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 flex items-center justify-center transition duration-300">
-                    Wishlist
-                </a>
-
-                {{-- Button Unduh Buku --}}
                 @if ($hasPurchased)
                     @if ($book->file_buku)
                         <a href="{{ asset('storage/' . $book->file_buku) }}"
@@ -85,8 +63,91 @@
                             File tidak tersedia
                         </span>
                     @endif
+                @else 
+                    <a href="{{ route('transaksi.create', $book->id) }}"
+                        class="px-4 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 flex items-center justify-center transition duration-300">
+                        Check Out!
+                    </a>
                 @endif
+                <form action="{{ route('cart.store') }}" method="POST" class="inline-block">
+                    @csrf
+                    <input type="hidden" name="book_id" value="{{ $book->id }}">
+                    <input type="hidden" name="quantity" value="1" min="1" class="border p-2">
+                    <button type="submit"
+                        class="px-4 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 flex items-center justify-center transition duration-300">
+                        Cart
+                    </button>
+                </form>
+                
+                {{-- Rating Buku --}}
+                <div class="star-rating">
+                    <span data-value="1" class="star">&#9733;</span>
+                    <span data-value="2" class="star">&#9733;</span>
+                    <span data-value="3" class="star">&#9733;</span>
+                    <span data-value="4" class="star">&#9733;</span>
+                    <span data-value="5" class="star">&#9733;</span>
+                </div>
+                
+                <!-- Form rating yang tersembunyi (untuk mengirim rating) -->
+                <form id="rating-form" action="{{ route('book.rate', ['buku_id' => $book->id]) }}" method="POST" style="display: none;">
+                    @csrf
+                    <input type="hidden" name="rating" id="rating-input">
+                    <button type="submit" id="submit-rating">Submit Rating</button>
+                </form>
+            
+                <!-- Pesan jika rating berhasil disimpan -->
+                @if (session('success'))
+                    <div class="alert alert-success mt-3">
+                        {{ session('success') }}
+                    </div>
+                @endif
+                
             </div>
         </section>
     </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+        const stars = document.querySelectorAll('.star');
+        const ratingInput = document.getElementById('rating-input');
+        const ratingForm = document.getElementById('rating-form');
+        const averageRatingElement = document.getElementById('average-rating');
+        let selectedRating = 0;
+
+        // Hover effect to highlight the stars
+        stars.forEach(star => {
+            star.addEventListener('mouseover', () => {
+                const value = star.getAttribute('data-value');
+                setStars(value);
+            });
+
+            star.addEventListener('mouseout', () => {
+                setStars(selectedRating);
+            });
+
+            star.addEventListener('click', () => {
+                selectedRating = star.getAttribute('data-value');
+                ratingInput.value = selectedRating; // Set the selected rating to hidden input
+                ratingForm.submit(); // Submit the form after selecting the rating
+            });
+        });
+
+        // Function to highlight stars based on rating
+        function setStars(rating) {
+            stars.forEach(star => {
+                const value = star.getAttribute('data-value');
+                if (value <= rating) {
+                    star.style.color = 'gold'; // Highlight with gold color
+                } else {
+                    star.style.color = 'gray'; // Reset other stars to gray
+                }
+            });
+        }
+
+        // Inisialisasi dengan menampilkan rating yang sudah dipilih (jika ada)
+        if (selectedRating > 0) {
+            setStars(selectedRating);
+        }
+    });
+    </script>
 </x-app-layout>

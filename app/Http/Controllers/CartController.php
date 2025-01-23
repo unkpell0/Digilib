@@ -7,6 +7,7 @@ use App\Models\cart;
 use App\Models\CartDetail;
 use App\Http\Requests\StorecartRequest;
 use App\Http\Requests\UpdatecartRequest;
+use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
@@ -83,9 +84,24 @@ class CartController extends Controller
      */
     public function destroy(cart $cart, $id)
     {
-        $detail = CartDetail::findOrFail($id);
-        $detail->delete();
-
-        return redirect()->route('cart.index')->with('success', 'Item removed from cart!');
+        //
     }
+    public function deleteSelected(Request $request)
+{
+    // Validasi data yang diterima
+    $validated = $request->validate([
+        'ids' => 'required|array',
+        'ids.*' => 'exists:cart_detail,id', // Pastikan setiap ID ada di tabel cart_details
+    ]);
+
+    // Hapus item berdasarkan ID yang diterima
+    CartDetail::whereIn('id', $validated['ids'])->delete();
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Item yang dipilih berhasil dihapus.',
+    ]);
+}
+
+
 }
