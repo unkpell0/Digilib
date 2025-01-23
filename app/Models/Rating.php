@@ -11,14 +11,14 @@ class Rating extends Model
 
     protected $table = 'rating'; // Nama tabel harus sesuai dengan database
     protected $fillable = [
-        'users_id', 
+        'user_id', 
         'buku_id', 
         'rating',
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'users_id'); // Pastikan foreign key benar
+        return $this->belongsTo(User::class, 'user_id'); // Pastikan foreign key benar
     }
 
     public function book()

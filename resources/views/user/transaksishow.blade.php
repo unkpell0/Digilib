@@ -43,7 +43,7 @@
                 </div>
 
                 <!-- Link Kembali -->
-                <a href="/dashboard" class="mt-6 inline-block text-[#377CC7] hover:underline"> &larr; Kembali</a>
+                <a href="/home" class="mt-6 inline-block text-[#377CC7] hover:underline"> &larr; Kembali</a>
             @else
                 <!-- Tombol Checkout untuk transaksi pending -->
                 <form action="{{ route('transaksi.checkout', $transaksi->id) }}" method="POST" class="mt-6">

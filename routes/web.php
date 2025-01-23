@@ -45,18 +45,18 @@ Route::get('/coba', function () {
     return view('cobahome');
 }); 
 
-Route::prefix('auth')->group(function () {
-    Route::get('/google/redirect', [GoogleAuthController::class, 'redirect']);
-    Route::get('/google/callback', [GoogleAuthController::class, 'callback']);
-    Route::get('/facebook', [FacebookAuthController::class, 'facebookpage']);
-    Route::get('/facebook/callback', [FacebookAuthController::class, 'callback']);
-});
+// Route::prefix('auth')->group(function () {
+//     Route::get('/google/redirect', [GoogleAuthController::class, 'redirect']);
+//     Route::get('/google/callback', [GoogleAuthController::class, 'callback']);
+//     Route::get('/facebook', [FacebookAuthController::class, 'facebookpage']);
+//     Route::get('/facebook/callback', [FacebookAuthController::class, 'callback']);
+// });
 
-// Route::get('/auth/redirect', [GoogleAuthController::class, 'redirect']);
-// Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback']);
+Route::get('/auth/redirect', [GoogleAuthController::class, 'redirect']);
+Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback']);
 
-// Route::get('/auth/facebook', [FacebookAuthController::class, 'facebookpage']);
-// Route::get('/auth/facebook/callback', [FacebookAuthController::class, 'callback']);
+Route::get('/auth/facebook', [FacebookAuthController::class, 'facebookpage']);
+Route::get('/auth/facebook/callback', [FacebookAuthController::class, 'callback']);
 
 
 // Route::prefix('/admin')->group(function () {
@@ -108,6 +108,8 @@ Route::middleware(['role:3'])->group(function () {
     //cart
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('/cart/store', [CartController::class, 'store'])->middleware('auth')->name('cart.store');
-    Route::delete('/cart/delete/{id}', [CartController::class, 'destroy'])->name('cart.delete');
     // Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+    Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+    Route::post('/cart/delete-selected', [CartController::class, 'deleteSelected'])->name('cart.delete_selected');
+    Route::post('/rate-book/{buku_id}', [BukuUserController::class, 'rateBook'])->name('book.rate');
 });
