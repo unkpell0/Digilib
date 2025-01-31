@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use App\Models\Rating;
 use App\Models\Kategori;
+use App\Models\Komentar;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
 
@@ -86,11 +87,33 @@ class BukuUserController extends Controller
         return redirect()->route('buku.show', ['id' => $buku_id])
             ->with('success', 'Terimakasih atas rating Anda!');
     }
+    public function upKomentar(Request $request, $buku_id)
+    {
+        $request->validate([
+            'komentar' => 'required|string',
+        ]);
+
+        $userId = auth()->id(); // ID user yang login
+
+        // Simpan komentar baru
+        Komentar::create([
+            'buku_id' => $buku_id,
+            'user_id' => $userId,
+            'komentar' => $request->komentar,
+        ]);
+
+        return redirect()->route('ratekoment', ['id' => $buku_id])->with('success', 'Komentar berhasil ditambahkan!');
+    }
+
+
+
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
+        $komentview = Komentar::where('buku_id', $id)->count();
+
         // Ambil buku berdasarkan ID
         $book = Book::findOrFail($id);
 
@@ -105,9 +128,10 @@ class BukuUserController extends Controller
                 ->where('status', 'success') // Sesuaikan dengan nama kolom di database
                 ->exists();
         }
-
+        $averageRating = Rating::where('buku_id', $id)->avg('rating');
+        $totalRaters = Rating::where('buku_id', $id)->count();
         // Return ke view detail buku
-        return view('user.showbook', compact('book', 'hasPurchased'));
+        return view('user.showbook', compact('book', 'hasPurchased', 'komentview','averageRating', 'totalRaters'));
     }
 
 

@@ -17,6 +17,8 @@ use App\Http\Controllers\admin\KategoriController;
 use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\Auth\FacebookAuthController;
 use App\Http\Controllers\admin\AdminTransaksiController;
+use App\Http\Controllers\KomentarController;
+use App\Http\Controllers\KomentViewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,7 +45,7 @@ Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/coba', function () {
     return view('cobahome');
-}); 
+});
 
 // Route::prefix('auth')->group(function () {
 //     Route::get('/google/redirect', [GoogleAuthController::class, 'redirect']);
@@ -112,4 +114,6 @@ Route::middleware(['role:3'])->group(function () {
     Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
     Route::post('/cart/delete-selected', [CartController::class, 'deleteSelected'])->name('cart.delete_selected');
     Route::post('/rate-book/{buku_id}', [BukuUserController::class, 'rateBook'])->name('book.rate');
+    Route::post('/comment/{buku_id}', [BukuUserController::class, 'upKomentar'])->name('buku.komentar');
+    Route::get('/ratekoment/{id}', [KomentViewController::class, 'showRateKoment'])->name('ratekoment');
 });
