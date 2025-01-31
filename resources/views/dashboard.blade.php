@@ -15,7 +15,7 @@
             <div class="flex justify-end mb-6">
                 <div class="flex items-center max-w-lg space-x-3 bg-gray-100 py-2 px-4 rounded-full shadow-md">
                     <input type="search" name="search" placeholder="Cari buku, genre, atau penulis..."
-                        class="flex-grow bg-transparent focus:outline-none text-gray-800 text-sm placeholder-gray-400 rounded-full pr-4"
+                        class="w-[14.3rem] flex-grow bg-transparent focus:outline-none text-gray-800 text-sm placeholder-gray-400 rounded-full pr-4"
                         value="{{ request('search') }}">
                     <button type="submit"
                         class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full shadow-md focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 transition-all duration-200">
@@ -25,57 +25,51 @@
             </div>
         </form>
 
+        <div class="flex justify-center mb-4">
+            <h1 class="text-2xl font-bold">Recommended</h1>
+        </div>
+
         <!-- Buttons -->
         <div class="flex justify-center space-x-2 mb-6">
-            <a href="{{ route('home', ['kategori' => 'manga']) }}">
+            <a
+                href="{{ request('kategori') === 'manga' ? route('dashboard') : route('dashboard', ['kategori' => 'manga']) }}">
                 <button
-                    class="px-6 py-2 rounded-full transition duration-300 bg-gray-200 text-gray-700 hover:bg-emerald-500 hover:text-white focus:bg-emerald-500 focus:text-white">
+                    class="px-6 py-2 rounded-full transition duration-300 
+            {{ request('kategori') === 'manga' ? 'bg-emerald-500 text-white' : 'bg-gray-200 text-gray-700 hover:bg-emerald-500 hover:text-white focus:bg-emerald-500 focus:text-white' }}">
                     Manga
                 </button>
             </a>
-            <a href="{{ route('home', ['kategori' => 'novel']) }}">
+            <a
+                href="{{ request('kategori') === 'novel' ? route('dashboard') : route('dashboard', ['kategori' => 'novel']) }}">
                 <button
-                    class="ml-2 px-6 py-2 rounded-full transition duration-300 bg-gray-200 text-gray-700 hover:bg-sky-400 hover:text-white focus:bg-sky-400 focus:text-white">
+                    class="px-6 py-2 rounded-full transition duration-300 
+            {{ request('kategori') === 'novel' ? 'bg-sky-400 text-white' : 'bg-gray-200 text-gray-700 hover:bg-sky-400 hover:text-white focus:bg-sky-400 focus:text-white' }}">
                     Novel
                 </button>
             </a>
-            <a href="{{ route('home', ['kategori' => 'manhwa']) }}">
+            <a
+                href="{{ request('kategori') === 'manhwa' ? route('dashboard') : route('dashboard', ['kategori' => 'manhwa']) }}">
                 <button
-                    class="ml-2 px-6 py-2 rounded-full transition duration-300 bg-gray-200 text-gray-700 hover:bg-red-700 hover:text-white focus:bg-red-700 focus:text-white">
+                    class="px-6 py-2 rounded-full transition duration-300 
+            {{ request('kategori') === 'manhwa' ? 'bg-red-700 text-white' : 'bg-gray-200 text-gray-700 hover:bg-red-700 hover:text-white focus:bg-red-700 focus:text-white' }}">
                     Manhwa
                 </button>
             </a>
         </div>
-    </form>
 
-    <!-- Buttons -->
-    <div class="flex justify-center space-x-2 mb-6">
-        <a href="{{ route('dashboard.index', ['kategori' => 'manga']) }}">
-            <button class="px-6 py-2 rounded-full transition duration-300 bg-gray-200 text-gray-700 hover:bg-emerald-500 hover:text-white focus:bg-emerald-500 focus:text-white">
-                Manga
-            </button>
-        </a>
-        <a href="{{ route('dashboard.index', ['kategori' => 'novel']) }}">
-            <button class="ml-2 px-6 py-2 rounded-full transition duration-300 bg-gray-200 text-gray-700 hover:bg-sky-400 hover:text-white focus:bg-sky-400 focus:text-white">
-                Novel
-            </button>
-        </a>
-        <a href="{{ route('dashboard.index', ['kategori' => 'manhwa']) }}">
-            <button class="ml-2 px-6 py-2 rounded-full transition duration-300 bg-gray-200 text-gray-700 hover:bg-red-700 hover:text-white focus:bg-red-700 focus:text-white">
-                Manhwa
-            </button>
-        </a>
-    </div>
+
+
+        </form>
 
         <!-- Carousel -->
         <div x-data="{ currentIndex: 0 }" class="relative w-full max-w-screen-lg mx-auto">
             <!-- Navigation -->
             <button @click="currentIndex = Math.max(currentIndex - 1, 0)"
-                class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white p-2 rounded-full shadow hover:bg-gray-600 z-10">
+                class="absolute -left-16 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white px-3 py-2 rounded-full shadow hover:bg-gray-600 z-10">
                 <i class="fa-solid fa-chevron-left"></i>
             </button>
             <button @click="currentIndex = Math.min(currentIndex + 1, Math.ceil({{ $books->count() }} / 5) - 1)"
-                class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white p-2 rounded-full shadow hover:bg-gray-600 z-10">
+                class="absolute -right-16 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white px-3 py-2 rounded-full shadow hover:bg-gray-600 z-10">
                 <i class="fa-solid fa-chevron-right"></i>
             </button>
 
