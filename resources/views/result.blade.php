@@ -47,17 +47,55 @@
         <!-- Daftar Buku -->
         <h2 class="text-xl font-bold mb-6 text-center">Search Results</h2>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mx-auto w-full max-w-screen-lg">
-            @foreach($books as $book)
-                <a href="{{ route('buku.show', $book->id) }}" class="block w-full">
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden w-full">
-                        <img src="{{ $book->image_cover ? asset('storage/' . $book->image_cover) : asset('img/default-book.jpg') }}" alt="{{ $book->nama_buku }}" class="w-full h-64 object-cover">
-                        <div class="p-2 bg-blue-500 text-white text-center">
-                            {{ $book->nama_buku }}
-                        </div>
+        <div class="overflow-hidden">
+            <div class="flex transition-transform duration-500"
+                :style="'transform: translateX(-' + (currentIndex * 100) + '%)'">
+                @foreach ($books->chunk(5) as $chunk)
+                    <div class="flex space-x-4 min-w-full">
+                        @foreach ($chunk as $book)
+                            <a href="{{ route('buku.show', $book->id) }}" class="block w-1/5">
+                                <div class="bg-gray-100 p-2 rounded shadow-md hover:shadow-lg">
+                                    <img src="{{ $book->image_cover ? asset('storage/' . $book->image_cover) : asset('img/default-book.jpg') }}"
+                                        alt="{{ $book->nama_buku }}"
+                                        class="w-full h-48 object-cover rounded border border-black">
+                                    <div class="flex justify-between items-center mt-2">
+                                        <span class="bg-red-600 text-white font-bold px-2 py-1 text-xs rounded">
+                                            {{ strtoupper($book->penulis) }}
+                                        </span>
+                                    </div>
+                                    <div class="p-2 font-bold text-xl text-slate-900 text-center">
+                                        {{ Str::limit($book->nama_buku, 15, '...') }}
+                                    </div>
+                                    
+                                    <p class="text-xs mt-1 font-medium text-black line-clamp-2">
+                                        {{ $book->deskripsi }}
+                                    </p>
+                                    <!-- Rating -->
+                                    <div class="flex items-center font-medium mt-2">
+                                        @php
+                                            // Perhitungan bintang rating
+                                            $fullStars = floor($book->rating);
+                                            $halfStar = $book->rating - $fullStars >= 0.5;
+                                        @endphp
+                                        @for ($i = 0; $i < 5; $i++)
+                                            @if ($i < $fullStars)
+                                                <i class="fas fa-star text-yellow-500"></i>
+                                            @elseif ($i === $fullStars && $halfStar)
+                                                <i class="fas fa-star-half-alt text-yellow-500"></i>
+                                            @else
+                                                <i class="far fa-star text-yellow-500"></i>
+                                            @endif
+                                        @endfor
+                                        <span class="ml-2 text-xs">
+                                            {{ number_format($book->rating, 2) }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+                        @endforeach
                     </div>
-                </a>
-            @endforeach
+                @endforeach
+            </div>
         </div>
     </div>
 </x-app-layout>
