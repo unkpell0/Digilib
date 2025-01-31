@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Rating;
 use App\Models\Kategori;
+use App\Models\Komentar;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
 
@@ -57,10 +59,61 @@ class BukuUserController extends Controller
     }
 
     /**
+     * Rate a book.
+     */
+    public function rateBook(Request $request, $buku_id)
+    {
+        $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+        ]);
+
+        $userId = auth()->id(); // ID user yang login
+
+        // Cek apakah user sudah memberi rating pada buku ini
+        $existingRating = Rating::where('buku_id', $buku_id)->where('user_id', $userId)->first();
+
+        if (!$existingRating) {
+            // Jika belum ada, simpan rating baru
+            Rating::create([
+                'buku_id' => $buku_id,
+                'user_id' => $userId,
+                'rating' => $request->input('rating'),
+            ]);
+        }
+
+        // Hitung rata-rata rating setelah update
+        // $averageRating = Rating::where('buku_id', $buku_id)->avg('rating');
+
+        return redirect()->route('buku.show', ['id' => $buku_id])
+            ->with('success', 'Terimakasih atas rating Anda!');
+    }
+    public function upKomentar(Request $request, $buku_id)
+    {
+        $request->validate([
+            'komentar' => 'required|string',
+        ]);
+
+        $userId = auth()->id(); // ID user yang login
+
+        // Simpan komentar baru
+        Komentar::create([
+            'buku_id' => $buku_id,
+            'user_id' => $userId,
+            'komentar' => $request->komentar,
+        ]);
+
+        return redirect()->route('ratekoment', ['id' => $buku_id])->with('success', 'Komentar berhasil ditambahkan!');
+    }
+
+
+
+    /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
+        $komentview = Komentar::where('buku_id', $id)->count();
+
         // Ambil buku berdasarkan ID
         $book = Book::findOrFail($id);
 
@@ -75,9 +128,10 @@ class BukuUserController extends Controller
                 ->where('status', 'success') // Sesuaikan dengan nama kolom di database
                 ->exists();
         }
-
+        $averageRating = Rating::where('buku_id', $id)->avg('rating');
+        $totalRaters = Rating::where('buku_id', $id)->count();
         // Return ke view detail buku
-        return view('user.showbook', compact('book', 'hasPurchased'));
+        return view('user.showbook', compact('book', 'hasPurchased', 'komentview','averageRating', 'totalRaters'));
     }
 
 
@@ -116,51 +170,50 @@ class BukuUserController extends Controller
     }
 
     /**
- * Explore books with filters.
- */
-public function explore(Request $request)
-{
-    $query = Book::query(); // Mulai query buku
+     * Explore books with filters.
+     */
+    public function explore(Request $request)
+    {
+        $query = Book::query(); // Mulai query buku
 
-    // Filter berdasarkan genre (jika tersedia)
-    if ($request->has('genre') && $request->genre !== null) {
-        $query->where('genre', $request->genre);
-    }
-
-    // Filter berdasarkan status (jika tersedia)
-    if ($request->has('status') && $request->status !== null) {
-        $query->where('status', $request->status); // Pastikan kolom 'status' ada di tabel
-    }
-
-    // Filter berdasarkan tipe (jika tersedia)
-    if ($request->has('type') && $request->type !== null) {
-        $query->where('type', $request->type); // Pastikan kolom 'type' ada di tabel
-    }
-
-    // Sort by berdasarkan parameter
-    if ($request->has('sort_by') && $request->sort_by !== null) {
-        $sortBy = $request->sort_by;
-        switch ($sortBy) {
-            case 'rating':
-                $query->orderBy('rating', 'desc'); // Urutkan berdasarkan rating
-                break;
-            case 'newest':
-                $query->orderBy('created_at', 'desc'); // Urutkan berdasarkan yang terbaru
-                break;
-            case 'popular':
-                $query->orderBy('popularity', 'desc'); // Urutkan berdasarkan popularitas
-                break;
-            default:
-                $query->orderBy('nama_buku', 'asc'); // Default: urutkan berdasarkan nama
-                break;
+        // Filter berdasarkan genre (jika tersedia)
+        if ($request->has('genre') && $request->genre !== null) {
+            $query->where('genre', $request->genre);
         }
+
+        // Filter berdasarkan status (jika tersedia)
+        if ($request->has('status') && $request->status !== null) {
+            $query->where('status', $request->status); // Pastikan kolom 'status' ada di tabel
+        }
+
+        // Filter berdasarkan tipe (jika tersedia)
+        if ($request->has('type') && $request->type !== null) {
+            $query->where('type', $request->type); // Pastikan kolom 'type' ada di tabel
+        }
+
+        // Sort by berdasarkan parameter
+        if ($request->has('sort_by') && $request->sort_by !== null) {
+            $sortBy = $request->sort_by;
+            switch ($sortBy) {
+                case 'rating':
+                    $query->orderBy('rating', 'desc'); // Urutkan berdasarkan rating
+                    break;
+                case 'newest':
+                    $query->orderBy('created_at', 'desc'); // Urutkan berdasarkan yang terbaru
+                    break;
+                case 'popular':
+                    $query->orderBy('popularity', 'desc'); // Urutkan berdasarkan popularitas
+                    break;
+                default:
+                    $query->orderBy('nama_buku', 'asc'); // Default: urutkan berdasarkan nama
+                    break;
+            }
+        }
+
+        // Dapatkan hasil setelah semua filter
+        $books = $query->get();
+
+        // Kirimkan hasil ke view explore
+        return view('explore', compact('books'));
     }
-
-    // Dapatkan hasil setelah semua filter
-    $books = $query->get();
-
-    // Kirimkan hasil ke view explore
-    return view('explore', compact('books'));
-}
-
 }

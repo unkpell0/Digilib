@@ -27,7 +27,7 @@
                     <strong>Harga:</strong> Rp{{ number_format($book->harga, 0, ',', '.') }}
                 </p>
                 {{-- Tombol Kembali --}}
-                <a href="/dashboard" class="mt-4 inline-block text-blue-500 hover:underline">&larr; Kembali</a>
+                <a href="/home" class="mt-4 inline-block text-blue-500 hover:underline">&larr; Kembali</a>
             </section>
 
             {{-- Detail Transaksi --}}
