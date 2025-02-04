@@ -55,12 +55,6 @@
                     <textarea name="deskripsi" id="deskripsi" class="form-input w-full border-gray-300 rounded-lg" rows="4"></textarea>
                 </div>
 
-                <!-- Rating -->
-                <div class="mb-3">
-                    <label for="rating" class="block text-gray-600 font-medium mb-1">Rating</label>
-                    <input type="number" name="rating" id="rating"
-                        class="form-input w-full border-gray-300 rounded-lg" min="1" max="5" required>
-                </div>
 
                 <!-- Book Cover (Image) -->
                 <div class="mb-3">
