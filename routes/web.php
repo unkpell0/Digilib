@@ -54,7 +54,7 @@ Route::get('/coba', function () {
 //     Route::get('/facebook/callback', [FacebookAuthController::class, 'callback']);
 // });
 
-Route::get('/auth/redirect', [GoogleAuthController::class, 'redirect']);
+Route::get('/auth/google/redirect', [GoogleAuthController::class, 'redirect']);
 Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback']);
 
 Route::get('/auth/facebook', [FacebookAuthController::class, 'facebookpage']);
@@ -116,4 +116,6 @@ Route::middleware(['role:3'])->group(function () {
     Route::post('/rate-book/{buku_id}', [BukuUserController::class, 'rateBook'])->name('book.rate');
     Route::post('/comment/{buku_id}', [BukuUserController::class, 'upKomentar'])->name('buku.komentar');
     Route::get('/ratekoment/{id}', [KomentViewController::class, 'showRateKoment'])->name('ratekoment');
+    Route::get('/buku/{id}', [BukuUserController::class, 'show'])->name('buku.show');
+
 });
