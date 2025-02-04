@@ -18,28 +18,38 @@ class BukuUserController extends Controller
     // {
     //     $this->middleware('auth'); // Ensure only authenticated users can access admin routes
     // }
-    public function index(Request $request)
-    {
-        // Cek apakah ada parameter kategori yang dikirim
-        $kategori = $request->query('kategori');
+    public function index(Request $request, $id = null)
+{
+    $kategori = $request->query('kategori');
 
-        if ($kategori) {
-            $jumlah_kunjungan = Kategori::where('nama_kategori', $kategori)->first();
-            if ($jumlah_kunjungan) {
-                $jumlah_kunjungan->increment('jumlah_kunjungan');
-            }
-            // Filter berdasarkan kategori jika parameter kategori ada
-            $books = Book::whereHas('kategori', function ($query) use ($kategori) {
-                $query->where('nama_kategori', $kategori);
-            })->get();
-        } else {
-            // Tampilkan semua buku jika parameter kategori tidak ada
-            $books = Book::all();
-            $jumlah_kunjungan = null;
+    if ($kategori) {
+        $jumlah_kunjungan = Kategori::where('nama_kategori', $kategori)->first();
+
+        if ($jumlah_kunjungan) {
+            $jumlah_kunjungan->increment('jumlah_kunjungan');
         }
 
-        return view('dashboard', compact('books', 'jumlah_kunjungan'));
+        // Ambil buku berdasarkan kategori
+        $books = Book::whereHas('kategori', function ($query) use ($kategori) {
+            $query->where('nama_kategori', $kategori);
+        })->get();
+    } else {
+        // Ambil satu buku berdasarkan ID atau semua buku jika ID tidak ada
+        $books = $id ? Book::where('id', $id)->get() : Book::all();
+        $jumlah_kunjungan = null;
     }
+
+    // Perbaikan: Gunakan `map()` agar nilai baru tersimpan di `$books`
+    $books = $books->map(function ($book) {
+        $book->averageRating = Rating::where('buku_id', $book->id)->avg('rating') ?? 0;
+        $book->totalRaters = Rating::where('buku_id', $book->id)->count();
+        return $book;
+    });
+
+    return view('dashboard', compact('books', 'jumlah_kunjungan'));
+}
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -159,15 +169,23 @@ class BukuUserController extends Controller
         //
     }
     public function search(Request $request)
-    {
-        // Ambil term pencarian dari query string
-        $searchTerm = $request->input('search');
+{
+    // Ambil term pencarian dari query string
+    $searchTerm = $request->input('search');
 
-        // Filter buku berdasarkan nama buku yang sesuai dengan search term
-        $books = Book::where('nama_buku', 'LIKE', '%' . $searchTerm . '%')->get();
+    // Filter buku berdasarkan nama buku yang sesuai dengan search term
+    $books = Book::where('nama_buku', 'LIKE', '%' . $searchTerm . '%')->get();
 
-        return view('result', compact('books', 'searchTerm'));
-    }
+    // Tambahkan average rating dan total rater untuk setiap buku
+    $books = $books->map(function ($book) {
+        $book->averageRating = Rating::where('buku_id', $book->id)->avg('rating') ?? 0;
+        $book->totalRaters = Rating::where('buku_id', $book->id)->count();
+        return $book;
+    });
+
+    return view('result', compact('books', 'searchTerm'));
+}
+
 
     /**
      * Explore books with filters.

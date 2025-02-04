@@ -84,28 +84,30 @@
                                         </div>
                                         
                                         <p class="text-xs mt-1 font-medium text-black line-clamp-2">
-                                            {{ $book->deskripsi }}
+                                            {{ Str::limit($book->deskripsi, 30, '...') }}
                                         </p>
                                         <!-- Rating -->
                                         <div class="flex items-center font-medium mt-2">
-                                            @php
-                                                // Perhitungan bintang rating
-                                                $fullStars = floor($book->rating);
-                                                $halfStar = $book->rating - $fullStars >= 0.5;
-                                            @endphp
-                                            @for ($i = 0; $i < 5; $i++)
-                                                @if ($i < $fullStars)
-                                                    <i class="fas fa-star text-yellow-500"></i>
-                                                @elseif ($i === $fullStars && $halfStar)
-                                                    <i class="fas fa-star-half-alt text-yellow-500"></i>
-                                                @else
-                                                    <i class="far fa-star text-yellow-500"></i>
-                                                @endif
-                                            @endfor
-                                            <span class="ml-2 text-xs">
-                                                {{ number_format($book->rating, 2) }}
-                                            </span>
+                                            @if ($book->totalRaters > 0)
+                                                <div class="flex items-center space-x-2">
+                                                    <p class="font-bold text-gray-700 text-sm">{{ round($book->averageRating, 1) }}</p>
+                                                    <div class="flex space-x-0.5">
+                                                        @for ($i = 1; $i <= 5; $i++)
+                                                            <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                                                @if ($i <= round($book->averageRating))
+                                                                    <path d="M10 15.27L16.18 19l-1.64-7.03L19 7.24l-7.19-.61L10 0 8.19 6.63 1 7.24l5.46 4.73L4.82 19z"/>
+                                                                @else
+                                                                    <path d="M10 15.27L16.18 19l-1.64-7.03L19 7.24l-7.19-.61L10 0 8.19 6.63 1 7.24l5.46 4.73L4.82 19z" class="text-gray-300"/>
+                                                                @endif
+                                                            </svg>
+                                                        @endfor
+                                                    </div>
+                                                </div>
+                                            @else
+                                                <p class="text-gray-700 text-sm">Belum ada rating.</p>
+                                            @endif
                                         </div>
+                                        
                                     </div>
                                 </a>
                             @endforeach
