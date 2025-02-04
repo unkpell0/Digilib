@@ -105,11 +105,11 @@
 
             <!-- Social Login Buttons -->
             <div class="flex flex-col space-y-2 my-2 justify-center items-center">
-                <a href="auth/redirect"
+                <a href="auth/google/redirect"
                     class="inline-flex justify-center px-2 py-2 text-lg text-gray-700 hover:text-gray-900 ring-2 w-full rounded-2xl border-slate-950 text-center shadow-sm transition duration-200">
                     <i class="fa-brands fa-google mt-1 mx-2.5 fa-lg"></i> Daftar dengan Google
                 </a>
-                <a href="#"
+                <a href="auth/facebook"
                     class="inline-flex justify-center px-2 py-2 text-lg text-gray-700 hover:text-gray-900 ring-2 w-full rounded-2xl border-slate-950 text-center shadow-sm transition duration-200">
                     <i class="fa-brands fa-facebook mt-1 mx-2.5 fa-lg"></i> Daftar dengan Facebook
                 </a>

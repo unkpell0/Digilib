@@ -25,7 +25,7 @@
     </head>
     <body class="font-sans antialiased bg-gray-100">
         <x-banner />
-        <div class="min-h-screen bg-gray-100">
+        
             @livewire('navigation-menu')
 
             <!-- Page Heading -->
@@ -38,14 +38,13 @@
             @endif
 
             <!-- Page Content -->
-            <main class="mx-auto mt-6">
+            <main class="mx-auto pt-19">
                 {{ $slot }}
             </main>
 
             <footer class="text-center text-gray-600 text-sm my-2">
                 <h2>© {{ date('Y') }} Taca Team</h2>
             </footer>
-        </div>
 
         @stack('modals')
 
