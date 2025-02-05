@@ -49,12 +49,6 @@ class BukuUserController extends Controller
     return view('dashboard', compact('books', 'jumlah_kunjungan'));
 }
 
-
-
-    /**
-     * Show the form for creating a new resource.
-     */
-
     public function create()
     {
         //
@@ -68,9 +62,6 @@ class BukuUserController extends Controller
         //
     }
 
-    /**
-     * Rate a book.
-     */
     public function rateBook(Request $request, $buku_id)
     {
         $request->validate([
@@ -115,11 +106,6 @@ class BukuUserController extends Controller
         return redirect()->route('ratekoment', ['id' => $buku_id])->with('success', 'Komentar berhasil ditambahkan!');
     }
 
-
-
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         $komentview = Komentar::where('buku_id', $id)->count();
@@ -144,10 +130,6 @@ class BukuUserController extends Controller
         return view('user.showbook', compact('book', 'hasPurchased', 'komentview','averageRating', 'totalRaters'));
     }
 
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         //
@@ -233,5 +215,9 @@ class BukuUserController extends Controller
 
         // Kirimkan hasil ke view explore
         return view('explore', compact('books'));
+    }
+
+    public function mybook(){
+        return view('user.mybook');
     }
 }

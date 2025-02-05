@@ -76,10 +76,10 @@
 
                 {{-- user --}}
                 @auth
-                        <a href="#">
+                        <a href="{{ route('mybook') }}">
                             <i class="fa-solid fa-bag-shopping cursor-pointer text-xl hover:text-gray-600 mx-2"></i>
                         </a>
-                        <a href="/cart">
+                        <a href="{{ route('cart.index') }}">
                             <i class="fa-solid fa-cart-shopping cursor-pointer text-xl hover:text-gray-600 mx-2"></i>
                         </a>
                     <x-dropdown align="right" width="w-80">
