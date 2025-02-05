@@ -116,6 +116,5 @@ Route::middleware(['role:3'])->group(function () {
     Route::post('/rate-book/{buku_id}', [BukuUserController::class, 'rateBook'])->name('book.rate');
     Route::post('/comment/{buku_id}', [BukuUserController::class, 'upKomentar'])->name('buku.komentar');
     Route::get('/ratekoment/{id}', [KomentViewController::class, 'showRateKoment'])->name('ratekoment');
-    Route::get('/buku/{id}', [BukuUserController::class, 'show'])->name('buku.show');
 
 });

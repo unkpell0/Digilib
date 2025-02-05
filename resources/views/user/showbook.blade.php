@@ -1,157 +1,158 @@
 <x-app-layout>
-    <main class="max-w-6xl mx-auto mt-6 grid grid-cols-3 gap-8">
-        {{-- Info Buku --}}
-        <section class="bg-white p-6 rounded-lg shadow-md">
-            {{-- Gambar Cover Buku --}}
-            <div class="text-center">
-                <img src="{{ asset('storage/' . $book->image_cover) }}" alt="{{ $book->nama_buku }}"
-                    class="w-3/4 h-auto mx-auto rounded-lg border-2 border-[#377CC7] shadow-lg">
+    <div class="max-w-[1200px] mx-auto p-4">
+        <!-- Navigation Back -->
+        <a href="/home" class="inline-flex items-center text-blue-600 hover:text-blue-800 mb-4 text-sm transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                    d="M10.707 3.293a1 1 0 0 1 0 1.414L6.414 9H17a1 1 0 1 1 0 2H6.414l4.293 4.293a1 1 0 0 1-1.414 1.414l-6-6a1 1 0 0 1 0-1.414l6-6a1 1 0 0 1 1.414 0z"
+                    clip-rule="evenodd" />
+            </svg>
+            Kembali
+        </a>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Book Info Section -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <div class="p-4">
+                    <img src="{{ asset('storage/' . $book->image_cover) }}" alt="{{ $book->nama_buku }}"
+                        class="w-full max-h-80 object-cover rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+
+                    <h1 class="text-xl font-bold text-gray-800 mt-4">{{ $book->nama_buku }}</h1>
+
+                    <!-- Rating Section -->
+                    <div class="mt-3">
+                        <p class="font-semibold text-gray-700 text-sm">Rating:</p>
+                        @if ($totalRaters > 0)
+                            <div class="flex items-center gap-1">
+                                @for ($i = 1; $i <= 5; $i++)
+                                    <svg class="w-4 h-4 {{ $i <= round($averageRating) ? 'text-yellow-400' : 'text-gray-300' }}"
+                                        fill="currentColor" viewBox="0 0 20 20">
+                                        <path
+                                            d="M10 15.27L16.18 19l-1.64-7.03L19 7.24l-7.19-.61L10 0 8.19 6.63 1 7.24l5.46 4.73L4.82 19z" />
+                                    </svg>
+                                @endfor
+                            </div>
+                            <p class="text-xs text-gray-600">
+                                {{ round($averageRating, 1) }} dari {{ $totalRaters }} perating
+                            </p>
+                        @else
+                            <p class="text-xs text-gray-600">Belum ada rating.</p>
+                        @endif
+                    </div>
+
+                    <!-- Book Details -->
+                    <div class="mt-3 space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Penulis</span>
+                            <span class="font-medium">{{ $book->penulis }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Genre</span>
+                            <span class="font-medium">{{ $book->genres->pluck('nama_genre')->join(', ') }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Harga</span>
+                            <span class="font-medium">Rp{{ number_format($book->harga, 0, ',', '.') }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Reviews Button -->
+                    <a href="{{ route('ratekoment', ['id' => $book->id]) }}" class="inline-block w-full mt-4">
+                        <button class="w-full px-4 py-2.5 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors">
+                            Reviews ({{ $komentview }})
+                        </button>
+                    </a>
+                </div>
             </div>
 
-            {{-- Judul Buku --}}
-            <div class="mt-4 text-left">
-                <h1 class="text-xl font-semibold text-gray-800"><strong>{{ $book->nama_buku }}</strong></h1>
+            <!-- DESKRIPSI -->
+            <div class="bg-white rounded-lg shadow-lg p-4 md:col-span-2">
+                <h2 class="text-lg font-bold text-gray-800 mb-3">Deskripsi Buku</h2>
+                <p class="text-gray-600 text-sm leading-normal">{{ $book->deskripsi }}</p>
             </div>
 
-            {{-- Informasi Buku --}}
-            <div class="mt-4 text-left">
-                <p class="text-gray-700"><Strong>Rating:</Strong>
-                    @if ($totalRaters > 0)
-                        <div class="flex items-center space-x-1">
+            <!-- Actions Section -->
+            <div class="bg-white rounded-lg shadow-lg p-4 md:col-span-3">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Rating & Comments -->
+                    <div class="space-y-3">
+                        <!-- Rating Stars -->
+                        <div class="flex items-center justify-center gap-1">
                             @for ($i = 1; $i <= 5; $i++)
-                                @if ($i <= round($averageRating))
-                                    <svg class="w-6 h-6 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                                        <path
-                                            d="M10 15.27L16.18 19l-1.64-7.03L19 7.24l-7.19-.61L10 0 8.19 6.63 1 7.24l5.46 4.73L4.82 19z" />
-                                    </svg>
-                                @else
-                                    <svg class="w-6 h-6 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
-                                        <path
-                                            d="M10 15.27L16.18 19l-1.64-7.03L19 7.24l-7.19-.61L10 0 8.19 6.63 1 7.24l5.46 4.73L4.82 19z" />
-                                    </svg>
-                                @endif
+                                <span data-value="{{ $i }}"
+                                    class="star cursor-pointer text-2xl transition-colors hover:text-yellow-400">
+                                    &#9733;
+                                </span>
                             @endfor
                         </div>
-                        <p class="text-gray-700">{{ round($averageRating, 1) }} dari {{ $totalRaters }} perating</p>
-                    @else
-                        <p class="text-gray-700">Belum ada rating.</p>
-                    @endif
 
-                </p>
-                <p class="text-gray-700">
-                    <strong>Author:</strong> {{ $book->penulis }}
-                </p>
-                <p class="text-gray-700 mt-1">
-                    <strong>Genre:</strong> {{ $book->genres->pluck('nama_genre')->join(', ') }}
-                </p>
-                <p class="text-gray-700 mt-1">
-                    <strong>Harga:</strong> Rp{{ number_format($book->harga, 0, ',', '.') }}
-                </p>
-            </div>
+                        <!-- Hidden Rating Form -->
+                        <form id="rating-form" action="{{ route('book.rate', ['buku_id' => $book->id]) }}"
+                            method="POST" class="hidden">
+                            @csrf
+                            <input type="hidden" name="rating" id="rating-input">
+                        </form>
 
-            {{-- Tombol Reviews --}}
-            <div class="mt-4">
-                <a href="{{ route('ratekoment', ['id' => $book->id]) }}">
-                    <button
-                        class="px-4 py-2 bg-[#377CC7] text-white rounded-lg hover:bg-[#2d68a2] transition duration-300">
-                        Reviews ({{ $komentview }})
-                    </button>
-                </a>
-            </div>
+                        <!-- Comment Form -->
+                        <form action="{{ route('buku.komentar', ['buku_id' => $book->id]) }}" method="POST"
+                            class="space-y-2">
+                            @csrf
+                            <textarea name="komentar" class="w-full p-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                rows="2" placeholder="Tulis komentar..."></textarea>
+                            <button type="submit"
+                                class="w-full px-4 py-2.5 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors">
+                                <i class="fas fa-paper-plane mr-1"></i>Kirim Komentar
+                            </button>
+                        </form>
+                    </div>
 
+                    <!-- Tombol -->
+                    <div class="space-y-3">
+                        @if ($hasPurchased)
+                            @if ($book->file_buku)
+                                <a href="{{ asset('storage/' . $book->file_buku) }}"
+                                    class="block w-full px-4 py-2.5 bg-blue-600 text-white text-center text-sm rounded-lg hover:bg-blue-700 transition-colors"
+                                    download="{{ $book->nama_buku }}">
+                                    <i class="fas fa-download mr-1"></i>Unduh Buku
+                                </a>
+                            @else
+                                <span class="block w-full px-4 py-2.5 bg-gray-400 text-white text-center rounded-lg text-sm">
+                                    File tidak tersedia
+                                </span>
+                            @endif
+                        @else
+                            <div class="flex flex-row space-x-2">
+                                <a href="{{ route('transaksi.create', $book->id) }}"
+                                    class="flex-1 px-4 py-2.5 bg-green-500 text-white text-center text-sm rounded-lg hover:bg-green-600 transition-colors">
+                                    <i class="fas fa-shopping-cart mr-1"></i>Check Out!
+                                </a>
+                        @endif
 
-            {{-- Tombol Kembali --}}
-            <div class="mt-4">
-                <a href="/home" class="text-[#377CC7] hover:underline">&larr; Kembali</a>
-            </div>
-        </section>
-
-        {{-- Deskripsi Buku --}}
-        <section class="bg-white p-6 rounded-lg shadow-md col-span-2 h-auto">
-            <h2 class="text-lg font-bold mb-4">Deskripsi Buku</h2>
-            <p class="text-gray-700 leading-relaxed">
-                {{ $book->deskripsi }}
-            </p>
-        </section>
-
-        {{-- Metode Pembayaran dan Transaksi --}}
-        <section class="bg-white p-6 rounded-lg shadow-md col-span-3">
-            <div class="flex flex-col space-y-4">
-                {{-- Button Checkout --}}
-                @if ($hasPurchased)
-                    @if ($book->file_buku)
-                        <a href="{{ asset('storage/' . $book->file_buku) }}"
-                            class="px-4 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 flex items-center justify-center transition duration-300"
-                            download="{{ $book->nama_buku }}">
-                            Unduh Buku
-                        </a>
-                    @else
-                        <span class="px-4 py-3 bg-gray-400 text-white rounded-lg flex items-center justify-center">
-                            File tidak tersedia
-                        </span>
-                    @endif
-                @else
-                    <a href="{{ route('transaksi.create', $book->id) }}"
-                        class="px-4 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 flex items-center justify-center transition duration-300">
-                        Check Out!
-                    </a>
-                @endif
-                <form action="{{ route('cart.store') }}" method="POST" class="inline-block">
-                    @csrf
-                    <input type="hidden" name="book_id" value="{{ $book->id }}">
-                    <input type="hidden" name="quantity" value="1" min="1" class="border p-2">
-                    <button type="submit"
-                        class="px-4 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 flex items-center justify-center transition duration-300">
-                        Cart
-                    </button>
-                </form>
-
-                {{-- Rating Buku --}}
-                <div class="star-rating">
-                    <span data-value="1" class="star">&#9733;</span>
-                    <span data-value="2" class="star">&#9733;</span>
-                    <span data-value="3" class="star">&#9733;</span>
-                    <span data-value="4" class="star">&#9733;</span>
-                    <span data-value="5" class="star">&#9733;</span>
+                        <form action="{{ route('cart.store') }}" method="POST" class="flex-1">
+                            @csrf
+                            <button type="submit"
+                                class="w-full px-4 py-2.5 bg-green-500 text-white text-sm rounded-lg hover:bg-green-600 transition-colors">
+                                <i class="fas fa-cart-plus mr-1"></i>Tambah ke Keranjang
+                            </button>
+                        </form>
+                    </div>
                 </div>
 
-                <!-- Form rating yang tersembunyi (untuk mengirim rating) -->
-                <form id="rating-form" action="{{ route('book.rate', ['buku_id' => $book->id]) }}" method="POST"
-                    style="display: none;">
-                    @csrf
-                    <input type="hidden" name="rating" id="rating-input">
-                    <button type="submit" id="submit-rating">Submit Rating</button>
-                </form>
-                <!-- End Form rating -->
-
-                {{-- Komen Buku --}}
-                <form action="{{ route('buku.komentar', ['buku_id' => $book->id]) }}" method="POST">
-                    @csrf
-                    <textarea name="komentar" class="w-full p-2 border rounded-lg" rows="3" placeholder="Tulis komentar..."></textarea>
-                    <button type="submit"
-                        class="mt-2 px-4 py-2 bg-[#377CC7] text-white rounded-lg hover:bg-[#2d68a2] transition duration-300">
-                        Kirim Komentar
-                    </button>
-                </form>
-
-
             </div>
-        </section>
-    </main>
+        </div>
+    </div>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const stars = document.querySelectorAll('.star');
             const ratingInput = document.getElementById('rating-input');
             const ratingForm = document.getElementById('rating-form');
-            const averageRatingElement = document.getElementById('average-rating');
             let selectedRating = 0;
 
-            // Hover effect to highlight the stars
             stars.forEach(star => {
                 star.addEventListener('mouseover', () => {
-                    const value = star.getAttribute('data-value');
-                    setStars(value);
+                    setStars(star.getAttribute('data-value'));
                 });
 
                 star.addEventListener('mouseout', () => {
@@ -160,26 +161,15 @@
 
                 star.addEventListener('click', () => {
                     selectedRating = star.getAttribute('data-value');
-                    ratingInput.value = selectedRating; // Set the selected rating to hidden input
-                    ratingForm.submit(); // Submit the form after selecting the rating
+                    ratingInput.value = selectedRating;
+                    ratingForm.submit();
                 });
             });
 
-            // Function to highlight stars based on rating
             function setStars(rating) {
                 stars.forEach(star => {
-                    const value = star.getAttribute('data-value');
-                    if (value <= rating) {
-                        star.style.color = 'gold'; // Highlight with gold color
-                    } else {
-                        star.style.color = 'gray'; // Reset other stars to gray
-                    }
+                    star.style.color = (star.getAttribute('data-value') <= rating) ? '#FBBF24' : '#D1D5DB';
                 });
-            }
-
-            // Inisialisasi dengan menampilkan rating yang sudah dipilih (jika ada)
-            if (selectedRating > 0) {
-                setStars(selectedRating);
             }
         });
     </script>
