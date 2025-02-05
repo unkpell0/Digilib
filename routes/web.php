@@ -101,20 +101,25 @@ Route::middleware(['role:3'])->group(function () {
     Route::get('/explore', [BukuUserController::class, 'explore'])->name('explore');
     Route::get('/search', [BukuUserController::class, 'search'])->name('search');
     Route::get('/bukushow/{id}', [BukuUserController::class, 'show'])->name('buku.show');
+
+    // TRANSAKSI
     Route::get('/transaksi/{id}/create', [TransaksiController::class, 'create'])->name('transaksi.create');
     Route::post('/transaksi/{id}', [TransaksiController::class, 'store'])->name('transaksi.store');
     // Route::get('/transaksi/show/{id}',[TransaksiController::class,'show'])->name('transaksi.show');
     Route::get('/transaksi/{id}/show', [TransaksiController::class, 'show'])->name('transaksi.show');
     Route::post('/transaksi/{id}/checkout', [TransaksiController::class, 'checkout'])->name('transaksi.checkout');
     Route::get('/transaksi/{id}/struk', [StruckController::class, 'generateStruk'])->name('transaksi.struk');
-    //cart
+
+    // KERANJANG
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('/cart/store', [CartController::class, 'store'])->middleware('auth')->name('cart.store');
     // Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
     Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
     Route::post('/cart/delete-selected', [CartController::class, 'deleteSelected'])->name('cart.delete_selected');
+
+    // BUKU
     Route::post('/rate-book/{buku_id}', [BukuUserController::class, 'rateBook'])->name('book.rate');
     Route::post('/comment/{buku_id}', [BukuUserController::class, 'upKomentar'])->name('buku.komentar');
     Route::get('/ratekoment/{id}', [KomentViewController::class, 'showRateKoment'])->name('ratekoment');
-
+    Route::get('/mybook', [BukuUserController::class, 'mybook'])->name('mybook');
 });
