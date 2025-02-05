@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="relative bg-cover bg-center mt-8 py-12 px-6" style="background-image: url('{{ asset('img/bgutama.jpeg') }}');">
+    <div class="relative bg-cover bg-center py-4 px-6" style="background-image: url('{{ asset('img/bgutama.jpeg') }}');">
         <div class="container mx-auto">
             <div class="flex items-center justify-evenly"> <!-- Ubah ke flex dan tambah items-center -->
                 <!-- Kolom Teks -->

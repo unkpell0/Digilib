@@ -10,15 +10,46 @@
             <!-- Tombol Filter -->
             <div class="flex flex-col sm:flex-row justify-between items-center mb-4 space-y-4 sm:space-y-0">
                 <div class="flex flex-wrap justify-center sm:justify-start space-x-2 space-y-2 sm:space-y-0">
-                    <button class="bg-slate-300 text-slate-700 font-bold text-sm px-4 py-2 rounded">Genre <i
-                            class="fas fa-caret-down"></i></button>
-                    <button class="bg-slate-300 text-slate-700 font-bold text-sm px-4 py-2 rounded">Status <i
-                            class="fas fa-caret-down"></i></button>
-                    <button class="bg-slate-300 text-slate-700 font-bold text-sm px-3 py-2 rounded">Type <i
-                            class="fas fa-caret-down"></i></button>
-                    <button class="bg-slate-300 text-slate-700 font-bold text-sm px-3 py-2 rounded">Sort By <i
-                            class="fas fa-caret-down"></i></button>
-                    <button class="bg-slate-300 text-slate-700 font-bold text-sm px-4 py-2 rounded flex items-center">
+                    <x-dropdown align="left" width="30">
+                        <x-slot name="trigger">
+                            <button
+                                class="bg-slate-300 text-slate-700 font-bold text-sm px-10 py-2 rounded">{{ __('Genre') }}
+                                <i class="fas fa-caret-down"></i></button>
+                        </x-slot>
+
+                        <x-slot name="content">
+                            <div class="px-2 w-[150px]">
+                                aaaaa
+                            </div>
+                        </x-slot>
+                    </x-dropdown>
+                    <x-dropdown align="left" width="30">
+                        <x-slot name="trigger">
+                            <button
+                                class="bg-slate-300 text-slate-700 font-bold text-sm px-10 py-2 rounded">{{ __('Status') }}
+                                <i class="fas fa-caret-down"></i></button>
+                        </x-slot>
+
+                        <x-slot name="content">
+                            <div class="px-2 w-[120px]">
+                                aaaa
+                            </div>
+                        </x-slot>
+                    </x-dropdown>
+                    <x-dropdown align="left" width="30">
+                        <x-slot name="trigger">
+                            <button
+                                class="bg-slate-300 text-slate-700 font-bold text-sm px-10 py-2 rounded">{{ __('Type') }}
+                                <i class="fas fa-caret-down"></i></button>
+                        </x-slot>
+
+                        <x-slot name="content">
+                            <div class="px-2 w-[150px]">
+                                aaaaaa
+                            </div>
+                        </x-slot>
+                    </x-dropdown>
+                    <button class="bg-slate-300 text-slate-700 font-bold text-sm px-10 py-2 rounded flex items-center">
                         <i class="fa-solid fa-filter mr-1"></i> Filter
                     </button>
                 </div>

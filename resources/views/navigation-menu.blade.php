@@ -1,5 +1,5 @@
 <nav id="navbar" x-data="{ open: false }"
-    class="fixed top-0 w-full z-50 bg-white shadow-md transition-colors duration-300">
+    class="fixed top-0 left-0 right-0 bg-white border-b border-gray-100 z-50 transition-colors duration-300">
     <div class="max-w-screen mx-auto px-4 sm:px-3 lg:px-8">
         <div class="flex justify-between items-center h-16">
             <!-- Logo -->
@@ -29,7 +29,7 @@
             </div>
 
             <!-- User Menu -->
-            <div class="flex items-center space-x-4">
+            <div class="flex items-center space-x-2">
                 <!-- Teams Dropdown -->
                 @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
                     <div class="relative">
@@ -76,11 +76,12 @@
 
                 {{-- user --}}
                 @auth
-                    <x-nav-link>
-                        <a href="/cart">
-                            <i class="fa-solid fa-cart-shopping cursor-pointer text-xl hover:text-gray-600"></i>
+                        <a href="#">
+                            <i class="fa-solid fa-bag-shopping cursor-pointer text-xl hover:text-gray-600 mx-2"></i>
                         </a>
-                    </x-nav-link>
+                        <a href="/cart">
+                            <i class="fa-solid fa-cart-shopping cursor-pointer text-xl hover:text-gray-600 mx-2"></i>
+                        </a>
                     <x-dropdown align="right" width="w-80">
                         <x-slot name="trigger">
                             <button
