@@ -21,6 +21,11 @@ class Book extends Model
         'kategori_id',
         'views'
     ];
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class, 'buku_id');
+    }
+
 
     public function genres()
     {
@@ -40,7 +45,7 @@ class Book extends Model
         $this->increment('views');
     }
     public function comments()
-{
-    return $this->hasMany(Komentar::class,'buku_id');
-}
+    {
+        return $this->hasMany(Komentar::class, 'buku_id');
+    }
 }

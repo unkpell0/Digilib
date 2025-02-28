@@ -111,23 +111,18 @@
                                                 {{ $book->deskripsi }}
                                             </p>
                                             <!-- Rating -->
-                                            <div class="flex items-center font-medium mt-2">
+                                            <div class="flex items-center gap-1 mt-2">
                                                 @php
-                                                    // Perhitungan bintang rating
-                                                    $fullStars = floor($book->rating);
-                                                    $halfStar = $book->rating - $fullStars >= 0.5;
+                                                    $roundedRating = round($book->averageRating);
                                                 @endphp
-                                                @for ($i = 0; $i < 5; $i++)
-                                                    @if ($i < $fullStars)
-                                                        <i class="fas fa-star text-yellow-500"></i>
-                                                    @elseif ($i === $fullStars && $halfStar)
-                                                        <i class="fas fa-star-half-alt text-yellow-500"></i>
-                                                    @else
-                                                        <i class="far fa-star text-yellow-500"></i>
-                                                    @endif
+                                                @for ($i = 1; $i <= 5; $i++)
+                                                    <svg class="w-4 h-4 {{ $i <= $roundedRating ? 'text-yellow-400' : 'text-gray-300' }}" 
+                                                         fill="currentColor" viewBox="0 0 20 20">
+                                                        <path d="M10 15.27L16.18 19l-1.64-7.03L19 7.24l-7.19-.61L10 0 8.19 6.63 1 7.24l5.46 4.73L4.82 19z" />
+                                                    </svg>
                                                 @endfor
-                                                <span class="ml-2 text-xs">
-                                                    {{ number_format($book->rating, 2) }}
+                                                <span class="ml-2 text-xs text-gray-600">
+                                                    {{ number_format($book->averageRating, 1) }} dari {{ $book->totalRaters }} perating
                                                 </span>
                                             </div>
                                         </div>
@@ -151,23 +146,18 @@
                                                 {{ $book->deskripsi }}
                                             </p>
                                             <!-- Rating -->
-                                            <div class="flex items-center font-medium mt-2">
+                                            <div class="flex items-center gap-1 mt-2">
                                                 @php
-                                                    // Perhitungan bintang rating
-                                                    $fullStars = floor($book->rating);
-                                                    $halfStar = $book->rating - $fullStars >= 0.5;
+                                                    $roundedRating = round($book->averageRating);
                                                 @endphp
-                                                @for ($i = 0; $i < 5; $i++)
-                                                    @if ($i < $fullStars)
-                                                        <i class="fas fa-star text-yellow-500"></i>
-                                                    @elseif ($i === $fullStars && $halfStar)
-                                                        <i class="fas fa-star-half-alt text-yellow-500"></i>
-                                                    @else
-                                                        <i class="far fa-star text-yellow-500"></i>
-                                                    @endif
+                                                @for ($i = 1; $i <= 5; $i++)
+                                                    <svg class="w-4 h-4 {{ $i <= $roundedRating ? 'text-yellow-400' : 'text-gray-300' }}" 
+                                                         fill="currentColor" viewBox="0 0 20 20">
+                                                        <path d="M10 15.27L16.18 19l-1.64-7.03L19 7.24l-7.19-.61L10 0 8.19 6.63 1 7.24l5.46 4.73L4.82 19z" />
+                                                    </svg>
                                                 @endfor
-                                                <span class="ml-2 text-xs">
-                                                    {{ number_format($book->rating, 2) }}
+                                                <span class="ml-2 text-xs text-gray-600">
+                                                    {{ number_format($book->averageRating, 1) }} dari {{ $book->totalRaters }} perating
                                                 </span>
                                             </div>
                                         </div>
