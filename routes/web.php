@@ -120,5 +120,9 @@ Route::middleware(['role:3'])->group(function () {
     // BUKU
     Route::post('/rate-book/{buku}', [KomentViewController::class, 'store'])->name('buku.rate');
     Route::get('/ratekoment/{id}', [KomentViewController::class, 'showRateKoment'])->name('ratekoment');
+    Route::put('/buku/{buku}/rate/update', [KomentViewController::class, 'update'])->name('buku.update-rate');
+    Route::delete('/komentar/{komentar}', [KomentViewController::class, 'deleteComment'])->name('buku.delete-comment');
+    Route::post('/komentar/{komentar}/reply', [KomentViewController::class, 'replyComment'])->name('buku.reply-comment');
+    Route::put('/komentar/{komentar}/update', [KomentViewController::class, 'updateComment'])->name('buku.update-comment');
     Route::get('/mybook', [BukuUserController::class, 'mybook'])->name('mybook');
 });
