@@ -118,8 +118,7 @@ Route::middleware(['role:3'])->group(function () {
     Route::post('/cart/delete-selected', [CartController::class, 'deleteSelected'])->name('cart.delete_selected');
 
     // BUKU
-    Route::post('/rate-book/{buku_id}', [BukuUserController::class, 'rateBook'])->name('book.rate');
-    Route::post('/comment/{buku_id}', [BukuUserController::class, 'upKomentar'])->name('buku.komentar');
+    Route::post('/rate-book/{buku}', [KomentViewController::class, 'store'])->name('buku.rate');
     Route::get('/ratekoment/{id}', [KomentViewController::class, 'showRateKoment'])->name('ratekoment');
     Route::get('/mybook', [BukuUserController::class, 'mybook'])->name('mybook');
 });

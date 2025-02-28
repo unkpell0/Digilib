@@ -30,32 +30,46 @@ class RatingController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, Book $book)
-{
-    // Validasi data
-    $validated = $request->validate([
-        'rating' => 'required|integer|min:1|max:5',
-    ]);
-
-    // Cari rating existing dari user yang sedang login
-    $existingRating = $book->ratings()->where('users_id', Auth::id())->first();
-
-    if ($existingRating) {
-        // Update rating jika sudah ada
-        $existingRating->update([
-            'rating' => $validated['rating'],
+    public function store(Request $request, Book $buku)
+    {   
+        dd($request->all());
+        // Validasi data: rating harus integer antara 1 dan 5, komentar wajib
+        $validated = $request->validate([
+            'rating'   => 'required|integer|min:1|max:5',
+            'komentar' => 'required|string',
         ]);
-    } else {
-        // Simpan rating baru jika belum ada
-        $book->ratings()->create([
-            'users_id' => Auth::id(),
-            'rating' => $validated['rating'],
+
+        // Cek apakah user sudah pernah memberikan rating untuk buku ini
+        $existingRating = $buku->ratings()->where('user_id', Auth::id())->first();
+
+        if ($existingRating) {
+            // Jika sudah ada, update nilai rating
+            $existingRating->update([
+                'rating' => $validated['rating'],
+            ]);
+        } else {
+            // Jika belum ada, buat rating baru
+            $buku->ratings()->create([
+                'user_id' => Auth::id(),
+                'rating'   => $validated['rating'],
+                // Pastikan kolom foreign key sesuai, misalnya jika menggunakan 'buku_id'
+                'buku_id'  => $buku->id,
+            ]);
+        }
+
+        // Simpan komentar baru
+        $buku->comments()->create([
+            'user_id' => Auth::id(),
+            'komentar' => $validated['komentar'],
+            'buku_id'  => $buku->id,
         ]);
+
+        return redirect()->route('buku.show', $buku->id)
+            ->with('success', 'Komentar dan rating berhasil disimpan!');
     }
 
-    // Redirect dengan pesan sukses
-    return redirect()->route('buku.show', $book->id)->with('success', 'Rating berhasil ditambahkan!');
-}
+
+
 
 
     /**

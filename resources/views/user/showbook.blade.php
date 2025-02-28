@@ -1,7 +1,8 @@
 <x-app-layout>
     <div class="max-w-[1200px] mx-auto p-4">
         <!-- Navigation Back -->
-        <a href="/home" class="inline-flex items-center text-blue-600 hover:text-blue-800 mb-4 text-sm transition-colors">
+        <a href="/home"
+            class="inline-flex items-center text-blue-600 hover:text-blue-800 mb-4 text-sm transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd"
                     d="M10.707 3.293a1 1 0 0 1 0 1.414L6.414 9H17a1 1 0 1 1 0 2H6.414l4.293 4.293a1 1 0 0 1-1.414 1.414l-6-6a1 1 0 0 1 0-1.414l6-6a1 1 0 0 1 1.414 0z"
@@ -58,7 +59,8 @@
 
                     <!-- Reviews Button -->
                     <a href="{{ route('ratekoment', ['id' => $book->id]) }}" class="inline-block w-full mt-4">
-                        <button class="w-full px-4 py-2.5 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors">
+                        <button
+                            class="w-full px-4 py-2.5 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors">
                             Reviews ({{ $komentview }})
                         </button>
                     </a>
@@ -76,101 +78,44 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <!-- Rating & Comments -->
                     <div class="space-y-3">
-                        <!-- Rating Stars -->
-                        <div class="flex items-center justify-center gap-1">
-                            @for ($i = 1; $i <= 5; $i++)
-                                <span data-value="{{ $i }}"
-                                    class="star cursor-pointer text-2xl transition-colors hover:text-yellow-400">
-                                    &#9733;
-                                </span>
-                            @endfor
-                        </div>
-
-                        <!-- Hidden Rating Form -->
-                        <form id="rating-form" action="{{ route('book.rate', ['buku_id' => $book->id]) }}"
-                            method="POST" class="hidden">
-                            @csrf
-                            <input type="hidden" name="rating" id="rating-input">
-                        </form>
-
-                        <!-- Comment Form -->
-                        <form action="{{ route('buku.komentar', ['buku_id' => $book->id]) }}" method="POST"
-                            class="space-y-2">
-                            @csrf
-                            <textarea name="komentar" class="w-full p-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                rows="2" placeholder="Tulis komentar..."></textarea>
-                            <button type="submit"
-                                class="w-full px-4 py-2.5 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors">
-                                <i class="fas fa-paper-plane mr-1"></i>Kirim Komentar
-                            </button>
-                        </form>
-                    </div>
-
-                    <!-- Tombol -->
-                    <div class="space-y-3">
-                        @if ($hasPurchased)
-                            @if ($book->file_buku)
-                                <a href="{{ asset('storage/' . $book->file_buku) }}"
-                                    class="block w-full px-4 py-2.5 bg-blue-600 text-white text-center text-sm rounded-lg hover:bg-blue-700 transition-colors"
-                                    download="{{ $book->nama_buku }}">
-                                    <i class="fas fa-download mr-1"></i>Unduh Buku
-                                </a>
+                        <!-- Tombol -->
+                        <div class="space-y-3">
+                            @if ($hasPurchased)
+                                @if ($book->file_buku)
+                                    <a href="{{ asset('storage/' . $book->file_buku) }}"
+                                        class="block w-full px-4 py-2.5 bg-blue-600 text-white text-center text-sm rounded-lg hover:bg-blue-700 transition-colors"
+                                        download="{{ $book->nama_buku }}">
+                                        <i class="fas fa-download mr-1"></i>Unduh Buku
+                                    </a>
+                                @else
+                                    <span
+                                        class="block w-full px-4 py-2.5 bg-gray-400 text-white text-center rounded-lg text-sm">
+                                        File tidak tersedia
+                                    </span>
+                                @endif
                             @else
-                                <span class="block w-full px-4 py-2.5 bg-gray-400 text-white text-center rounded-lg text-sm">
-                                    File tidak tersedia
-                                </span>
+                                <div class="flex flex-row space-x-2">
+                                    <a href="{{ route('transaksi.create', $book->id) }}"
+                                        class="flex-1 px-4 py-2.5 bg-green-500 text-white text-center text-sm rounded-lg hover:bg-green-600 transition-colors">
+                                        <i class="fas fa-shopping-cart mr-1"></i>Check Out!
+                                    </a>
                             @endif
-                        @else
-                            <div class="flex flex-row space-x-2">
-                                <a href="{{ route('transaksi.create', $book->id) }}"
-                                    class="flex-1 px-4 py-2.5 bg-green-500 text-white text-center text-sm rounded-lg hover:bg-green-600 transition-colors">
-                                    <i class="fas fa-shopping-cart mr-1"></i>Check Out!
-                                </a>
-                        @endif
 
-                        <form action="{{ route('cart.store') }}" method="POST" class="flex-1">
-                            @csrf
-                            <button type="submit"
-                                class="w-full px-4 py-2.5 bg-green-500 text-white text-sm rounded-lg hover:bg-green-600 transition-colors">
-                                <i class="fas fa-cart-plus mr-1"></i>Tambah ke Keranjang
-                            </button>
-                        </form>
+                            <form action="{{ route('cart.store') }}" method="POST" class="flex-1">
+                                @csrf
+                                <input type="hidden" name="book_id" value="{{ $book->id }}">
+                                <input type="hidden" name="quantity" value="1">
+                                <button type="submit"
+                                    class="w-full px-4 py-2.5 bg-green-500 text-white text-sm rounded-lg hover:bg-green-600 transition-colors">
+                                    <i class="fas fa-cart-plus mr-1"></i>Tambah ke Keranjang
+                                </button>
+                            </form>
+                        </div>
                     </div>
-                </div>
 
+                </div>
             </div>
         </div>
     </div>
-    </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const stars = document.querySelectorAll('.star');
-            const ratingInput = document.getElementById('rating-input');
-            const ratingForm = document.getElementById('rating-form');
-            let selectedRating = 0;
-
-            stars.forEach(star => {
-                star.addEventListener('mouseover', () => {
-                    setStars(star.getAttribute('data-value'));
-                });
-
-                star.addEventListener('mouseout', () => {
-                    setStars(selectedRating);
-                });
-
-                star.addEventListener('click', () => {
-                    selectedRating = star.getAttribute('data-value');
-                    ratingInput.value = selectedRating;
-                    ratingForm.submit();
-                });
-            });
-
-            function setStars(rating) {
-                stars.forEach(star => {
-                    star.style.color = (star.getAttribute('data-value') <= rating) ? '#FBBF24' : '#D1D5DB';
-                });
-            }
-        });
-    </script>
 </x-app-layout>
