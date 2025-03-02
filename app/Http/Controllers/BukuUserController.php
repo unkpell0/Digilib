@@ -8,6 +8,7 @@ use App\Models\Kategori;
 use App\Models\Komentar;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BukuUserController extends Controller
 {
@@ -19,35 +20,35 @@ class BukuUserController extends Controller
     //     $this->middleware('auth'); // Ensure only authenticated users can access admin routes
     // }
     public function index(Request $request, $id = null)
-{
-    $kategori = $request->query('kategori');
+    {
+        $kategori = $request->query('kategori');
 
-    if ($kategori) {
-        $jumlah_kunjungan = Kategori::where('nama_kategori', $kategori)->first();
+        if ($kategori) {
+            $jumlah_kunjungan = Kategori::where('nama_kategori', $kategori)->first();
 
-        if ($jumlah_kunjungan) {
-            $jumlah_kunjungan->increment('jumlah_kunjungan');
+            if ($jumlah_kunjungan) {
+                $jumlah_kunjungan->increment('jumlah_kunjungan');
+            }
+
+            // Ambil buku berdasarkan kategori
+            $books = Book::whereHas('kategori', function ($query) use ($kategori) {
+                $query->where('nama_kategori', $kategori);
+            })->get();
+        } else {
+            // Ambil satu buku berdasarkan ID atau semua buku jika ID tidak ada
+            $books = $id ? Book::where('id', $id)->get() : Book::all();
+            $jumlah_kunjungan = null;
         }
 
-        // Ambil buku berdasarkan kategori
-        $books = Book::whereHas('kategori', function ($query) use ($kategori) {
-            $query->where('nama_kategori', $kategori);
-        })->get();
-    } else {
-        // Ambil satu buku berdasarkan ID atau semua buku jika ID tidak ada
-        $books = $id ? Book::where('id', $id)->get() : Book::all();
-        $jumlah_kunjungan = null;
+        // Perbaikan: Gunakan `map()` agar nilai baru tersimpan di `$books`
+        $books = $books->map(function ($book) {
+            $book->averageRating = Rating::where('buku_id', $book->id)->avg('rating') ?? 0;
+            $book->totalRaters = Rating::where('buku_id', $book->id)->count();
+            return $book;
+        });
+
+        return view('dashboard', compact('books', 'jumlah_kunjungan'));
     }
-
-    // Perbaikan: Gunakan `map()` agar nilai baru tersimpan di `$books`
-    $books = $books->map(function ($book) {
-        $book->averageRating = Rating::where('buku_id', $book->id)->avg('rating') ?? 0;
-        $book->totalRaters = Rating::where('buku_id', $book->id)->count();
-        return $book;
-    });
-
-    return view('dashboard', compact('books', 'jumlah_kunjungan'));
-}
 
     public function create()
     {
@@ -110,7 +111,7 @@ class BukuUserController extends Controller
         $averageRating = Rating::where('buku_id', $id)->avg('rating');
         $totalRaters = Rating::where('buku_id', $id)->count();
         // Return ke view detail buku
-        return view('user.showbook', compact('book', 'hasPurchased', 'komentview','averageRating', 'totalRaters'));
+        return view('user.showbook', compact('book', 'hasPurchased', 'komentview', 'averageRating', 'totalRaters'));
     }
 
     public function edit(string $id)
@@ -134,73 +135,31 @@ class BukuUserController extends Controller
         //
     }
     public function search(Request $request)
-{
-    // Ambil term pencarian dari query string
-    $searchTerm = $request->input('search');
-
-    // Filter buku berdasarkan nama buku yang sesuai dengan search term
-    $books = Book::where('nama_buku', 'LIKE', '%' . $searchTerm . '%')->get();
-
-    // Tambahkan average rating dan total rater untuk setiap buku
-    $books = $books->map(function ($book) {
-        $book->averageRating = Rating::where('buku_id', $book->id)->avg('rating') ?? 0;
-        $book->totalRaters = Rating::where('buku_id', $book->id)->count();
-        return $book;
-    });
-
-    return view('result', compact('books', 'searchTerm'));
-}
-
-
-    /**
-     * Explore books with filters.
-     */
-    public function explore(Request $request)
     {
-        $query = Book::query(); // Mulai query buku
+        // Ambil term pencarian dari query string
+        $searchTerm = $request->input('search');
 
-        // Filter berdasarkan genre (jika tersedia)
-        if ($request->has('genre') && $request->genre !== null) {
-            $query->where('genre', $request->genre);
-        }
-
-        // Filter berdasarkan status (jika tersedia)
-        if ($request->has('status') && $request->status !== null) {
-            $query->where('status', $request->status); // Pastikan kolom 'status' ada di tabel
-        }
-
-        // Filter berdasarkan tipe (jika tersedia)
-        if ($request->has('type') && $request->type !== null) {
-            $query->where('type', $request->type); // Pastikan kolom 'type' ada di tabel
-        }
-
-        // Sort by berdasarkan parameter
-        if ($request->has('sort_by') && $request->sort_by !== null) {
-            $sortBy = $request->sort_by;
-            switch ($sortBy) {
-                case 'rating':
-                    $query->orderBy('rating', 'desc'); // Urutkan berdasarkan rating
-                    break;
-                case 'newest':
-                    $query->orderBy('created_at', 'desc'); // Urutkan berdasarkan yang terbaru
-                    break;
-                case 'popular':
-                    $query->orderBy('popularity', 'desc'); // Urutkan berdasarkan popularitas
-                    break;
-                default:
-                    $query->orderBy('nama_buku', 'asc'); // Default: urutkan berdasarkan nama
-                    break;
-            }
-        }
-
-        // Dapatkan hasil setelah semua filter
-        $books = $query->get();
-
-        // Kirimkan hasil ke view explore
-        return view('explore', compact('books'));
+        // Query untuk mencari berdasarkan nama_buku, penulis, atau nama_genre
+        $books = DB::table('buku')
+            ->leftJoin('bukugenre', 'buku.id', '=', 'bukugenre.buku_id')
+            ->leftJoin('genre', 'bukugenre.genre_id', '=', 'genre.id')
+            ->where('buku.nama_buku', 'LIKE', '%' . $searchTerm . '%')
+            ->orWhere('buku.penulis', 'LIKE', '%' . $searchTerm . '%')
+            ->orWhere('genre.nama_genre', 'LIKE', '%' . $searchTerm . '%')
+            ->select('buku.*')
+            ->distinct()
+            ->get();
+        $books = $books->map(function ($book) {
+            $book->averageRating = DB::table('rating')->where('buku_id', $book->id)->avg('rating') ?? 0;
+            $book->totalRaters = DB::table('rating')->where('buku_id', $book->id)->count();
+            return $book;
+        });
+        return view('result', compact('books', 'searchTerm'));
     }
 
-    public function mybook(){
+
+    public function mybook()
+    {
         return view('user.mybook');
     }
 }

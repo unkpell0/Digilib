@@ -71,7 +71,7 @@
 
 
 
-        </form>
+       
 
         <!-- Carousel -->
         <div x-data="{ currentIndex: 0 }" class="relative w-full max-w-screen-lg mx-auto">

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ExploreController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CartController;
@@ -98,8 +99,10 @@ Route::middleware(['role:1'])->group(function () {
 
 Route::middleware(['role:3'])->group(function () {
     Route::get('/home', [BukuUserController::class, 'index'])->name('home');
-    Route::get('/explore', [BukuUserController::class, 'explore'])->name('explore');
+    Route::get('/explore', [ExploreController::class, 'explore'])->name('explore');
     Route::get('/search', [BukuUserController::class, 'search'])->name('search');
+    Route::get('/explore/genre/{genreName}', [ExploreController::class, 'filterByGenre'])->name('books.by.genre');
+    Route::get('/search/explore', [ExploreController::class, 'search'])->name('searchExplore');
     Route::get('/bukushow/{id}', [BukuUserController::class, 'show'])->name('buku.show');
 
     // TRANSAKSI
