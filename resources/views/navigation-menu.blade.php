@@ -22,7 +22,7 @@
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Home') }}
                     </x-nav-link>
-                    <x-nav-link href="javascript:void(0)" onclick="showModal()" :active="false">
+                    <x-nav-link href="{{ route('explore') }}" :active="request()->routeIs('explore')">
                         {{ __('Explore') }}
                     </x-nav-link>
                 @endauth
@@ -140,7 +140,7 @@
         </div>
     </div>
 
-    <div id="authModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+    <div id="authModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
         <div class="bg-white rounded-lg shadow-lg p-6 w-80">
             <h2 class="text-lg font-semibold text-gray-900 mb-4">Anda belum login</h2>
             <p class="text-gray-700 mb-6">Silakan login atau register untuk melanjutkan.</p>

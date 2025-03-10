@@ -1,26 +1,76 @@
 <x-app-layout>
-    <div class="relative bg-cover bg-center py-4 px-6" style="background-image: url('{{ asset('img/bgutama.jpeg') }}');">
-        <div class="container mx-auto">
-            <div class="flex items-center justify-evenly"> <!-- Ubah ke flex dan tambah items-center -->
-                <!-- Kolom Teks -->
-                <div class="flex-1 text-white"> <!-- Gunakan flex-1 daripada w-2/3 -->
-                    <h1 class="text-4xl font-bold font-sans">
-                        You <span class="text-red-500 text-5xl">DEFINE</span> your own life
-                    </h1>
-                </div>
-    
+    <div class="relative bg-cover bg-center">
                 <!-- Kolom Gambar -->
-                <div class="flex-shrink-0"> <!-- Gunakan flex-shrink-0 daripada w-1/3 -->
-                    <div class="group hover:scale-95 transition-transform duration-500 rounded-lg">
-                        <div style="background-image: url('{{ asset('img/imghome.jpeg') }}');"
-                            class="w-32 h-32 md:w-40 md:h-40 rounded-lg bg-cover bg-center transform transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6 shadow-lg">
+                <div x-data="{
+                    currentSlide: 0,
+                    slides: [{
+                            image: '{{ asset('img/bgutama.jpeg') }}',
+                            title: 'Slide 1',
+                            description: 'Deskripsi atau teks tambahan untuk slide pertama',
+                            link: '#'
+                        },
+                        {
+                            image: '{{ asset('img/imghome.jpeg') }}',
+                            title: 'Slide 2',
+                            description: 'Deskripsi slide kedua, bisa untuk promo atau link buku terbaru',
+                            link: '#'
+                        },
+                        {
+                            image: '{{ asset('img/maestro.jpg') }}',
+                            title: 'Slide 3',
+                            description: 'Deskripsi slide ketiga',
+                            link: '#'
+                        },
+                        // Tambahkan slide lain sesuai kebutuhan
+                    ],
+                    init() {
+                        if (! this.intervalSet) {
+                            this.interval = setInterval(() => this.nextSlide(), 5000)
+                            this.intervalSet = true
+                        }
+                    },
+                    nextSlide() {
+                        this.currentSlide = (this.currentSlide + 1) % this.slides.length;
+                    },
+                    prevSlide() {
+                        // Menangani slide mundur, supaya tidak error saat di index 0
+                        this.currentSlide = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
+                    }
+                }" x-init="init()"
+                    class="relative w-full h-[300px] md:h-[400px] overflow-hidden">
+                    <!-- Wrapper untuk semua slide -->
+                    <template x-for="(slide, index) in slides" :key="index">
+                        <!-- Setiap slide -->
+                        <div class="absolute inset-0 bg-center bg-cover flex items-center justify-center transition-opacity duration-700"
+                            x-show="currentSlide === index"                            
+                            <!-- Overlay Gelap agar teks lebih jelas (opsional) -->
+                            <div class="bg-black bg-opacity-5  w-full h-full flex items-center justify-center">
+                                <div class="text-center text-white px-4 max-w-xl">
+                                    <h2 class="text-2xl md:text-4xl font-bold mb-2" x-text="slide.title"></h2>
+                                    <p class="text-sm md:text-base mb-4" x-text="slide.description"></p>
+                                    <a :href="slide.link"
+                                        class="inline-block bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-full text-white text-sm md:text-base">
+                                        Detail
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    </template>
+
+                    <!-- Tombol Prev -->
+                    <button @click="prevSlide()"
+                        class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-gray-700 bg-opacity-50 text-white p-2 rounded-full hover:bg-gray-600 focus:outline-none">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+
+                    <!-- Tombol Next -->
+                    <button @click="nextSlide()"
+                        class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-gray-700 bg-opacity-50 text-white p-2 rounded-full hover:bg-gray-600 focus:outline-none">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
                 </div>
             </div>
-        </div>
-    </div>
-    
+
     <div class="w-full mx-auto bg-white shadow-md p-6 border-l-4 border-white">
         <!-- Form Pencarian -->
         <form action="{{ route('search') }}" method="GET" enctype="multipart/form-data">
@@ -71,7 +121,7 @@
 
 
 
-       
+
 
         <!-- Carousel -->
         <div x-data="{ currentIndex: 0 }" class="relative w-full max-w-screen-lg mx-auto">
@@ -92,85 +142,49 @@
                     @foreach ($books->chunk(5) as $chunk)
                         <div class="flex space-x-4 min-w-full">
                             @foreach ($chunk as $book)
-                                @auth
-                                    <a href="{{ route('buku.show', $book->id) }}" class="block w-1/5">
-                                        <div class="bg-gray-100 p-2 rounded shadow-md hover:shadow-lg">
-                                            <img src="{{ $book->image_cover ? asset('storage/' . $book->image_cover) : asset('img/default-book.jpg') }}"
-                                                alt="{{ $book->nama_buku }}"
-                                                class="w-full h-48 object-cover rounded border border-black">
-                                            <div class="flex justify-between items-center mt-2">
-                                                <span class="bg-red-600 text-white font-bold px-2 py-1 text-xs rounded">
-                                                    {{ strtoupper($book->penulis) }}
-                                                </span>
-                                            </div>
-                                            <div class="p-2 font-bold text-xl text-slate-900 text-center">
-                                                {{ Str::limit($book->nama_buku, 15, '...') }}
-                                            </div>
-
-                                            <p class="text-xs mt-1 font-medium text-black line-clamp-2">
-                                                {{ $book->deskripsi }}
-                                            </p>
-                                            <!-- Rating -->
-                                            <div class="flex items-center gap-1 mt-2">
-                                                @php
-                                                    $roundedRating = round($book->averageRating);
-                                                @endphp
-                                                @for ($i = 1; $i <= 5; $i++)
-                                                    <svg class="w-4 h-4 {{ $i <= $roundedRating ? 'text-yellow-400' : 'text-gray-300' }}" 
-                                                         fill="currentColor" viewBox="0 0 20 20">
-                                                        <path d="M10 15.27L16.18 19l-1.64-7.03L19 7.24l-7.19-.61L10 0 8.19 6.63 1 7.24l5.46 4.73L4.82 19z" />
-                                                    </svg>
-                                                @endfor
-                                                <span class="ml-2 text-xs text-gray-600">
-                                                    {{ number_format($book->averageRating, 1) }} dari {{ $book->totalRaters }} perating
-                                                </span>
-                                            </div>
+                                <a href="{{ route('buku.show', $book->id) }}" class="block w-1/5">
+                                    <div class="bg-gray-100 p-2 rounded shadow-md hover:shadow-lg">
+                                        <img src="{{ $book->image_cover ? asset('storage/' . $book->image_cover) : asset('img/default-book.jpg') }}"
+                                            alt="{{ $book->nama_buku }}"
+                                            class="w-full h-48 object-cover rounded border border-black">
+                                        <div class="flex justify-between items-center mt-2">
+                                            <span class="bg-red-600 text-white font-bold px-2 py-1 text-xs rounded">
+                                                {{ strtoupper($book->penulis) }}
+                                            </span>
                                         </div>
-                                    </a>
-                                @else
-                                    <a href="javascript:void(0)" onclick="showAuthModal()" class="block w-1/5">
-                                        <div class="bg-gray-100 p-2 rounded shadow-md hover:shadow-lg">
-                                            <img src="{{ $book->image_cover ? asset('storage/' . $book->image_cover) : asset('img/default-book.jpg') }}"
-                                                alt="{{ $book->nama_buku }}"
-                                                class="w-full h-48 object-cover rounded border border-black">
-                                            <div class="flex justify-between items-center mt-2">
-                                                <span class="bg-red-600 text-white font-bold px-2 py-1 text-xs rounded">
-                                                    {{ strtoupper($book->penulis) }}
-                                                </span>
-                                            </div>
-                                            <div class="p-2 font-bold text-xl text-slate-900 text-center">
-                                                {{ Str::limit($book->nama_buku, 15, '...') }}
-                                            </div>
-
-                                            <p class="text-xs mt-1 font-medium text-black line-clamp-2">
-                                                {{ $book->deskripsi }}
-                                            </p>
-                                            <!-- Rating -->
-                                            <div class="flex items-center gap-1 mt-2">
-                                                @php
-                                                    $roundedRating = round($book->averageRating);
-                                                @endphp
-                                                @for ($i = 1; $i <= 5; $i++)
-                                                    <svg class="w-4 h-4 {{ $i <= $roundedRating ? 'text-yellow-400' : 'text-gray-300' }}" 
-                                                         fill="currentColor" viewBox="0 0 20 20">
-                                                        <path d="M10 15.27L16.18 19l-1.64-7.03L19 7.24l-7.19-.61L10 0 8.19 6.63 1 7.24l5.46 4.73L4.82 19z" />
-                                                    </svg>
-                                                @endfor
-                                                <span class="ml-2 text-xs text-gray-600">
-                                                    {{ number_format($book->averageRating, 1) }} dari {{ $book->totalRaters }} perating
-                                                </span>
-                                            </div>
+                                        <div class="p-2 font-bold text-xl text-slate-900 text-center">
+                                            {{ Str::limit($book->nama_buku, 15, '...') }}
                                         </div>
-                                    </a>
-                                @endauth
+
+                                        <p class="text-xs mt-1 font-medium text-black line-clamp-2">
+                                            {{ $book->deskripsi }}
+                                        </p>
+                                        <!-- Rating -->
+                                        <div class="flex items-center gap-1 mt-2">
+                                            @php
+                                                $roundedRating = round($book->averageRating);
+                                            @endphp
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                <svg class="w-4 h-4 {{ $i <= $roundedRating ? 'text-yellow-400' : 'text-gray-300' }}"
+                                                    fill="currentColor" viewBox="0 0 20 20">
+                                                    <path
+                                                        d="M10 15.27L16.18 19l-1.64-7.03L19 7.24l-7.19-.61L10 0 8.19 6.63 1 7.24l5.46 4.73L4.82 19z" />
+                                                </svg>
+                                            @endfor
+                                            <span class="ml-2 text-xs text-gray-600">
+                                                {{ number_format($book->averageRating, 1) }} dari
+                                                {{ $book->totalRaters }} ratings
+                                            </span>
+                                        </div>
+                                    </div>
+                                </a>
                             @endforeach
                         </div>
                     @endforeach
                 </div>
             </div>
 
-            <div id="authModal"
-                class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+            <div id="authModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
                 <div class="bg-white rounded-lg shadow-lg p-6 w-80">
                     <h2 class="text-lg font-semibold text-gray-900 mb-4">Anda belum login</h2>
                     <p class="text-gray-700 mb-6">Silakan login atau register untuk melihat detail buku.</p>
@@ -185,9 +199,9 @@
                 </div>
             </div>
 
-            
+
         </div>
-        <div class=" my-4 border-2 h-64 bg-red-300"></div>
+        <div class=" my-4 h-64 bg-white"></div>
     </div>
 
     <script>
