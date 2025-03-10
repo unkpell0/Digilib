@@ -1,15 +1,8 @@
 <x-app-layout>
     <div class="max-w-[1200px] mx-auto p-4">
         <!-- Navigation Back -->
-        <a href="/home"
-            class="inline-flex items-center text-blue-600 hover:text-blue-800 mb-4 text-sm transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd"
-                    d="M10.707 3.293a1 1 0 0 1 0 1.414L6.414 9H17a1 1 0 1 1 0 2H6.414l4.293 4.293a1 1 0 0 1-1.414 1.414l-6-6a1 1 0 0 1 0-1.414l6-6a1 1 0 0 1 1.414 0z"
-                    clip-rule="evenodd" />
-            </svg>
-            Kembali
-        </a>
+        <x-back_button class="mb-2" />
+         
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Book Info Section -->
@@ -58,11 +51,9 @@
                     </div>
 
                     <!-- Reviews Button -->
-                    <a href="{{ route('ratekoment', ['id' => $book->id]) }}" class="inline-block w-full mt-4">
-                        <button
-                            class="w-full px-4 py-2.5 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors">
-                            Reviews ({{ $komentview }})
-                        </button>
+                    <a href="{{ route('ratekoment', ['id' => $book->id]) }}"
+                        class="mt-4 inline-block w-full px-4 py-2.5 text-center bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                        <i class="fas fa-star mr-1"></i>Reviews ({{ $komentview }})
                     </a>
                 </div>
             </div>
@@ -76,46 +67,61 @@
             <!-- Actions Section -->
             <div class="bg-white rounded-lg shadow-lg p-4 md:col-span-3">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Rating & Comments -->
                     <div class="space-y-3">
-                        <!-- Tombol -->
-                        <div class="space-y-3">
-                            @if ($hasPurchased)
-                                @if ($book->file_buku)
-                                    <a href="{{ asset('storage/' . $book->file_buku) }}"
-                                        class="block w-full px-4 py-2.5 bg-blue-600 text-white text-center text-sm rounded-lg hover:bg-blue-700 transition-colors"
-                                        download="{{ $book->nama_buku }}">
-                                        <i class="fas fa-download mr-1"></i>Unduh Buku
-                                    </a>
-                                @else
-                                    <span
-                                        class="block w-full px-4 py-2.5 bg-gray-400 text-white text-center rounded-lg text-sm">
-                                        File tidak tersedia
-                                    </span>
-                                @endif
+                        @if ($hasPurchased)
+                            @if ($book->file_buku)
+                                <!-- Tombol Download -->
+                                <a href="{{ asset('storage/' . $book->file_buku) }}" download="{{ $book->nama_buku }}"
+                                    class="inline-block w-full px-4 py-2.5 bg-blue-600 text-white text-center text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                                    <i class="fas fa-download mr-1"></i>Unduh Buku
+                                </a>
                             @else
-                                <div class="flex flex-row space-x-2">
-                                    <a href="{{ route('transaksi.create', $book->id) }}"
-                                        class="flex-1 px-4 py-2.5 bg-green-500 text-white text-center text-sm rounded-lg hover:bg-green-600 transition-colors">
-                                        <i class="fas fa-shopping-cart mr-1"></i>Check Out!
-                                    </a>
+                                <span
+                                    class="block w-full px-4 py-2.5 bg-gray-400 text-white text-center text-sm font-medium rounded-lg">
+                                    File tidak tersedia
+                                </span>
                             @endif
+                        @else
+                            <!-- Bagian tombol Checkout dan Tambah ke Keranjang -->
+                            <div class="flex flex-col sm:flex-row gap-3">
+                                <!-- Tombol Checkout -->
+                                <a href="{{ route('transaksi.create', $book->id) }}"
+                                    class="flex-1 inline-flex items-center justify-center 
+              px-5 py-3 
+              bg-gradient-to-r from-green-500 to-lime-500 
+              text-white font-semibold text-sm 
+              rounded-full shadow-md
+              hover:from-green-600 hover:to-lime-600 
+              transition-colors duration-300 
+              focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                                    <i class="fas fa-shopping-cart mr-2"></i>
+                                    Check Out!
+                                </a>
 
-                            <form action="{{ route('cart.store') }}" method="POST" class="flex-1">
-                                @csrf
-                                <input type="hidden" name="book_id" value="{{ $book->id }}">
-                                <input type="hidden" name="quantity" value="1">
-                                <button type="submit"
-                                    class="w-full px-4 py-2.5 bg-green-500 text-white text-sm rounded-lg hover:bg-green-600 transition-colors">
-                                    <i class="fas fa-cart-plus mr-1"></i>Tambah ke Keranjang
-                                </button>
-                            </form>
-                        </div>
+                                <!-- Tombol Tambah ke Keranjang -->
+                                <form action="{{ route('cart.store') }}" method="POST" class="flex-1">
+                                    @csrf
+                                    <input type="hidden" name="book_id" value="{{ $book->id }}">
+                                    <input type="hidden" name="quantity" value="1">
+                                    <button type="submit"
+                                        class="w-full inline-flex items-center justify-center 
+                       px-5 py-2 
+                       bg-gradient-to-r from-teal-500 to-emerald-500 
+                       text-white font-semibold text-sm 
+                       rounded-full shadow-md
+                       hover:from-teal-600 hover:to-emerald-600
+                       transition-colors duration-300 
+                       focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2">
+                                        <i class="fas fa-cart-plus mr-2"></i>
+                                        Tambah ke Keranjang
+                                    </button>
+                                </form>
+                            </div>
+
+                        @endif
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
-
 </x-app-layout>

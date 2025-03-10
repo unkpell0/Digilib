@@ -3,82 +3,87 @@
     <img src="{{ asset('logo/logo digilib.png') }}" alt="logo digilib" class="w-32 mb-6 rounded-full">
 
     <nav class="flex flex-col space-y-5 w-full mt-3">
-        {{-- Dashboard Link --}}
+        <!-- Dashboard -->
         <a href="/admin"
-            class="flex items-center justify-between px-4 py-2 hover:bg-gray-700 rounded-md">
+           class="flex items-center justify-between px-4 py-2 hover:bg-gray-700 rounded-md">
             <div class="flex items-center space-x-3">
                 <i class="fa-solid fa-house-chimney"></i>
                 <span>Dashboard</span>
             </div>
         </a>
 
-        {{-- Book --}}
+        <!-- Buku -->
         <div class="group">
             <button id="bookMenuToggle"
-                class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-700 rounded-md">
+                    class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-700 rounded-md">
                 <div class="flex items-center space-x-3">
                     <i class="fa-solid fa-book"></i>
                     <h1>Buku</h1>
                 </div>
-                <i class="fa-solid fa-angle-down"></i>
+                <i id="bookArrow" class="fa-solid fa-angle-down transition-transform duration-200"></i>
             </button>
-
-            {{-- Submenu for Buku --}}
             <div id="bookSubMenu" class="hidden pl-10 space-y-2 mt-1">
                 <a href="{{ route('buku.index') }}" class="block px-3 py-1 hover:bg-gray-600 rounded-md">CRUD Buku</a>
                 <a href="{{ route('genre.index') }}" class="block px-3 py-1 hover:bg-gray-600 rounded-md">GENRE</a>
                 <a href="{{ route('kategori.index') }}" class="block px-3 py-1 hover:bg-gray-600 rounded-md">KATEGORI</a>
             </div>
-
         </div>
 
+        <!-- Transaksi -->
         <div class="group">
-            <button id="transactionToggle" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-700 rounded-md">
+            <button id="transactionToggle"
+                    class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-700 rounded-md">
                 <div class="flex items-center space-x-3">
                     <i class="fa-solid fa-receipt"></i>
                     <span>Transaksi</span>
                 </div>
-                <i class="fa-solid fa-angle-down"></i>
+                <i id="transactionArrow" class="fa-solid fa-angle-down transition-transform duration-200"></i>
             </button>
-            {{-- Submenu for Buku --}}
             <div id="transactionSubMenu" class="hidden pl-10 space-y-2 mt-1">
-                <a href="{{ route('transaksi.index') }}" class="block w-full px-4 py-1 hover:bg-gray-600 rounded-md">Rekap Transaksi</a>
+                <a href="{{ route('transaksi.index') }}" class="block w-full px-4 py-1 hover:bg-gray-600 rounded-md">
+                    Rekap Transaksi
+                </a>
             </div>
         </div>
 
-        {{-- Link Comment --}}
+        <!-- Ulasan -->
         <div class="group">
-            <a href="#" id="commentToggle" class="flex items-center justify-between px-4 py-2 hover:bg-gray-700 rounded-md">
+            <button id="commentToggle"
+                    class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-700 rounded-md">
                 <div class="flex items-center space-x-3">
                     <i class="fa-regular fa-comment"></i>
                     <span>Ulasan</span>
                 </div>
-                <i class="fa-solid fa-angle-down"></i>
-            </a>
+                <i id="commentArrow" class="fa-solid fa-angle-down transition-transform duration-200"></i>
+            </button>
             <div id="commentSubMenu" class="hidden pl-10 space-y-2 mt-1">
                 <a href="#" class="block px-4 py-1 hover:bg-gray-600 rounded-md">Daftar Ulasan</a>
                 <a href="#" class="block px-4 py-1 hover:bg-gray-600 rounded-md">Filter Ulasan</a>
             </div>
         </div>
 
-        {{-- Halaman setting --}}
+        <!-- Pengaturan -->
         <div class="group">
-            <a href="#" id="settingToggle" class="flex items-center justify-between px-4 py-2 hover:bg-gray-700 rounded-md">
+            <button id="settingToggle"
+                    class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-700 rounded-md">
                 <div class="flex items-center space-x-3">
                     <i class="fa-solid fa-gear"></i>
                     <span>Pengaturan</span>
                 </div>
-                <i class="fa-solid fa-angle-down"></i>
-            </a>
+                <i id="settingArrow" class="fa-solid fa-angle-down transition-transform duration-200"></i>
+            </button>
             <div id="settingSubMenu" class="hidden pl-10 space-y-2 mt-1">
-                <a href="#" class="block px-3 py-1 hover:bg-gray-600 rounded-md">Pengaturan Umum</a>
+                <a href="{{ route('setting.index') }}" class="block px-3 py-1 hover:bg-gray-600 rounded-md">Pengaturan Umum</a>
                 <a href="#" class="block px-3 py-1 hover:bg-gray-600 rounded-md">Pengaturan Lanjut</a>
             </div>
         </div>
+
+        <!-- Logout -->
         <div class="group">
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button type="submit" class="flex items-center justify-between px-4 py-2 hover:bg-gray-700 rounded-md w-full">
+                <button type="submit"
+                        class="flex items-center justify-between px-4 py-2 hover:bg-gray-700 rounded-md w-full">
                     <div class="flex items-center space-x-3">
                         <i class="fa-solid fa-right-from-bracket"></i>
                         <span>Logout</span>
@@ -92,25 +97,68 @@
 @push('scripts')
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // Toggle Book Submenu
-        document.getElementById('bookMenuToggle').addEventListener('click', function () {
-            document.getElementById('bookSubMenu').classList.toggle('hidden');
+
+        // Variabel global untuk submenu yang sedang terbuka
+        let currentlyOpen = null;
+        let currentlyOpenArrow = null;
+
+        // Fungsi toggle 'solo mode'
+        function toggleMenu(subMenu, arrow) {
+            // Jika ada submenu lain terbuka dan bukan submenu ini, tutup dulu
+            if (currentlyOpen && currentlyOpen !== subMenu) {
+                currentlyOpen.classList.add('hidden');
+                currentlyOpenArrow.classList.remove('rotate-180');
+            }
+
+            // Cek apakah submenu saat ini sedang tersembunyi
+            if (subMenu.classList.contains('hidden')) {
+                // Buka submenu
+                subMenu.classList.remove('hidden');
+                arrow.classList.add('rotate-180');
+                // Set submenu ini sebagai "currentlyOpen"
+                currentlyOpen = subMenu;
+                currentlyOpenArrow = arrow;
+            } else {
+                // Tutup submenu
+                subMenu.classList.add('hidden');
+                arrow.classList.remove('rotate-180');
+                currentlyOpen = null;
+                currentlyOpenArrow = null;
+            }
+        }
+
+        // --- Buku ---
+        const bookToggle = document.getElementById('bookMenuToggle');
+        const bookSubMenu = document.getElementById('bookSubMenu');
+        const bookArrow = document.getElementById('bookArrow');
+        bookToggle.addEventListener('click', function () {
+            toggleMenu(bookSubMenu, bookArrow);
         });
 
-        // Toggle Transaction Submenu
-        document.getElementById('transactionToggle').addEventListener('click', function () {
-            document.getElementById('transactionSubMenu').classList.toggle('hidden');
+        // --- Transaksi ---
+        const transactionToggle = document.getElementById('transactionToggle');
+        const transactionSubMenu = document.getElementById('transactionSubMenu');
+        const transactionArrow = document.getElementById('transactionArrow');
+        transactionToggle.addEventListener('click', function () {
+            toggleMenu(transactionSubMenu, transactionArrow);
         });
 
-        // Toggle Comment Submenu
-        document.getElementById('commentToggle').addEventListener('click', function () {
-            document.getElementById('commentSubMenu').classList.toggle('hidden');
+        // --- Ulasan ---
+        const commentToggle = document.getElementById('commentToggle');
+        const commentSubMenu = document.getElementById('commentSubMenu');
+        const commentArrow = document.getElementById('commentArrow');
+        commentToggle.addEventListener('click', function () {
+            toggleMenu(commentSubMenu, commentArrow);
         });
 
-        // Toggle Setting Submenu
-        document.getElementById('settingToggle').addEventListener('click', function () {
-            document.getElementById('settingSubMenu').classList.toggle('hidden');
+        // --- Pengaturan ---
+        const settingToggle = document.getElementById('settingToggle');
+        const settingSubMenu = document.getElementById('settingSubMenu');
+        const settingArrow = document.getElementById('settingArrow');
+        settingToggle.addEventListener('click', function () {
+            toggleMenu(settingSubMenu, settingArrow);
         });
+
     });
 </script>
 @endpush
