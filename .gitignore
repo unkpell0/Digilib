@@ -25,3 +25,4 @@ Homestead.json
 .vercel
 
 app\Http\Middleware\forcetoHTTPS.php
+.vercel
