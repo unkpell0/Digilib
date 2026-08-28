@@ -1,18 +1,17 @@
 {
   "version": 2,
   "builds": [
-    {
-      "src": "public/index.php",
-      "use": "vercel-php@0.7.3",
-      "config": {
-        "includeFiles": ["public/**"]
-      }
-    },
-    { "src": "package.json", "use": "@vercel/static-build", "config": { "distDir": "public/build" } }
+    { "src": "public/index.php", "use": "vercel-php@0.7.3" },
+    { "src": "package.json", "use": "@vercel/static-build", "config": { "distDir": "public/build" } },
+    { "src": "public/img/**", "use": "@vercel/static" },
+    { "src": "public/logo/**", "use": "@vercel/static" },
+    { "src": "public/favicon.ico", "use": "@vercel/static" }
   ],
   "routes": [
     { "src": "/build/(.*)", "dest": "/$1" },
-    { "src": "/(img|logo|favicon.ico|robots.txt)(.*)", "dest": "/public/$1$2" },
+    { "src": "/img/(.*)", "dest": "/public/img/$1" },
+    { "src": "/logo/(.*)", "dest": "/public/logo/$1" },
+    { "src": "/favicon.ico", "dest": "/public/favicon.ico" },
     { "src": "/(.*)", "dest": "public/index.php" }
   ]
 }
