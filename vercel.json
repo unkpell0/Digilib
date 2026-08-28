@@ -5,7 +5,7 @@
     { "src": "package.json", "use": "@vercel/static-build", "config": { "distDir": "public/build" } }
   ],
   "routes": [
-    { "src": "/build/(.*)", "dest": "/public/build/$1" },
+    { "src": "/build/assets/(.*)", "dest": "/build/assets/$1" },
     { "src": "/(.*)", "dest": "public/index.php" }
   ]
 }
