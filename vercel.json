@@ -1,11 +1,11 @@
 {
   "version": 2,
   "builds": [
-    { "src": "public/index.php", "use": "vercel-php@0.7.3" },
-    { "src": "package.json", "use": "@vercel/static-build", "config": { "distDir": "public/build" } }
+    { "src": "public/index.php", "use": "vercel-php@0.7.3" }
   ],
   "routes": [
-    { "src": "/assets/(.*)", "dest": "/assets/$1" },
+    { "src": "/build/(.*)", "dest": "/public/build/$1" },
+    { "handle": "filesystem" },
     { "src": "/(.*)", "dest": "public/index.php" }
   ]
 }
