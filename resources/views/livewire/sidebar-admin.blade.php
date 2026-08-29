@@ -1,6 +1,6 @@
 <div class="w-52 bg-gray-900 text-white flex flex-col items-center py-6">
     <!-- Logo -->
-    <img src="{{ asset('logo/logo digilib.png') }}" alt="logo digilib" class="w-32 mb-6 rounded-full">
+    <img src="{{ asset('logo/logo-digilib.png') }}" alt="logo digilib" class="w-32 mb-6 rounded-full">
 
     <nav class="flex flex-col space-y-5 w-full mt-3">
         <!-- Dashboard -->

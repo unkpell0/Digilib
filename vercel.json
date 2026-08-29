@@ -12,7 +12,6 @@
   ],
   "routes": [
     { "src": "/build/(.*)", "dest": "/$1" },
-    { "handle": "filesystem" },
     { "src": "/(.*)", "dest": "public/index.php" }
   ]
 }

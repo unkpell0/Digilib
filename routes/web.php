@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CartController;
 use Laravel\Socialite\Facades\Socialite;
@@ -132,4 +133,22 @@ Route::middleware(['role:3'])->group(function () {
     Route::post('/komentar/{komentar}/reply', [KomentViewController::class, 'replyComment'])->name('buku.reply-comment');
     Route::put('/komentar/{komentar}/update', [KomentViewController::class, 'updateComment'])->name('buku.update-comment');
     Route::get('/mybook', [BukuUserController::class, 'mybook'])->name('mybook');
+});
+
+Route::get('/img/{path}', function ($path) {
+    $fullPath = public_path('img/' . $path);
+    abort_unless(file_exists($fullPath), 404);
+    return Response::file($fullPath);
+})->where('path', '.*');
+
+Route::get('/logo/{path}', function ($path) {
+    $fullPath = public_path('logo/' . $path);
+    abort_unless(file_exists($fullPath), 404);
+    return Response::file($fullPath);
+})->where('path', '.*');
+
+Route::get('/favicon.ico', function () {
+    $fullPath = public_path('favicon.ico');
+    abort_unless(file_exists($fullPath), 404);
+    return Response::file($fullPath);
 });
