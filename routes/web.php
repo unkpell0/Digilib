@@ -152,3 +152,9 @@ Route::get('/favicon.ico', function () {
     abort_unless(file_exists($fullPath), 404);
     return Response::file($fullPath);
 });
+
+Route::get('/storage/{path}', function ($path) {
+    $fullPath = storage_path('app/public/' . $path);
+    abort_unless(file_exists($fullPath), 404);
+    return Response::file($fullPath);
+})->where('path', '.*');

@@ -5,13 +5,28 @@
       "src": "public/index.php",
       "use": "vercel-php@0.7.3",
       "config": {
-        "includeFiles": ["public/**"]
+        "includeFiles": [
+          "public/**",
+          "storage/app/public/**"
+        ]
       }
     },
-    { "src": "package.json", "use": "@vercel/static-build", "config": { "distDir": "public/build" } }
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "public/build"
+      }
+    }
   ],
   "routes": [
-    { "src": "/build/(.*)", "dest": "/$1" },
-    { "src": "/(.*)", "dest": "public/index.php" }
+    {
+      "src": "/build/(.*)",
+      "dest": "/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "public/index.php"
+    }
   ]
 }
